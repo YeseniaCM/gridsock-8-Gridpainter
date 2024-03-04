@@ -100,4 +100,5 @@ Göra en grov sass struktur.
 
 ### Deltagande:
 Yesenia @YeseniaCM
+Anton Schyberg @Pingis2
 Cecilia @CeciliaL1
