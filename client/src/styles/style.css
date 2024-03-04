@@ -94,3 +94,11 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+.login-form{
+  display: flex;
+  flex-direction: column;
+}
+
+.input-password {
+  margin-top: 10px;
+}
