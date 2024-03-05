@@ -1,5 +1,6 @@
 import { printCreateUserForm } from './printCreateUserForm.js';
 import { getLogIn } from './getLogin.js'
+import startGameBtn from './startGameBtn.js';
 
 export  let loginForm = document.createElement('div');
 
@@ -29,6 +30,7 @@ export function printLogInForm() {
 
     signInBtn.addEventListener('click', () => {
         getLogIn(inputEmail.value, inputPassword.value, message)
+        startGameBtn() // byta till Homepage 3 
     })
 
     createNewUser.addEventListener('click', () => {
