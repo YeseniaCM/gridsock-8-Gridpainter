@@ -1,3 +1,4 @@
+import { printCreateUserForm } from './printCreateUserForm.js';
 
 export function printLogInForm() {
     let loginForm = document.createElement('div');
@@ -28,7 +29,7 @@ export function printLogInForm() {
     })
 
     createNewUser.addEventListener('click', () => {
-        // funktionen för att ligga in ska in hära
+        printCreateUserForm()
     })
     loginForm.append(heading, inputEmail, inputPassword, message, signInBtn, createNewUser)
     app.appendChild(loginForm);
