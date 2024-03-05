@@ -2,12 +2,14 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const connection = require('./lib/conn.js');
+const connection = require('./lib/conn.js'); 
+require('dotenv').config()
+
 
 
 connection.connect(function(err){
     if(err) throw err
-    else console.log("Uppkopplad till databasen");
+    else console.log(`Connected to database ${process.env.DB_NAME}`);
   })
 
 const indexRouter = require('./routes/index');
