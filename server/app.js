@@ -2,14 +2,11 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-<<<<<<< HEAD
 const connection = require('./lib/conn.js');
 const cors = require('cors');
-=======
-const connection = require('./lib/conn.js'); 
+
 require('dotenv').config()
 
->>>>>>> cb9503a4689a3ecfa77ecc09dc7d15d6b14a8ded
 
 const cors = require('cors');
 
