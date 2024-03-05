@@ -20,7 +20,23 @@ router.post('/add', function(req, res) {
 
   connection.query(sql, values, (err, data) => {
     if (err) console.log("err", err);
-    res.json({ message: "Your account has been created"});
+
+    let sql = `SELECT * FROM users WHERE userID = ?`
+    let values = [userId]
+
+    connection.query(sql, values , (err, data) =>{
+      if (err) throw err;
+
+      data.map(user => {
+        delete user.userPassword
+      })
+
+      res.json(data)
+    })
+    /*
+    res.json({message: 'you are logged in', user:userId});
+    */
+
   })
 })
 

@@ -1,5 +1,5 @@
 export function printCreateUserForm() {
-    let createUserContainer = document.getElementById('app');
+    let createUserContainer = document.createElement('div')
 
     let createUserPageTitle = document.createElement("h1");
     createUserPageTitle.innerText = "Create user";
@@ -35,8 +35,7 @@ export function printCreateUserForm() {
        .then(res => res.json())
        .then(data => {
            
-          localStorage.setItem("user", data.user);
-          console.log(data.user);
+          localStorage.setItem("user", JSON.stringify(data));
         
        })
 
@@ -44,6 +43,7 @@ export function printCreateUserForm() {
 
 
     createUserContainer.append(createUserPageTitle, createName, createEmail, createPassword, createUserBtn);
+    app.appendChild(createUserContainer);
 }
 
 printCreateUserForm();
