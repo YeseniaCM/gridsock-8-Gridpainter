@@ -34,4 +34,3 @@ export function printLogInForm() {
     app.appendChild(loginForm);
 }
 
-export default printLogInForm;
