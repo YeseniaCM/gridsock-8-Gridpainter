@@ -47,16 +47,27 @@ router.post('/add', function(req, res) {
   let userEmail = req.body.userEmail;
   let userPassword = req.body.userPassword;
   let userId = randomUUID();
-  
+
   let sql = "INSERT into users (userId, userName, userEmail, userPassword) VALUES (?, ?, ?, ?)";
   let values = [userId, userName, userEmail, userPassword];
 
   connection.query(sql, values, (err, data) => {
     if (err) console.log("err", err);
-    res.json({ message: "Your account has been created"});
+
+    let sql = `SELECT * FROM users WHERE userID = ?`
+    let values = [userId]
+
+    connection.query(sql, values , (err, data) =>{
+      if (err) throw err;
+
+      data.map(user => {
+        delete user.userPassword
+      })
+
+      res.json(data)
+    })
   })
 })
-
 
 
 module.exports = router;
