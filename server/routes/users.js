@@ -13,8 +13,8 @@ router.get('/', function(req, res, next) {
 
 // Log in user
 router.post("/login", (req,res) =>{
-  let userEmail = req.body.email;
-  let userPassword = req.body.password;
+  let userEmail = req.body.userEmail;
+  let userPassword = req.body.userPassword;
 
   connection.connect((err) =>{
     if (err) {
@@ -26,12 +26,13 @@ router.post("/login", (req,res) =>{
     let values = [userEmail, userPassword];
 
     connection.query(query, values, (err, result) =>{
+      console.log(result)
       if (err) console.log("err", err);
 
       if (result.length > 0){
-        res.json(result[0]);
+        res.json(result);
       }else {
-        res.status(401).json({ error: "Wrong email or password." });
+        res.status(401).json({ message: "Wrong email or password." });
       }
       
     })

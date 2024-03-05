@@ -1,7 +1,10 @@
 import { printCreateUserForm } from './printCreateUserForm.js';
+import { getLogIn } from './getLogin.js'
+
+export  let loginForm = document.createElement('div');
 
 export function printLogInForm() {
-    let loginForm = document.createElement('div');
+    
     loginForm.setAttribute('class', 'login-form')
 
     loginForm.innerHTML = '';

@@ -1,4 +1,9 @@
+import { loginForm } from "./printLogin";
+
+
 export function printCreateUserForm() {
+    loginForm.innerHTML = '';
+
     let createUserContainer = document.createElement('div')
 
     let createUserPageTitle = document.createElement("h1");

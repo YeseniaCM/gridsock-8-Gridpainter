@@ -1,3 +1,5 @@
+import { loginForm } from "./printLogin";
+
 export function getLogIn (email, password, message) {
     let checkUser = {userEmail: email, userPassword: password}
 
@@ -19,7 +21,7 @@ export function getLogIn (email, password, message) {
                  message.textContent = '';
                 } , 2000)
             }else{
-                formDiv.innerHTML = '';
+                loginForm.innerHTML = '';
                 let setUser = JSON.stringify(data)
                 localStorage.setItem('user', setUser)
                 //  logOutBtn()
