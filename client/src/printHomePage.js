@@ -1,6 +1,7 @@
 import { loginForm } from './printLogin.js'
-// import printlogoutbtn
-//import printloginbtn
+import { logOutBtn } from './printLogoutBtn.js';
+import { startGameBtn } from './startGameBtn.js';
+
 
 export function printHomePage() {
     loginForm.innerHTML = ''
@@ -36,9 +37,9 @@ export function printHomePage() {
     let circleDiv = document.createElement('div');
     circleDiv.setAttribute('class', 'circle-div');
 
-    printLogoutBtn()
+    logOutBtn()
     instructionsDiv.append(instructionsUL, instructionQuote)
     loginForm.append( homeHeading, circleDiv, instructionsDiv )
-    printStartGameBtn()
+    startGameBtn()
 
 }

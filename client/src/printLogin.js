@@ -1,6 +1,6 @@
 import { printCreateUserForm } from './printCreateUserForm.js';
 import { getLogIn } from './getLogin.js'
-import startGameBtn from './startGameBtn.js';
+import { startGameBtn } from './startGameBtn.js';
 
 export  let loginForm = document.createElement('div');
 

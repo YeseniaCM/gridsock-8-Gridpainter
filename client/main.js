@@ -5,4 +5,3 @@ import { printHomePage } from './src/printHomePage.js'
 
 printLogInForm() 
 
-printHomePage()
