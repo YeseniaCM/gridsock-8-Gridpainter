@@ -1,10 +1,11 @@
-import { loginForm } from "./printLogin";
+import { loginForm, printLogInForm } from "./printLogin";
 
 
 export function printCreateUserForm() {
-    loginForm.innerHTML = '';
+    app.removeChild(loginForm)
 
     let createUserContainer = document.createElement('div')
+    createUserContainer.setAttribute('class', 'createUserContainer')
 
     let createUserPageTitle = document.createElement("h1");
     createUserPageTitle.innerText = "Create user";
@@ -22,6 +23,14 @@ export function printCreateUserForm() {
     let createUserBtn = document.createElement("button");
     createUserBtn.classList.add("createUserBtn");
     createUserBtn.innerText = "Create user";
+
+    let backToLoginBtn = document.createElement('a');
+    backToLoginBtn.innerText = "Back to sign in";
+
+    backToLoginBtn.addEventListener('click', () => {
+        app.innerHTML = "";
+        printLogInForm();
+    })
 
     createUserBtn.addEventListener("click", () => {
         if (createName.value.trim() === '' || createEmail.value.trim() === '' || createPassword.value.trim() === '') {
@@ -41,12 +50,16 @@ export function printCreateUserForm() {
        .then(data => {
            
           localStorage.setItem("user", JSON.stringify(data));
+          //printHomePage()
         
        })
 
     })
 
 
-    createUserContainer.append(createUserPageTitle, createName, createEmail, createPassword, createUserBtn);
+    createUserContainer.append(createUserPageTitle, createName, createEmail, createPassword, createUserBtn, backToLoginBtn);
     app.appendChild(createUserContainer);
+
+    
+
 }
