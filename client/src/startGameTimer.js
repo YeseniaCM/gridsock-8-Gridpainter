@@ -16,7 +16,7 @@ export function startGameTimer() {
         if (distance <= 0) {
             clearInterval(intervalId); 
             timer.innerText = "You have run out of time!";
-            // PrintNoTimeLeftPage ()
+            printNoTimeLeftPage()
         } else {
             distance -= 1000; 
         }

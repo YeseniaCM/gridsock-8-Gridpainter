@@ -2,13 +2,12 @@ import { loginForm } from './printLogin.js'
 import { logOutBtn } from './printLogoutBtn.js';
 import { startGameBtn } from './startGameBtn.js';
 
-
 export let homepageDiv = document.createElement('div');
+
 
 export function printHomePage() {
     loginForm.innerHTML = ''
     app.innerHTML = '';
-
 
     let instructionArray = [
         'When 4 players has joined the game will start.',
