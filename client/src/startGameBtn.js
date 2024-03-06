@@ -1,13 +1,18 @@
+import { startGameTimer } from "./startGameTimer.js";
+import { loginForm } from './printLogin.js'
+
 export function startGameBtn() {
     let startGameBtn = document.createElement('button');
-    startGameBtn.textContent = "Starta spelet";
+    startGameBtn.textContent = "Start game";
     startGameBtn.classList.add('startGameBtn');
     app.appendChild(startGameBtn);
 
     startGameBtn.addEventListener('click', () => {
-        console.log("Klick på starta spelet-knapp");
-
         // Hämta spelets innehåll
+        loginForm.innerHTML = '';
+        app.innerHTML = '';
+        startGameTimer();
+
 
     })
 }

@@ -16,13 +16,14 @@ export function startGameTimer() {
         if (distance <= 0) {
             clearInterval(intervalId); 
             timer.innerText = "You have run out of time!";
+            // PrintNoTimeLeftPage ()
         } else {
             distance -= 1000; 
         }
     }, 1000);
 
 
-    // to stop timer 
+    // Stop timer once fourt player has pressed finish function
     // xxx.addEventListener('click', function() {
     //    clearInterval(intervalId);
     //});
