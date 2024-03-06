@@ -1,5 +1,6 @@
 import { startGameTimer } from "./startGameTimer.js";
-import { loginForm } from './printLogin.js'
+import { exitGameBtn }  from "./printexitGameBtn.js";
+import { homepageDiv } from './printHomePage.js'
 
 export function startGameBtn() {
     let startGameBtn = document.createElement('button');
@@ -9,10 +10,10 @@ export function startGameBtn() {
 
     startGameBtn.addEventListener('click', () => {
         // Hämta spelets innehåll
-        loginForm.innerHTML = '';
+        homepageDiv.innerHTML = '';
         app.innerHTML = '';
         startGameTimer();
-
+        exitGameBtn()
 
     })
 }
