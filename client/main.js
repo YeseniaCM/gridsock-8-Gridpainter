@@ -6,13 +6,16 @@ import { printPaintOnGrid } from './src/printPaintOnGrid.js'
 import { printHomePage } from './src/printHomePage.js'
 
 
+import { printNoTimeLeftPage } from './src/printNoTimeLeftPage.js'
+
+/*
 if(localStorage.getItem('user')) {
     printHomePage()
 } else {
     printLogInForm() 
 }
-
-
+*/
+printNoTimeLeftPage()
 
 
 
