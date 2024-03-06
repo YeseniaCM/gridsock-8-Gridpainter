@@ -10,10 +10,9 @@ export function printPaintOnGrid(){
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -35,24 +34,29 @@ function createGridDrawing(unColouredGrid, gridDiv){
     let columns = 15;
 
     
-    for(let i = 0; i < rows; i++) {
+    for(let x = 0; x < rows; x++) {
 
-        for(let j = 0; j < columns; j++) {
+        for(let y = 0; y < columns; y++) {
             const pixel = document.createElement('div');
             pixel.className = 'pixel';
 
             gridDiv.append(pixel);
 
             pixel.addEventListener('click', () => {
-                coloredPixel(i, j, unColouredGrid);
+                coloredPixel(x, y, unColouredGrid);
             })    
         }
     }
 
 }
 
-function coloredPixel(i,j, unColouredGrid){
-console.log('i', i)
-console.log('j', j)
-console.log(unColouredGrid[i][j])
+function coloredPixel(x,y, unColouredGrid){
+console.log('x', x)
+console.log('y', y)
+console.log(unColouredGrid[x][y])
 }
+
+
+
+
+// printPaintOnGrid()

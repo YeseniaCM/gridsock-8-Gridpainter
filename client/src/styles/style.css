@@ -104,26 +104,3 @@ button:focus-visible {
 }
 
 
-/* GRID */
-
-.grid-div {
-  display: grid;
-  width: 320px;
-  height: 320px;
-  grid-template-rows: repeat(15, 1fr);
-  grid-template-columns: repeat(15, 1fr);
-  border: 2px solid #1a1a1a;
-  
-  background-color: #d2d2d2;
-
-}
-
-.pixel {
-  width: 20px;
-  height: 20px;
-  outline: 1px solid black;
-}
-.pixel:hover {
- background-color: #525151;;
-  cursor: pointer;
-}

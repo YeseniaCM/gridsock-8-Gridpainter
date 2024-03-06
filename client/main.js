@@ -4,4 +4,3 @@ import { printPaintOnGrid } from './src/printPaintOnGrid.js'
  
 //printLogInForm() 
 
-printPaintOnGrid()
