@@ -16,6 +16,7 @@ connection.connect(function(err){
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const chatRouter = require('./routes/chat');
 
 const app = express();
 
@@ -29,5 +30,6 @@ app.use(cors());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/chat', chatRouter);
 
 module.exports = app;
