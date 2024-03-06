@@ -25,7 +25,6 @@ export function getLogIn (email, password, message) {
                 loginForm.innerHTML = '';
                 let setUser = JSON.stringify(data)
                 localStorage.setItem('user', setUser)
-
                 printHomePage()
             }
         })
