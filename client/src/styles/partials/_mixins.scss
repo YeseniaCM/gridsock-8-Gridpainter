@@ -1,0 +1,112 @@
+@mixin green-button {
+    background-color: #CEE741;
+    text-transform: uppercase;
+    padding: 5px 10px 5px 10px;
+    border: none;
+    margin: 5px;
+    border-radius: 15px;
+    color: black;
+}
+
+@mixin purple-button {
+    background-color: #C695CE;
+    text-transform: uppercase;
+    padding: 5px 10px 5px 10px;
+    border: none;
+    margin: 5px;
+    border-radius: 15px;
+    color: black;
+}
+
+@mixin secondary-button {
+    text-transform: uppercase;
+    text-decoration: underline;
+    padding: 20px;
+    border: none;
+    color: #000000;
+}
+
+
+
+@mixin headers {
+    color: #CEE741;
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 6rem;
+}
+
+@mixin titles {
+    color: #CEE741;
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 3.2rem;
+}
+
+@mixin page-position {
+    margin: 0;
+    display: flex;
+    place-items: center;
+    justify-content: center;
+    min-width: 320px;
+    min-height: 100vh; 
+}
+
+@mixin center-align {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+    justify-content: center;    
+}
+
+@mixin input-fields {
+    padding: 5px 10px 5px 10px;
+    border: none;
+    margin: 5px;
+    border-radius: 10px;
+}
+
+@mixin chat-position {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 240px;
+    background-color: #f0f0f0;
+    border-top-left-radius: 10px;
+    padding: 10px;
+    overflow-y: auto;
+    height: 95vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+@mixin chat-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-bottom: 20px;
+}
+
+@mixin circle-div {
+    position: absolute;
+    top: 55%; /* Center vertically */
+    left: 40%; /* Adjust left position as needed */
+    transform: translate(-50%, -50%); /* Center the circle vertically */
+    z-index: -1;
+    background-color: #C695CE;
+    width: 400px; /* Adjust the width of the circle */
+    height: 0; /* Height is set to 0 for the padding trick */
+    padding-top: 400px; /* Adjust the padding to maintain aspect ratio */
+    border-radius: 50%;
+}
