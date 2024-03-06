@@ -9,7 +9,7 @@ export function printLogInForm() {
 
     loginForm.innerHTML = '';
     let heading = document.createElement('h1')
-    heading.textContent = 'Logga in'
+    heading.textContent = 'Sign in'
      
     let inputEmail = document.createElement('input');
     inputEmail.placeholder = 'Email';
@@ -17,12 +17,12 @@ export function printLogInForm() {
     let inputPassword = document.createElement('input');
     inputPassword.classList.add("input-password")
     inputPassword.type = 'password';
-    inputPassword.placeholder = 'Lösenord';
+    inputPassword.placeholder = 'Password';
 
     let message = document.createElement('p');
 
     let signInBtn = document.createElement('button');
-    signInBtn.textContent = 'Logga in'
+    signInBtn.textContent = 'Sign in'
 
     let createNewUser = document.createElement('a');
     createNewUser.textContent = 'Create new account'
