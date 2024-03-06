@@ -1,4 +1,4 @@
-export default function startGameBtn() {
+export function startGameBtn() {
     let startGameBtn = document.createElement('button');
     startGameBtn.textContent = "Starta spelet";
     startGameBtn.classList.add('startGameBtn');

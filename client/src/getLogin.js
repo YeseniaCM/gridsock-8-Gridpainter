@@ -1,3 +1,4 @@
+import { printHomePage } from "./printHomePage";
 import { loginForm } from "./printLogin";
 
 export function getLogIn (email, password, message) {
@@ -24,7 +25,8 @@ export function getLogIn (email, password, message) {
                 loginForm.innerHTML = '';
                 let setUser = JSON.stringify(data)
                 localStorage.setItem('user', setUser)
-                //  logOutBtn()
+
+                printHomePage()
             }
         })
 }

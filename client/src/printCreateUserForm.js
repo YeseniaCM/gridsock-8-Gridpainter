@@ -50,6 +50,7 @@ export function printCreateUserForm() {
        .then(data => {
            
           localStorage.setItem("user", JSON.stringify(data));
+          //printHomePage()
         
        })
 
