@@ -1,4 +1,6 @@
-import { loginForm } from "./printLogin.js";
+
+import { printLogInForm } from "./printLogin.js";
+
 
 export function logOutBtn() {
     
@@ -11,7 +13,9 @@ export function logOutBtn() {
 
         console.log("click");
         localStorage.removeItem('user');
-        loginForm();
+        app.innerHTML = "";
+        printLogInForm();
+            
             
     })
     
