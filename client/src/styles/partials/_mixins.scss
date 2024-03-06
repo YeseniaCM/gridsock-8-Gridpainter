@@ -100,13 +100,13 @@
 
 @mixin circle-div {
     position: absolute;
-    top: 55%; /* Center vertically */
-    left: 40%; /* Adjust left position as needed */
-    transform: translate(-50%, -50%); /* Center the circle vertically */
+    top: 55%; 
+    left: 40%; 
+    transform: translate(-50%, -50%);
     z-index: -1;
     background-color: #C695CE;
-    width: 400px; /* Adjust the width of the circle */
-    height: 0; /* Height is set to 0 for the padding trick */
-    padding-top: 400px; /* Adjust the padding to maintain aspect ratio */
+    width: 400px; 
+    height: 0; 
+    padding-top: 400px; 
     border-radius: 50%;
 }
