@@ -1,4 +1,4 @@
-import printHomePage from './printHomePage'
+import {printHomePage} from './printHomePage'
 
 export function goHomeBtn() {
 

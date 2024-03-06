@@ -6,17 +6,14 @@ import { printPaintOnGrid } from './src/printPaintOnGrid.js'
 
 import { printHomePage } from './src/printHomePage.js'
 
-import { originalImages } from './src/originalImages.js'
-
-import { paintAndPrintImage } from './src/originalImages.js'
 
 if(localStorage.getItem('user')) {
     printHomePage()
  } else {     
     printLogInForm() 
 }
-
-
+*/
+printNoTimeLeftPage()
 paintAndPrintImage();
 
 console.log("Här är vår array", originalImages);
