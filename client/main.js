@@ -5,6 +5,7 @@ import {printLogInForm } from './src/printLogin.js'
 import { printPaintOnGrid } from './src/printPaintOnGrid.js'
 
 import { printHomePage } from './src/printHomePage.js'
+import { printWaitingForPlayers } from './src/printWaitingForPlayers.js'
 
 
 if(localStorage.getItem('user')) {
@@ -15,6 +16,7 @@ if(localStorage.getItem('user')) {
 
 // printNoTimeLeftPage()
 // paintAndPrintImage();
+// printWaitingForPlayers()
 
 console.log("Här är vår array", originalImages);
 

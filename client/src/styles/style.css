@@ -155,3 +155,43 @@ input {
   font-size: 2rem;
 }
 
+
+.waiting-user-form{
+  /* position: absolute; */
+  background-color: #fff;
+  border: 5px solid #CEE741;
+  border-radius: 25px;
+  width: 40%;
+  padding: 2% 0;
+  margin-left: auto;
+}
+
+.instruction-text{
+  /* position: absolute;
+  left: 0; */
+  font-size: 1.2rem;
+}
+
+.instructions-div-text{
+  display: flex;
+  width: 80%;
+  margin: auto;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.instructionLeft{
+  text-align: left;
+  width: 50%;
+}
+
+.instructionRight{
+  text-align: right;
+}
+
+.instructionsCircle{
+    top: 29%;
+    left: 10%;
+}
