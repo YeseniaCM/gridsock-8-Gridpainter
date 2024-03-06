@@ -12,9 +12,9 @@ if(localStorage.getItem('user')) {
  } else {     
     printLogInForm() 
 }
-*/
-printNoTimeLeftPage()
-paintAndPrintImage();
+
+// printNoTimeLeftPage()
+// paintAndPrintImage();
 
 console.log("Här är vår array", originalImages);
 
