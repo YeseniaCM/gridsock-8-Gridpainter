@@ -5,10 +5,52 @@ const connection = require('../lib/conn.js')
 const { randomUUID } = require('crypto');
 
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+/* GET all users*/
+router.get('/', function(req, res) {
+  connection.connect((err)=> {
+    if(err) console.log(err)
+  
+      let query = `SELECT *
+                   FROM users`;
+    connection.query(query , (err, result) => {
+      if(err) console.log(err)
+      let newResult = Object.keys(result).length // Checks the lenght of the result
+  
+      
+      if(newResult == 0) {
+        res.status(404).json({message: 'No users exist'})
+      } else {
+        result.forEach(user => {
+          delete user.userPassword
+        })
+        res.json(result)
+      }
+    })
+   })
 });
+
+
+// Get user by ID
+router.get('/:userId', (req, res) => {
+  let userId = req.params.userId; 
+
+  connection.connect((err) => {
+    if (err) console.log(err, 'error');
+
+    let query = `SELECT * FROM users WHERE Id = ?`;
+    let values = [userId];
+
+    connection.query(query, values, (err, data) => {
+      if (err) console.log(err, 'error');
+      
+      data.map(user => {
+        delete user.userPassword
+      })
+      
+      res.status(200).json(data); 
+    })
+  })
+}) 
 
 
 // Log in user
