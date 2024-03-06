@@ -4,6 +4,7 @@ import { startGameBtn } from './startGameBtn.js';
 
 export let homepageDiv = document.createElement('div');
 
+
 export function printHomePage() {
     loginForm.innerHTML = ''
     app.innerHTML = '';
@@ -39,10 +40,12 @@ export function printHomePage() {
     let circleDiv = document.createElement('div');
     circleDiv.setAttribute('class', 'circle-div');
 
+    
     logOutBtn()
     instructionsDiv.append(instructionsUL, instructionQuote)
     homepageDiv.append( homeHeading, circleDiv, instructionsDiv )
     app.appendChild(homepageDiv)
     startGameBtn()
 
+    
 }
