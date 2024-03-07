@@ -4,18 +4,23 @@ import { exitGameBtn }  from "./printexitGameBtn.js";
 import { homepageDiv } from './printHomePage.js'
 import { printWaitingForPlayers }  from './printWaitingForPlayers.js'
 
-export function startGameBtn() {
+export function startGameBtn(roomInput) {
+
     let startGameBtn = document.createElement('button');
     startGameBtn.textContent = "Start game";
     startGameBtn.classList.add('startGameBtn');
-    app.appendChild(startGameBtn);
+    
+
+    
+    app.append(startGameBtn);
 
     startGameBtn.addEventListener('click', () => {
+      console.log('roominput balue', roomInput.value)
         // Hämta spelets innehåll
         homepageDiv.innerHTML = '';
         app.innerHTML = '';
 
-        printWaitingForPlayers();
+        printWaitingForPlayers(roomInput.value);
         exitGameBtn();
 
         // Call on inside once game starts

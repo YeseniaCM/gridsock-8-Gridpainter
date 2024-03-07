@@ -26,7 +26,7 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 
-app.use('/api/users', usersRouter);
+app.use('/users', usersRouter);
 
 app.get('/', (req, res) => {
     res.send('detta funkar')
@@ -34,7 +34,22 @@ app.get('/', (req, res) => {
 
 io.on('connection', function(socket) {
     console.log("Användare kopplad");
+    //let connectedUsers = Object.keys(io.sockets.clients()).length
+    console.log('connectesuser', socket.client.conn.server.clientsCount)
+  
+// players
+    socket.emit('player', socket.id)
 
+    socket.on('playingplayer', (playerData) => {
+        console.log('server playerdata', playerData)
+    })
+
+
+
+
+
+
+    //chat
     socket.emit("chat", "hello world")
 
     socket.on("chat", (arg) =>{

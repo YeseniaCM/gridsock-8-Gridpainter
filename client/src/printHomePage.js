@@ -42,11 +42,32 @@ export function printHomePage() {
     circleDiv.setAttribute('class', 'circle-div');
 
     
+    let roomInput = document.createElement('input');
+    roomInput.placeholder = "Click to choose your room";
+    roomInput.setAttribute('list', 'allRooms');
+ 
+    let allRooms = document.createElement('datalist');
+    allRooms.id = 'allRooms';
+ 
+    let room1 = document.createElement('option');
+    room1.value = 'Gris';
+ 
+    let room2 = document.createElement('option');
+    room2.value = 'Anka';
+ 
+    let room3 = document.createElement('option');
+    room3.value = 'Åsna';
+ 
+    allRooms.appendChild(room1);
+    allRooms.appendChild(room2);
+    allRooms.appendChild(room3);
+    
+
     logOutBtn()
     instructionsDiv.append(instructionsUL, instructionQuote)
-    homepageDiv.append( homeHeading, circleDiv, instructionsDiv )
+    homepageDiv.append( homeHeading, circleDiv, instructionsDiv,roomInput, allRooms)
     app.appendChild(homepageDiv)
-    startGameBtn()
+    startGameBtn(roomInput)
 
     
 }
