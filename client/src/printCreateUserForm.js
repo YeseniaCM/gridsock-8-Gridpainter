@@ -11,6 +11,9 @@ export function printCreateUserForm() {
     let createUserPageTitle = document.createElement("h1");
     createUserPageTitle.innerText = "Create user";
 
+    let createUserFormContainer = document.createElement('div');
+    createUserFormContainer.classList.add('createUserForm');
+
     let createName = document.createElement("input");
     createName.placeholder = "Name";
 
@@ -59,8 +62,8 @@ export function printCreateUserForm() {
 
     })
 
-
-    createUserContainer.append(createUserPageTitle, createName, createEmail, createPassword, createUserBtn, backToLoginBtn);
+    createUserFormContainer.append(createName, createEmail, createPassword, createUserBtn, backToLoginBtn);
+    createUserContainer.append(createUserPageTitle, createUserFormContainer);
     app.appendChild(createUserContainer);
 
     

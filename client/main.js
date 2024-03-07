@@ -16,8 +16,6 @@ if(localStorage.getItem('user')) {
 // printNoTimeLeftPage()
 // paintAndPrintImage();
 
-console.log("Här är vår array", originalImages);
-
 /** Button to go back to the homepage
  * import { goHomeBtn } from './src/printGoHomeBtn.js'
  * goHomeBtn()*/
