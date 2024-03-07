@@ -2,6 +2,7 @@ import io from 'socket.io-client';
 import { startGameTimer } from "./startGameTimer.js";
 import { exitGameBtn }  from "./printexitGameBtn.js";
 import { homepageDiv } from './printHomePage.js'
+import { printWaitingForPlayers }  from './printWaitingForPlayers.js'
 
 export function startGameBtn() {
     let startGameBtn = document.createElement('button');
@@ -27,7 +28,7 @@ export function startGameBtn() {
 }
 
 function printchat() {
-    const socket = io('http://localhost:3001');
+    const socket = io('http://localhost:3000');
 
     let chatContainer = document.createElement('div');
     chatContainer.classList.add('chatContainer');
