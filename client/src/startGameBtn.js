@@ -13,11 +13,14 @@ export function startGameBtn() {
         // Hämta spelets innehåll
         homepageDiv.innerHTML = '';
         app.innerHTML = '';
-        startGameTimer();
 
-        printchat();
+        printWaitingForPlayers();
+        exitGameBtn();
 
-        exitGameBtn()
+        // Call on inside once game starts
+        // startGameTimer();
+        // printchat();
+        
 
 
     })
