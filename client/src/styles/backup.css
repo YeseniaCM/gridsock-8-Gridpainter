@@ -1,0 +1,198 @@
+
+a {
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: inherit;
+    cursor: pointer;
+  }
+  a:hover {
+    color: #535bf2;
+  }
+  
+  body {
+    margin: 0;
+    display: flex;
+    place-items: center;
+    min-width: 320px;
+    min-height: 100vh;
+    background-color: #538E91;
+  }
+  
+  h1 {
+    font-size: 3.2em;
+    line-height: 1.1;
+  }
+  
+  #app {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .logo {
+    height: 6em;
+    padding: 1.5em;
+    will-change: filter;
+    transition: filter 300ms;
+  }
+  .logo:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+  }
+  .logo.vanilla:hover {
+    filter: drop-shadow(0 0 2em #f7df1eaa);
+  }
+  
+  .card {
+    padding: 2em;
+  }
+  
+  .read-the-docs {
+    color: #888;
+  }
+  
+  button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #808080;
+    cursor: pointer;
+    transition: border-color 0.25s;
+    margin-bottom: 20px;
+  }
+  button:hover {
+    border-color: #646cff;
+  }
+  button:focus,
+  button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }
+  
+  .createUserContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 300px;
+  }
+  
+  .createUserBtn {
+    margin-top: 10px;
+  }
+  
+  input {
+    padding: 10px;
+  }
+  
+  @media (prefers-color-scheme: light) {
+    :root {
+      color: #213547;
+      background-color: #ffffff;
+    }
+    a:hover {
+      color: #747bff;
+    }
+    button {
+      background-color: #f9f9f9;
+    }
+  }
+  .login-form{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+  }
+  
+  .input-password {
+    margin-top: 10px;
+  }
+  
+  
+  
+  
+  /* PREVIOUS HOMEPAGE */
+  .home-heading {
+    position: relative;
+    top: -250px;
+    left: -250px;
+    color: #CEE741;
+    font-family: "Madimi One", sans-serif;
+  
+  }
+  
+  .circle-div {
+    position: absolute;
+    top: 200px;
+    left: 300px;
+    z-index: -1;
+    background-color: #D8FFF7;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+  }
+  .instructions-div {
+    font-family: monospace ;
+    position: absolute;
+    top: 210px;
+    left: 350px;
+    text-align: center;
+    margin: 0;
+    width: 700px;
+    font-size: 1.5rem;
+  }
+  
+  .inst-li {
+    list-style: none;
+    margin: 5px;
+  }
+  
+  .inst-quote {
+    color: #CEE741;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 2rem;
+  }
+
+
+  /* PREVIOUS WAITING FOR PLAYER PAGE */
+
+  .waiting-user-form{
+    /* position: absolute; */
+    background-color: #fff;
+    border: 5px solid #CEE741;
+    border-radius: 25px;
+    width: 40%;
+    padding: 2% 0;
+    margin-left: auto;
+  }
+  
+  .instruction-text{
+    /* position: absolute;
+    left: 0; */
+    font-size: 1.2rem;
+  }
+  
+  .instructions-div-text{
+    display: flex;
+    width: 80%;
+    margin: auto;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .instructionLeft{
+    text-align: left;
+    width: 50%;
+  }
+  
+  .instructionRight{
+    text-align: right;
+  }
+  
+  .instructionsCircle{
+      top: 29%;
+      left: 10%;
+  }

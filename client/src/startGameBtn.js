@@ -13,11 +13,14 @@ export function startGameBtn() {
         // Hämta spelets innehåll
         homepageDiv.innerHTML = '';
         app.innerHTML = '';
-        startGameTimer();
 
-        printchat();
+        printWaitingForPlayers();
+        exitGameBtn();
 
-        exitGameBtn()
+        // Call on inside once game starts
+        // startGameTimer();
+        // printchat();
+        
 
 
     })
@@ -25,6 +28,9 @@ export function startGameBtn() {
 
 function printchat() {
     const socket = io('http://localhost:3001');
+
+    let chatContainer = document.createElement('div');
+    chatContainer.classList.add('chatContainer');
   
     let sendMsg = document.createElement('input');
     sendMsg.placeholder = 'Type message';
@@ -50,6 +56,7 @@ function printchat() {
         li.innerText = chat ;
         chatList.appendChild(li);
       }
-  
-      app.append(chatList, sendMsg, sendBtn)
+      
+      chatContainer.append(chatList, sendMsg, sendBtn);
+      app.append(chatContainer);
 }

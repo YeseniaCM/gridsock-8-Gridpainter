@@ -1,0 +1,184 @@
+@import 'partials/mixins';
+
+body {
+    background-color: #538E91;
+    .login-form { 
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: transparent; 
+        border-radius: 50%; 
+        &:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); 
+            width: 70vh;
+            height: 70vh; 
+            max-width: 90vw;
+            background-color: #C695CE;
+            border-radius: 50%;
+            z-index: -1;
+        }
+        
+        h1 {
+            text-transform: uppercase;
+            color: rgb(0, 0, 0);
+            font-family: "Madimi One", sans-serif;
+            font-style: normal;
+            font-size: 2rem;
+        }
+        input {
+            @include input-fields;
+        } 
+        button {
+            @include green-button 
+        }
+        a {
+            @include secondary-button;
+            font-size: 0.7rem;
+        } 
+    }
+
+    .createUserContainer {
+        display: flex;
+        flex-direction: row; 
+        justify-content: center; 
+        align-items: center; 
+        height: 100vh;
+        gap: 30px;
+        h1 {
+            @include headers
+        }
+
+        .createUserForm {
+            background-color: #C695CE;
+            border-radius: 50%;
+            padding: 50px;
+            @include center-align;
+           
+            input {
+                @include input-fields;
+            } 
+            button {
+                @include green-button 
+            }
+            a {
+                @include secondary-button;
+                font-size: 0.7rem;
+            } 
+        }  
+    }
+
+   
+    .homePage {
+        display: flex;
+        flex-direction: column; 
+        justify-content: center; 
+        align-items: center; 
+        height: 100vh;
+        h1 {
+            @include titles;
+        }
+        .circle-div {
+            @include circle-div;
+        }
+        .inst-quote {
+            font-size: 2rem;
+            
+        }
+    }
+
+    .chatContainer {
+        @include chat-position;
+        ul {
+           @include chat-list; 
+        }
+        input {
+            width: calc(100% - 20px); 
+            margin-top: 10px; 
+            align-self: flex-end;
+            display: inline-block;
+        }
+        button {
+            @include green-button;
+            margin-top: 10px; 
+            align-self: flex-end; 
+            display: inline-block;
+        }
+    }
+    
+    .exitGameBtn, .logOutBtn {
+        @include secondary-button;
+        background: none;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+    }
+
+    .startGameBtn {
+        @include green-button;
+        position: fixed;
+        bottom: 100px;
+        right: 300px;
+        
+    }
+    
+    .timerContainer {
+        @include titles;
+        position: fixed; 
+        top: 20px; 
+        left: 50%; 
+        transform: translateX(-50%);
+        p {
+            margin: 0;
+        }
+    }
+
+
+    .instructions-div-text {
+        display: flex;
+        width: 80%;
+        margin: auto;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row;
+        flex-wrap: wrap;
+        .waiting-user-form{
+            /* position: absolute; */
+            background-color: #fff;
+            border: 5px solid #CEE741;
+            border-radius: 25px;
+            width: 40%;
+            padding: 2% 0;
+            margin-left: auto;
+          }
+          
+          .instruction-text{
+            /* position: absolute;
+            left: 0; */
+            font-size: 1.2rem;
+          }
+                    
+          .instructionLeft{
+            text-align: left;
+            width: 50%;
+          }
+          
+          .instructionRight{
+            text-align: right;
+          }
+          
+          .instructionsCircle{
+              top: 29%;
+              left: 10%;
+          }
+    }
+}
+
+
+
