@@ -8,6 +8,8 @@ import { printHomePage } from './src/printHomePage.js'
 import { printWaitingForPlayers } from './src/printWaitingForPlayers.js'
 
 
+
+
 if(localStorage.getItem('user')) {
     printHomePage()
  } else {     

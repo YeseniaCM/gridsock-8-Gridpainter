@@ -26,7 +26,7 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 
-app.use('/api/users', usersRouter);
+app.use('/users', usersRouter);
 
 app.get('/', (req, res) => {
     res.send('detta funkar')
@@ -42,7 +42,13 @@ io.on('connection', function(socket) {
         io.emit("chat", arg);
     })
 
+    socket.emit("updateGrid", "updatedGrid")
 
+    socket.on("paintGrid", (arg) => {
+        console.log("färg uppdaterad", arg);
+        io.emit("paintGrid", arg);
+        console.log('socket connected', socket.connected);
+    })
 
     socket.on("disconnect", function () {
         console.log("Användare frånkopplad");
