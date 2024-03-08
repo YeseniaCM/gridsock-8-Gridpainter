@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import { logOutBtn } from "./printLogoutBtn";
 import { gsap } from 'gsap'
-
+import { homepageDiv } from './printHomePage';
 
 export let instructionsDivText = document.createElement('div');
 instructionsDivText.setAttribute('class', 'instructions-div-text');
@@ -9,6 +9,8 @@ instructionsDivText.setAttribute('class', 'instructions-div-text');
 export function printWaitingForPlayers(roomInput) {
   
      app.innerHTML = '';
+     homepageDiv.innerHTML = '';
+     instructionsDivText.innerHTML= '';
  
      let instructionHeading = document.createElement('h1');
      instructionHeading.textContent = 'Waiting for players to join...';
@@ -62,6 +64,7 @@ export function printWaitingForPlayers(roomInput) {
      logOutBtn()
      instructionsDivText.append( instructionHeading, instructionLeft,instructionRight, waitingUserFrom, circleDiv)
      app.append(instructionsDivText, loadingAnimation, loadingAnimation2, loadingAnimation3)
+     playersWaiting(instructionRight, roomInput)
 }
 
 
@@ -80,21 +83,54 @@ console.log(singleUser.userId)
   fetch('http://localhost:3000/users/' + singleUser.userId)
   .then(res => res.json())
   .then(data => {
-
     data.map(user => {
-      console.log('username in storage', user.userName)
       let username = user.userName
+      socket.emit('room', roomInput)
       
+        socket.on('joinedroom',(roomArg) => {
+          socket.emit('userName', username)
+        })
 
-    socket.on("player", (arg) => {
-      console.log('socket id', arg)
-      let playerData = {userName: username, sockId: arg}
-
-      socket.emit('playingplayer', playerData)
-
-    instructionsRight.textContent += `${username}, `;
+        socket.on('playerConnected', (usersWithName) => {
+          console.log('connectedUser:', usersWithName)
+          
+          instructionsRight.textContent = `Room: ${roomInput}, Connected users:`
+          usersWithName.map(user => {
+            instructionsRight.textContent += `${user.socketId}, `
+         })
+        
+        })
+      
+    
     })
-    })
+  
   })
  
+}
+
+function animateLoading(loadingAnimation, loadingAnimation2, loadingAnimation3){
+  gsap.to(loadingAnimation, {
+    x: 200, // Move to the righ
+    duration: 3,
+    ease: "power1.inOut",
+    repeat: -1, // Repeat the animation infinitely
+    yoyo: true, // Apply yoyo effect
+  });
+
+  gsap.to(loadingAnimation2, {
+    x: 200,
+    duration: 4,
+    ease: "power1.inOut",
+    repeat: -1,
+    yoyo: true,
+
+  });
+
+  gsap.to(loadingAnimation3, {
+    x: 200,
+    duration:3.5,
+    ease: "power1.inOut",
+    repeat: -1,
+    yoyo: true,
+  });
 }

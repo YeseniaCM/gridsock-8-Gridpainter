@@ -32,22 +32,94 @@ app.get('/', (req, res) => {
     res.send('detta funkar')
 })
 
+let connectedUsers = {} // array för connected user
+let userNames = {};
+
 io.on('connection', function(socket) {
     console.log("Användare kopplad");
-    //let connectedUsers = Object.keys(io.sockets.clients()).length
-    console.log('connectesuser', socket.client.conn.server.clientsCount)
-  
-// players
-    socket.emit('player', socket.id)
 
-    socket.on('playingplayer', (playerData) => {
-        console.log('server playerdata', playerData)
+    const updateConnectedUser = (room) => {
+
+        let usersInRoom =  io.sockets.adapter.rooms.get(room)
+
+        if(usersInRoom) {
+            connectedUsers[room] = Array.from(usersInRoom)
+        } else {
+            connectedUsers[room] = [];
+        }
+
+        const usersWithName = connectedUsers[room].map(socketId => {
+            return { socketId, userName: userNames[socketId]}
+        })
+       
+        io.in(room).emit('playerConnected', usersWithName)
+    }
+
+    socket.on('room', (room) => {
+        
+        socket.join(room)
+        socket.emit('joinedroom', room)
+        
+        socket.on('userName', (username) =>{ 
+            userNames[socket.id] = username;
+          });
+    
+        updateConnectedUser(room)
+
+    });
+
+   
+
+
+//dissconnect
+
+    socket.on('disconnecting', () => {
+
+        const rooms = Object.keys(socket.rooms);
+
+        rooms.forEach((room) => {
+            updateConnectedUser(room)
+        })
     })
 
 
+    /*
+    console.log('connecteduser', socket.client.conn.server.clientsCount)
 
+    // rooms
 
+    socket.on('room', (room) => {
+        
+        socket.join(room)
+    
+        socket.emit('joinedroom', room)
 
+        
+
+        // players
+        socket.emit('player', socket.id)
+
+        socket.on('playingplayer', (connectedUser) => {
+            
+            let chosenRoom =  io.sockets.adapter.rooms.get(room)
+
+            connectedUsers.push(connectedUser) // pushar in ny ancänadre
+
+          
+
+            io.in(room).emit('playerConnected', connectedUsers)
+
+            console.log('connected users array:', connectedUsers)
+           
+
+            
+            console.log(chosenRoom)
+            
+
+        })
+    })
+    */
+    
 
     //chat
     socket.emit("chat", "hello world")
@@ -61,6 +133,7 @@ io.on('connection', function(socket) {
 
     socket.on("disconnect", function () {
         console.log("Användare frånkopplad");
+        
     })
 })
 server.listen(process.env.PORT || '3000');
