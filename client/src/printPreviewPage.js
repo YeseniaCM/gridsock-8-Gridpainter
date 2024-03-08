@@ -19,7 +19,7 @@ export function printPreviewPage(){
     
     
 function countdownFrom() {
-    let count = 10;
+    let count = 5;
     
     function updateCount() {
         if (count >= 0) {
