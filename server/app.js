@@ -26,10 +26,46 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 
-app.use('/api/users', usersRouter);
+app.use('/users', usersRouter);
 
 app.get('/', (req, res) => {
     res.send('detta funkar')
+})
+
+/* GET all images*/
+app.get('/images', function(req, res) {
+    connection.connect((err)=> {
+      if(err) console.log(err)
+    
+        let query = `SELECT * FROM images`;
+      connection.query(query , (err, result) => {
+        if(err) console.log(err)
+            
+        res.json(result) 
+      })
+     })
+});
+
+  
+// Add new image
+app.post('/images/add', function(req, res) {
+    let imageId = randomUUID();
+    let src = req.body.src; 
+    let alt = req.body.alt; 
+    let colors = JSON.stringify(req.body.colors); 
+    
+    let sql = "INSERT INTO images (imageId, colors, src, alt) VALUES (?, ?, ?, ?)";
+    let values = [imageId, colors, src, alt];
+
+    connection.query(sql, values, (err, data) => {
+        if (err) {
+            console.log("Error:", err);
+            res.status(500).send("Internal Server Error");
+            return;
+        }
+
+        res.status(201).json({ message: "Image added successfully", imageId: imageId, data: data});
+    });
 })
 
 io.on('connection', function(socket) {
