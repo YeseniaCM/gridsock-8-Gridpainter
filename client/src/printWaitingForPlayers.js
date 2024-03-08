@@ -85,10 +85,13 @@ console.log(singleUser.userId)
   .then(data => {
     data.map(user => {
       let username = user.userName
+
+      socket.emit('userName', username)
+          
       socket.emit('room', roomInput)
       
         socket.on('joinedroom',(roomArg) => {
-          socket.emit('userName', username)
+          
         })
 
         socket.on('playerConnected', (usersWithName) => {
@@ -96,12 +99,13 @@ console.log(singleUser.userId)
           
           instructionsRight.textContent = `Room: ${roomInput}, Connected users:`
           usersWithName.map(user => {
-            instructionsRight.textContent += `${user.socketId}, `
+            
+            instructionsRight.textContent += `${user.userName}, `
          })
         
         })
       
-    
+        
     })
   
   })

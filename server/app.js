@@ -37,6 +37,9 @@ let userNames = {};
 
 io.on('connection', function(socket) {
     console.log("Användare kopplad");
+    socket.on('userName', (username) =>{ 
+        userNames[socket.id] = username;
+      });
 
     const updateConnectedUser = (room) => {
 
@@ -52,6 +55,7 @@ io.on('connection', function(socket) {
             return { socketId, userName: userNames[socketId]}
         })
        
+        console.log(userNames)
         io.in(room).emit('playerConnected', usersWithName)
     }
 
@@ -59,16 +63,15 @@ io.on('connection', function(socket) {
         
         socket.join(room)
         socket.emit('joinedroom', room)
-        
-        socket.on('userName', (username) =>{ 
-            userNames[socket.id] = username;
-          });
+
+     
     
+       
         updateConnectedUser(room)
 
     });
 
-   
+
 
 
 //dissconnect
@@ -81,45 +84,6 @@ io.on('connection', function(socket) {
             updateConnectedUser(room)
         })
     })
-
-
-    /*
-    console.log('connecteduser', socket.client.conn.server.clientsCount)
-
-    // rooms
-
-    socket.on('room', (room) => {
-        
-        socket.join(room)
-    
-        socket.emit('joinedroom', room)
-
-        
-
-        // players
-        socket.emit('player', socket.id)
-
-        socket.on('playingplayer', (connectedUser) => {
-            
-            let chosenRoom =  io.sockets.adapter.rooms.get(room)
-
-            connectedUsers.push(connectedUser) // pushar in ny ancänadre
-
-          
-
-            io.in(room).emit('playerConnected', connectedUsers)
-
-            console.log('connected users array:', connectedUsers)
-           
-
-            
-            console.log(chosenRoom)
-            
-
-        })
-    })
-    */
-    
 
     //chat
     socket.emit("chat", "hello world")
