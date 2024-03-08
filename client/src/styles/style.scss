@@ -2,29 +2,31 @@
 
 body {
     background-color: #538E91;
-    .login-form { 
+
+    .login-form {
         position: relative;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-color: transparent; 
-        border-radius: 50%; 
+        background-color: transparent;
+        border-radius: 50%;
+
         &:before {
             content: "";
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%); 
+            transform: translate(-50%, -50%);
             width: 70vh;
-            height: 70vh; 
+            height: 70vh;
             max-width: 90vw;
             background-color: #C695CE;
             border-radius: 50%;
             z-index: -1;
         }
-        
+
         h1 {
             text-transform: uppercase;
             color: rgb(0, 0, 0);
@@ -32,25 +34,29 @@ body {
             font-style: normal;
             font-size: 2rem;
         }
+
         input {
             @include input-fields;
-        } 
-        button {
-            @include green-button 
         }
+
+        button {
+            @include green-button
+        }
+
         a {
             @include secondary-button;
             font-size: 0.7rem;
-        } 
+        }
     }
 
     .createUserContainer {
         display: flex;
-        flex-direction: row; 
-        justify-content: center; 
-        align-items: center; 
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
         height: 100vh;
         gap: 30px;
+
         h1 {
             @include headers
         }
@@ -60,59 +66,68 @@ body {
             border-radius: 50%;
             padding: 50px;
             @include center-align;
-           
+
             input {
                 @include input-fields;
-            } 
-            button {
-                @include green-button 
             }
+
+            button {
+                @include green-button
+            }
+
             a {
                 @include secondary-button;
                 font-size: 0.7rem;
-            } 
-        }  
+            }
+        }
     }
 
-   
+
     .homePage {
         display: flex;
-        flex-direction: column; 
-        justify-content: center; 
-        align-items: center; 
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         height: 100vh;
+
         h1 {
             @include titles;
         }
+
         .circle-div {
             @include circle-div;
         }
+
         .inst-quote {
             font-size: 2rem;
-            
+
         }
     }
 
     .chatContainer {
         @include chat-position;
+
         ul {
-           @include chat-list; 
+            @include chat-list;
         }
+
         input {
-            width: calc(100% - 20px); 
-            margin-top: 10px; 
+            width: calc(100% - 20px);
+            margin-top: 10px;
             align-self: flex-end;
             display: inline-block;
         }
+
         button {
             @include green-button;
-            margin-top: 10px; 
-            align-self: flex-end; 
+            margin-top: 10px;
+            align-self: flex-end;
             display: inline-block;
         }
     }
-    
-    .exitGameBtn, .logOutBtn {
+
+    .exitGameBtn,
+    .logOutBtn {
         @include secondary-button;
         background: none;
         position: fixed;
@@ -125,15 +140,16 @@ body {
         position: fixed;
         bottom: 100px;
         right: 300px;
-        
+
     }
-    
+
     .timerContainer {
         @include titles;
-        position: fixed; 
-        top: 20px; 
-        left: 50%; 
+        position: fixed;
+        top: 20px;
+        left: 50%;
         transform: translateX(-50%);
+
         p {
             margin: 0;
         }
@@ -148,7 +164,8 @@ body {
         justify-content: space-between;
         flex-direction: row;
         flex-wrap: wrap;
-        .waiting-user-form{
+
+        .waiting-user-form {
             /* position: absolute; */
             background-color: #fff;
             border: 5px solid #CEE741;
@@ -156,29 +173,44 @@ body {
             width: 40%;
             padding: 2% 0;
             margin-left: auto;
-          }
-          
-          .instruction-text{
+        }
+
+        .instruction-text {
             /* position: absolute;
             left: 0; */
             font-size: 1.2rem;
-          }
-                    
-          .instructionLeft{
+        }
+
+        .instructionLeft {
             text-align: left;
             width: 50%;
-          }
-          
-          .instructionRight{
+        }
+
+        .instructionRight {
             text-align: right;
-          }
-          
-          .instructionsCircle{
-              top: 29%;
-              left: 10%;
-          }
+        }
+
+        .instructionsCircle {
+            top: 29%;
+            left: 10%;
+        }
+
+
+
     }
+
+    .loading-div {
+        position: absolute;
+        top: 70%;
+        left: 40%;
+        width: 20px;
+        height: 20px;
+        background-color: #C695CE;
+        border-radius: 50%;
+        border: 1px solid black;
+        box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+    }
+
+
+
 }
-
-
-

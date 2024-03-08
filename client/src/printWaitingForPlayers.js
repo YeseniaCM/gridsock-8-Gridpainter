@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
 import { logOutBtn } from "./printLogoutBtn";
+import { gsap } from 'gsap'
 
 
 export let instructionsDivText = document.createElement('div');
@@ -30,6 +31,18 @@ export function printWaitingForPlayers(roomInput) {
      let colorAssigned = document.createElement('p');
      colorAssigned.textContent = `Your assigned colour is: "userColor"`;
  
+     let waitingTime = document.createElement('p');
+     waitingTime.textContent = `you have waited in 00:00`;
+
+     let loadingAnimation = document.createElement('div');
+     loadingAnimation.setAttribute('class', 'loading-div')
+
+     let loadingAnimation2 = document.createElement('div');
+     loadingAnimation2.setAttribute('class', 'loading-div')
+
+     let loadingAnimation3 = document.createElement('div');
+     loadingAnimation3.setAttribute('class', 'loading-div')
+    animateLoading(loadingAnimation, loadingAnimation2, loadingAnimation3)
  
      let waitingUserFrom = document.createElement('div');
      waitingUserFrom.setAttribute('class', 'waiting-user-form');
@@ -48,9 +61,7 @@ export function printWaitingForPlayers(roomInput) {
 
      logOutBtn()
      instructionsDivText.append( instructionHeading, instructionLeft,instructionRight, waitingUserFrom, circleDiv)
-     app.appendChild(instructionsDivText);
-
-  playersWaiting(instructionRight, roomInput);
+     app.append(instructionsDivText, loadingAnimation, loadingAnimation2, loadingAnimation3)
 }
 
 
