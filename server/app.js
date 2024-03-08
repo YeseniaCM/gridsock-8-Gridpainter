@@ -26,15 +26,66 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 
-app.use('/api/users', usersRouter);
+app.use('/users', usersRouter);
 
 app.get('/', (req, res) => {
     res.send('detta funkar')
 })
 
+let connectedUsers = {} // array för connected user
+let userNames = {};
+
 io.on('connection', function(socket) {
     console.log("Användare kopplad");
+    socket.on('userName', (username) =>{ 
+        userNames[socket.id] = username;
+      });
 
+    const updateConnectedUser = (room) => {
+
+        let usersInRoom =  io.sockets.adapter.rooms.get(room)
+
+        if(usersInRoom) {
+            connectedUsers[room] = Array.from(usersInRoom)
+        } else {
+            connectedUsers[room] = [];
+        }
+
+        const usersWithName = connectedUsers[room].map(socketId => {
+            return { socketId, userName: userNames[socketId]}
+        })
+       
+        console.log(userNames)
+        io.in(room).emit('playerConnected', usersWithName)
+    }
+
+    socket.on('room', (room) => {
+        
+        socket.join(room)
+        socket.emit('joinedroom', room)
+
+     
+    
+       
+        updateConnectedUser(room)
+
+    });
+
+
+
+
+//dissconnect
+
+    socket.on('disconnecting', () => {
+
+        const rooms = Object.keys(socket.rooms);
+
+        rooms.forEach((room) => {
+            updateConnectedUser(room)
+        })
+    })
+
+    //chat
     socket.emit("chat", "hello world")
 
     socket.on("chat", (arg) =>{
@@ -46,6 +97,7 @@ io.on('connection', function(socket) {
 
     socket.on("disconnect", function () {
         console.log("Användare frånkopplad");
+        
     })
 })
 server.listen(process.env.PORT || '3000');
