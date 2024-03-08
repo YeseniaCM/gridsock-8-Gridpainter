@@ -1,4 +1,5 @@
 import { logOutBtn } from "./printLogoutBtn";
+import { gsap } from 'gsap'
 
 
 export let instructionsDivText = document.createElement('div');
@@ -33,6 +34,16 @@ export function printWaitingForPlayers () {
  
      let waitingTime = document.createElement('p');
      waitingTime.textContent = `you have waited in 00:00`;
+
+     let loadingAnimation = document.createElement('div');
+     loadingAnimation.setAttribute('class', 'loading-div')
+
+     let loadingAnimation2 = document.createElement('div');
+     loadingAnimation2.setAttribute('class', 'loading-div')
+
+     let loadingAnimation3 = document.createElement('div');
+     loadingAnimation3.setAttribute('class', 'loading-div')
+    animateLoading(loadingAnimation, loadingAnimation2, loadingAnimation3)
  
      let waitingUserFrom = document.createElement('div');
      waitingUserFrom.setAttribute('class', 'waiting-user-form');
@@ -49,10 +60,35 @@ export function printWaitingForPlayers () {
 
      logOutBtn()
      instructionsDivText.append( instructionHeading, instructionLeft,instructionRight, waitingUserFrom, circleDiv)
-     app.appendChild(instructionsDivText)
+     app.append(instructionsDivText, loadingAnimation, loadingAnimation2, loadingAnimation3)
 }
 
 
+function animateLoading(loadingAnimation, loadingAnimation2, loadingAnimation3){
+  gsap.to(loadingAnimation, {
+    x: 200, // Move to the righ
+    duration: 3,
+    ease: "power1.inOut",
+    repeat: -1, // Repeat the animation infinitely
+    yoyo: true, // Apply yoyo effect
+  });
 
+  gsap.to(loadingAnimation2, {
+    x: 200,
+    duration: 4,
+    ease: "power1.inOut",
+    repeat: -1,
+    yoyo: true,
+
+  });
+
+  gsap.to(loadingAnimation3, {
+    x: 200,
+    duration:3.5,
+    ease: "power1.inOut",
+    repeat: -1,
+    yoyo: true,
+  });
+}
 
 

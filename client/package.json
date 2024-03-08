@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "dotenv": "^16.4.5",
+    "gsap": "^3.12.5",
     "sass": "^1.71.1",
     "socket.io-client": "^4.7.4"
   }
