@@ -1,12 +1,16 @@
+import io from 'socket.io-client';
 import { logOutBtn } from "./printLogoutBtn";
 import { gsap } from 'gsap'
-
+import { homepageDiv } from './printHomePage';
 
 export let instructionsDivText = document.createElement('div');
 instructionsDivText.setAttribute('class', 'instructions-div-text');
 
-export function printWaitingForPlayers () {
+export function printWaitingForPlayers(roomInput) {
+  
      app.innerHTML = '';
+     homepageDiv.innerHTML = '';
+     instructionsDivText.innerHTML= '';
  
      let instructionHeading = document.createElement('h1');
      instructionHeading.textContent = 'Waiting for players to join...';
@@ -24,10 +28,7 @@ export function printWaitingForPlayers () {
 
      let instructionRight = document.createElement('p');
      instructionRight.setAttribute('class', 'instruction-text instructionRight');
-     instructionRight.textContent = `
-     User_ has joined.. 
-     Waiting for x more playsers
-     `; // ${user} ska in och hur många spelare som man väntar på
+     instructionRight.textContent = 'Players joined: '; // ${user} ska in och hur många spelare som man väntar på
      
      let colorAssigned = document.createElement('p');
      colorAssigned.textContent = `Your assigned colour is: "userColor"`;
@@ -48,11 +49,13 @@ export function printWaitingForPlayers () {
      let waitingUserFrom = document.createElement('div');
      waitingUserFrom.setAttribute('class', 'waiting-user-form');
      waitingUserFrom.appendChild(colorAssigned); 
-     waitingUserFrom.appendChild(waitingTime); 
+
  
      let circleDiv = document.createElement('div');
      circleDiv.setAttribute('class', 'circle-div instructionsCircle');
  
+
+     
      /*
        Funktionen för när alla 4 spelare har klickat på knappen
        Star-Game så kommer man vidare till Preview Image-sidan
@@ -61,8 +64,53 @@ export function printWaitingForPlayers () {
      logOutBtn()
      instructionsDivText.append( instructionHeading, instructionLeft,instructionRight, waitingUserFrom, circleDiv)
      app.append(instructionsDivText, loadingAnimation, loadingAnimation2, loadingAnimation3)
+     playersWaiting(instructionRight, roomInput)
 }
 
+
+
+
+
+function playersWaiting(instructionsRight, roomInput){
+  console.log('roominput', roomInput)
+  //starta chatrum!!!!!
+  const socket = io('http://localhost:3000');
+
+const user = JSON.parse(localStorage.getItem('user'))
+let singleUser = user.find(user => user.userId)
+console.log(singleUser.userId)
+
+  fetch('http://localhost:3000/users/' + singleUser.userId)
+  .then(res => res.json())
+  .then(data => {
+    data.map(user => {
+      let username = user.userName
+
+      socket.emit('userName', username)
+          
+      socket.emit('room', roomInput)
+      
+        socket.on('joinedroom',(roomArg) => {
+          
+        })
+
+        socket.on('playerConnected', (usersWithName) => {
+          console.log('connectedUser:', usersWithName)
+          
+          instructionsRight.textContent = `Room: ${roomInput}, Connected users:`
+          usersWithName.map(user => {
+            
+            instructionsRight.textContent += `${user.userName}, `
+         })
+        
+        })
+      
+        
+    })
+  
+  })
+ 
+}
 
 function animateLoading(loadingAnimation, loadingAnimation2, loadingAnimation3){
   gsap.to(loadingAnimation, {
@@ -90,5 +138,3 @@ function animateLoading(loadingAnimation, loadingAnimation2, loadingAnimation3){
     yoyo: true,
   });
 }
-
-

@@ -37,7 +37,7 @@ router.get('/:userId', (req, res) => {
   connection.connect((err) => {
     if (err) console.log(err, 'error');
 
-    let query = `SELECT * FROM users WHERE Id = ?`;
+    let query = `SELECT * FROM users WHERE userId = ?`;
     let values = [userId];
 
     connection.query(query, values, (err, data) => {
