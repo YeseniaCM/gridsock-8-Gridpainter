@@ -54,8 +54,6 @@ export function printWaitingForPlayers(roomInput) {
      let circleDiv = document.createElement('div');
      circleDiv.setAttribute('class', 'circle-div instructionsCircle');
  
-
-     
      /*
        Funktionen för när alla 4 spelare har klickat på knappen
        Star-Game så kommer man vidare till Preview Image-sidan
@@ -72,13 +70,10 @@ export function printWaitingForPlayers(roomInput) {
 
 
 function playersWaiting(instructionsRight, roomInput){
-  console.log('roominput', roomInput)
-  //starta chatrum!!!!!
   const socket = io('http://localhost:3000');
+  const user = JSON.parse(localStorage.getItem('user'))
+  let singleUser = user.find(user => user.userId)
 
-const user = JSON.parse(localStorage.getItem('user'))
-let singleUser = user.find(user => user.userId)
-console.log(singleUser.userId)
 
   fetch('http://localhost:3000/users/' + singleUser.userId)
   .then(res => res.json())
@@ -87,29 +82,26 @@ console.log(singleUser.userId)
       let username = user.userName
 
       socket.emit('userName', username)
-          
+        
       socket.emit('room', roomInput)
-      
         socket.on('joinedroom',(roomArg) => {
           
         })
 
         socket.on('playerConnected', (usersWithName) => {
-          console.log('connectedUser:', usersWithName)
-          
           instructionsRight.textContent = `Room: ${roomInput}, Connected users:`
           usersWithName.map(user => {
-            
+          
             instructionsRight.textContent += `${user.userName}, `
+            // check if 4 is connected and start game
+            if(usersWithName.length === 4){
+              // starta spelet!!
+              console.log('start game');
+            }
          })
-        
         })
-      
-        
     })
-  
   })
- 
 }
 
 function animateLoading(loadingAnimation, loadingAnimation2, loadingAnimation3){

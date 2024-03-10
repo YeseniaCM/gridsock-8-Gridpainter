@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import { startGameTimer } from "./startGameTimer.js";
 import { exitGameBtn }  from "./printexitGameBtn.js";
-import { homepageDiv } from './printHomePage.js'
+import { homepageDiv, printHomePage } from './printHomePage.js'
 import { printWaitingForPlayers }  from './printWaitingForPlayers.js'
 
 export function startGameBtn(roomInput) {
@@ -9,13 +9,14 @@ export function startGameBtn(roomInput) {
     let startGameBtn = document.createElement('button');
     startGameBtn.textContent = "Start game";
     startGameBtn.classList.add('startGameBtn');
-    
+
 
     
     app.append(startGameBtn);
 
     startGameBtn.addEventListener('click', () => {
-      console.log('roominput balue', roomInput.value)
+
+   
         // Hämta spelets innehåll
         homepageDiv.innerHTML = '';
         app.innerHTML = '';
@@ -26,8 +27,7 @@ export function startGameBtn(roomInput) {
         // Call on inside once game starts
         // startGameTimer();
         // printchat();
-        
-
+    
 
     })
 }
@@ -43,7 +43,6 @@ function printchat() {
   
     let sendBtn = document.createElement('button')
     sendBtn.textContent ='Send'
-  
   
     let chatList = document.createElement('ul');
       
