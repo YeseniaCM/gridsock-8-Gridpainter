@@ -34,6 +34,7 @@ app.get('/', (req, res) => {
 
 let connectedUsers = {} // array för connected user
 let userNames = {};
+let userClickCount = 0;
 
 io.on('connection', function(socket) {
     console.log("Användare kopplad");
@@ -92,13 +93,24 @@ io.on('connection', function(socket) {
         console.log("kommande chat", arg);
         io.emit("chat", arg);
     })
+    //grid
 
-    socket.emit("updateGrid", "updatedGrid")
-
-    socket.on("paintGrid", (arg) => {
+    socket.on("gridCellClicked", (arg) => {
+        
         console.log("färg uppdaterad", arg);
-        io.emit("paintGrid", arg);
-        console.log('socket connected', socket.connected);
+        
+        io.emit("updatePaintGrid", arg);
+    })
+
+    //finish button
+    socket.on('finishBtnClicked', () => {
+        userClickCount = (userClickCount % 4) + 1 ;
+
+        io.emit('updateClickCount', userClickCount);
+
+        if (userClickCount === 4) {
+            io.emit('changeBackgroundColor');
+        }
     })
 
     socket.on("disconnect", function () {

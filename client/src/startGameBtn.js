@@ -5,6 +5,7 @@ import { homepageDiv } from './printHomePage.js'
 import { printWaitingForPlayers }  from './printWaitingForPlayers.js'
 import { printPaintOnGrid } from './printPaintOnGrid.js';
 
+
 export function startGameBtn(roomInput) {
 
     let startGameBtn = document.createElement('button');
@@ -28,8 +29,7 @@ export function startGameBtn(roomInput) {
         // Call on inside once game starts
         // startGameTimer();
         printchat();
-        
-
+        finishBtn();
 
     })
 }
@@ -67,5 +67,5 @@ function printchat() {
     }
     
     chatContainer.append(chatList, sendMsg, sendBtn);
-    app.append(chatContainer);
+    app.append(chatContainer, finishBtn());
 }
