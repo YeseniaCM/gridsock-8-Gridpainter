@@ -3,6 +3,8 @@ import { startGameTimer } from "./startGameTimer.js";
 import { exitGameBtn }  from "./printexitGameBtn.js";
 import { homepageDiv, printHomePage } from './printHomePage.js'
 import { printWaitingForPlayers }  from './printWaitingForPlayers.js'
+import { printPaintOnGrid } from './printPaintOnGrid.js';
+
 
 export function startGameBtn(roomInput) {
 
@@ -17,17 +19,18 @@ export function startGameBtn(roomInput) {
     startGameBtn.addEventListener('click', () => {
 
    
-        // Hämta spelets innehåll
+  
         homepageDiv.innerHTML = '';
         app.innerHTML = '';
 
         printWaitingForPlayers(roomInput.value);
         exitGameBtn();
+        printPaintOnGrid();
 
         // Call on inside once game starts
         // startGameTimer();
-        // printchat();
-    
+
+        //finishBtn(); - ska printas när 4 personer har ansulutit
 
     })
 }
@@ -46,22 +49,23 @@ export function printchat() {
   
     let chatList = document.createElement('ul');
       
-      sendBtn.addEventListener("click", () => {
-        console.log("send chat", sendMsg.value);
-        socket.emit("chat", sendMsg.value);
-      })
-      
-      socket.on("chat", (arg) => {
-        console.log("socket", arg);
-        updateChat(arg);
-      })
-      
-      function updateChat(chat) {
-        let li = document.createElement("li")
-        li.innerText = chat ;
-        chatList.appendChild(li);
-      }
-      
-      chatContainer.append(chatList, sendMsg, sendBtn);
-      app.append(chatContainer);
+    sendBtn.addEventListener("click", () => {
+      console.log("send chat", sendMsg.value);
+      socket.emit("chat", sendMsg.value);
+      sendMsg.value = "";
+    })
+    
+    socket.on("chat", (arg) => {
+      console.log("socket", arg);
+      updateChat(arg);
+    })
+    
+    function updateChat(chat) {
+      let li = document.createElement("li")
+      li.innerText = chat ;
+      chatList.appendChild(li);
+    }
+    
+    chatContainer.append(chatList, sendMsg, sendBtn);
+    app.append(chatContainer, finishBtn());
 }
