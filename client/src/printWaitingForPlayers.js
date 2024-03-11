@@ -61,7 +61,7 @@ export function printWaitingForPlayers(roomInput) {
        Star-Game så kommer man vidare till Preview Image-sidan
      */
 
-     logOutBtn()
+    
      instructionsDivText.append( instructionHeading, instructionLeft,instructionRight, waitingUserFrom, circleDiv)
      app.append(instructionsDivText, loadingAnimation, loadingAnimation2, loadingAnimation3)
      playersWaiting(instructionRight, roomInput)
