@@ -8,12 +8,14 @@ import { printHomePage } from './src/printHomePage.js'
 import { printWaitingForPlayers } from './src/printWaitingForPlayers.js'
 
 
+
+
 if(localStorage.getItem('user')) {
-    printHomePage()
+    //printHomePage()
+    printPaintOnGrid()
  } else {     
     printLogInForm() 
 }
-
 // printNoTimeLeftPage()
 // paintAndPrintImage();
 // printWaitingForPlayers()

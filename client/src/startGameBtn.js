@@ -3,6 +3,8 @@ import { startGameTimer } from "./startGameTimer.js";
 import { exitGameBtn }  from "./printexitGameBtn.js";
 import { homepageDiv } from './printHomePage.js'
 import { printWaitingForPlayers }  from './printWaitingForPlayers.js'
+import { printPaintOnGrid } from './printPaintOnGrid.js';
+
 
 export function startGameBtn(roomInput) {
 
@@ -22,12 +24,12 @@ export function startGameBtn(roomInput) {
 
         printWaitingForPlayers(roomInput.value);
         exitGameBtn();
+        printPaintOnGrid();
 
         // Call on inside once game starts
         // startGameTimer();
-        // printchat();
-        
-
+        printchat();
+        finishBtn();
 
     })
 }
@@ -47,22 +49,23 @@ function printchat() {
   
     let chatList = document.createElement('ul');
       
-      sendBtn.addEventListener("click", () => {
-        console.log("send chat", sendMsg.value);
-        socket.emit("chat", sendMsg.value);
-      })
-      
-      socket.on("chat", (arg) => {
-        console.log("socket", arg);
-        updateChat(arg);
-      })
-      
-      function updateChat(chat) {
-        let li = document.createElement("li")
-        li.innerText = chat ;
-        chatList.appendChild(li);
-      }
-      
-      chatContainer.append(chatList, sendMsg, sendBtn);
-      app.append(chatContainer);
+    sendBtn.addEventListener("click", () => {
+      console.log("send chat", sendMsg.value);
+      socket.emit("chat", sendMsg.value);
+      sendMsg.value = "";
+    })
+    
+    socket.on("chat", (arg) => {
+      console.log("socket", arg);
+      updateChat(arg);
+    })
+    
+    function updateChat(chat) {
+      let li = document.createElement("li")
+      li.innerText = chat ;
+      chatList.appendChild(li);
+    }
+    
+    chatContainer.append(chatList, sendMsg, sendBtn);
+    app.append(chatContainer, finishBtn());
 }
