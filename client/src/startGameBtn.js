@@ -1,38 +1,41 @@
 import io from 'socket.io-client';
 import { startGameTimer } from "./startGameTimer.js";
 import { exitGameBtn }  from "./printexitGameBtn.js";
-import { homepageDiv } from './printHomePage.js'
+import { homepageDiv, printHomePage } from './printHomePage.js'
 import { printWaitingForPlayers }  from './printWaitingForPlayers.js'
+import { printPaintOnGrid } from './printPaintOnGrid.js';
+
 
 export function startGameBtn(roomInput) {
 
     let startGameBtn = document.createElement('button');
     startGameBtn.textContent = "Start game";
     startGameBtn.classList.add('startGameBtn');
-    
+
 
     
     app.append(startGameBtn);
 
     startGameBtn.addEventListener('click', () => {
-      console.log('roominput balue', roomInput.value)
-        // Hämta spelets innehåll
+
+   
+  
         homepageDiv.innerHTML = '';
         app.innerHTML = '';
 
         printWaitingForPlayers(roomInput.value);
         exitGameBtn();
+        printPaintOnGrid();
 
         // Call on inside once game starts
         // startGameTimer();
-        // printchat();
-        
 
+        //finishBtn(); - ska printas när 4 personer har ansulutit
 
     })
 }
 
-function printchat() {
+export function printchat() {
     const socket = io('http://localhost:3000');
 
     let chatContainer = document.createElement('div');
@@ -44,25 +47,25 @@ function printchat() {
     let sendBtn = document.createElement('button')
     sendBtn.textContent ='Send'
   
-  
     let chatList = document.createElement('ul');
       
-      sendBtn.addEventListener("click", () => {
-        console.log("send chat", sendMsg.value);
-        socket.emit("chat", sendMsg.value);
-      })
-      
-      socket.on("chat", (arg) => {
-        console.log("socket", arg);
-        updateChat(arg);
-      })
-      
-      function updateChat(chat) {
-        let li = document.createElement("li")
-        li.innerText = chat ;
-        chatList.appendChild(li);
-      }
-      
-      chatContainer.append(chatList, sendMsg, sendBtn);
-      app.append(chatContainer);
+    sendBtn.addEventListener("click", () => {
+      console.log("send chat", sendMsg.value);
+      socket.emit("chat", sendMsg.value);
+      sendMsg.value = "";
+    })
+    
+    socket.on("chat", (arg) => {
+      console.log("socket", arg);
+      updateChat(arg);
+    })
+    
+    function updateChat(chat) {
+      let li = document.createElement("li")
+      li.innerText = chat ;
+      chatList.appendChild(li);
+    }
+    
+    chatContainer.append(chatList, sendMsg, sendBtn);
+    app.append(chatContainer, finishBtn());
 }
