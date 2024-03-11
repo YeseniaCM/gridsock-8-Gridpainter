@@ -34,17 +34,25 @@ app.get('/', (req, res) => {
 
 let connectedUsers = {} // array för connected user
 let userNames = {};
+let userClickCount = 0;
 
 io.on('connection', function(socket) {
     console.log("Användare kopplad");
+
     socket.on('userName', (username) =>{ 
         userNames[socket.id] = username;
       });
 
+
     const updateConnectedUser = (room) => {
 
         let usersInRoom =  io.sockets.adapter.rooms.get(room)
-
+        
+        if ( usersInRoom.size > 4 ) {
+           io.emit('check', 'Room is full')
+           socket.disconnect(true)
+        }
+        
         if(usersInRoom) {
             connectedUsers[room] = Array.from(usersInRoom)
         } else {
@@ -55,7 +63,7 @@ io.on('connection', function(socket) {
             return { socketId, userName: userNames[socketId]}
         })
        
-        console.log(userNames)
+        
         io.in(room).emit('playerConnected', usersWithName)
     }
 
@@ -72,6 +80,19 @@ io.on('connection', function(socket) {
     });
 
 
+    socket.on('chosenRoom', (chosenRoom) => {
+
+        let usersInRoom =  io.sockets.adapter.rooms.get(chosenRoom)
+        if(!usersInRoom){
+            return;
+        } else if ( usersInRoom.size > 4 ) {
+            console.log('full')
+           io.emit('check', 'Room is full')
+           socket.disconnect(true)
+        } else {
+            return;
+        }
+    })
 
 
 //dissconnect
@@ -92,8 +113,25 @@ io.on('connection', function(socket) {
         console.log("kommande chat", arg);
         io.emit("chat", arg);
     })
+    //grid
 
+    socket.on("gridCellClicked", (arg) => {
+        
+        console.log("färg uppdaterad", arg);
+        
+        io.emit("updatePaintGrid", arg);
+    })
 
+    //finish button
+    socket.on('finishBtnClicked', () => {
+        userClickCount = (userClickCount % 4) + 1 ;
+
+        io.emit('updateClickCount', userClickCount);
+
+        if (userClickCount === 4) {
+            io.emit('changeBackgroundColor');
+        }
+    })
 
     socket.on("disconnect", function () {
         console.log("Användare frånkopplad");

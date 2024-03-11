@@ -1,10 +1,10 @@
+import io from 'socket.io-client';
 import { loginForm } from './printLogin.js'
 import { logOutBtn } from './printLogoutBtn.js';
 import { startGameBtn } from './startGameBtn.js';
 
 export let homepageDiv = document.createElement('div');
 homepageDiv.classList.add('homePage');
-
 
 
 export function printHomePage() {
@@ -30,7 +30,6 @@ export function printHomePage() {
     instructionArray.forEach(inst => {
         let instructions = document.createElement('li');
         instructions.setAttribute('class', 'inst-li')
-        console.log(inst)
         instructions.textContent += inst;
         instructionsUL.append(instructions)
     })
@@ -63,12 +62,29 @@ export function printHomePage() {
     allRooms.appendChild(room2);
     allRooms.appendChild(room3);
     
+    //checks inputfield and check socket if room is full
+    roomInput.addEventListener('input', () => {
+        console.log(roomInput.value)
+        
+        const socket = io('http://localhost:3000');
+        socket.emit('chosenRoom', roomInput.value)
 
+        socket.on('check', (arg) => {
+            console.log(arg)
+          if (arg === 'Room is full') {
+            homepageDiv.innerHTML = '';
+
+            printHomePage()
+            let errMessage = document.createElement('p');
+            errMessage.innerHTML = arg
+            homepageDiv.appendChild(errMessage)
+        } 
+         })
+    })
+  
     logOutBtn()
     instructionsDiv.append(instructionsUL, instructionQuote)
     homepageDiv.append( homeHeading, circleDiv, instructionsDiv,roomInput, allRooms)
     app.appendChild(homepageDiv)
     startGameBtn(roomInput)
-
-    
 }
