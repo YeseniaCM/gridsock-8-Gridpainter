@@ -13,17 +13,16 @@ export function printWaitingForPlayers(roomInput) {
      instructionsDivText.innerHTML= '';
  
      let instructionHeading = document.createElement('h1');
-     instructionHeading.textContent = 'Waiting for players to join...';
+     instructionHeading.textContent = 'Waiting for players to join';
      instructionHeading.setAttribute('class', 'instruction-eading');
 
      let instructionLeft = document.createElement('p');
      instructionLeft.setAttribute('class', 'instruction-text instructionLeft');
      instructionLeft.textContent = `
-     When 4 players has joined the game will start.
-      You´ll get a 5 second glimpse of a picture
-      Each person will get assigned a colour
-      To paint, press the box you want to color
-      you all have 10 minutes to complete the task
+     Once 4 players have joined, the game will start.
+      You will get a 5 second glimpse of a picture.
+      Each person will get assigned a paint, press the box you want to color!
+      You will have 10 minutes to complete the task
      `;
 
      let instructionRight = document.createElement('p');
