@@ -172,18 +172,18 @@ io.on('connection', function(socket) {
         let image = originalImages[Math.floor(Math.random()*originalImages.length)];
         console.log("Här är vår image", image);
 
-        io.in(room).emit('randomImage', image)
+        io.to(room).emit('randomImage', image)
 
     }
     
     socket.on('room', (room) => {
 
-        
         socket.join(room)
         socket.emit('joinedroom', room)
 
         updateConnectedUser(room)
         randomizeImage(room)
+   
 
     });
 
@@ -217,12 +217,21 @@ io.on('connection', function(socket) {
 
     
     //chat
-    socket.emit("chat", "hello world")
 
-    socket.on("chat", (arg) =>{
+        socket.emit("chat", {userName: '  ', message: 'Start gridpainting'})
+
+        socket.on("chat", (arg) =>{
         console.log("kommande chat", arg);
-        io.emit("chat", arg);
-    })
+
+        updateChat(arg)
+     })
+ 
+    const updateChat = (arg) => {
+        console.log('chat att skicka', arg.room)
+        let room = arg.room
+        socket.in(room).emit("chat", arg);
+    }
+    
     //grid
 
     socket.on("gridCellClicked", (arg) => {
