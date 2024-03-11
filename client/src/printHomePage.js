@@ -6,8 +6,9 @@ import { startGameBtn } from './startGameBtn.js';
 export let homepageDiv = document.createElement('div');
 homepageDiv.classList.add('homePage');
 
+
 export function printHomePage() {
-    loginForm.innerHTML = ''
+    loginForm.innerHTML = '';
     app.innerHTML = '';
 
     let instructionArray = [

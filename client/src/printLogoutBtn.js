@@ -1,15 +1,15 @@
 
 import { printLogInForm } from "./printLogin.js";
 
+export let logOutButton = document.createElement('button');
 
 export function logOutBtn() {
     
-    let logOutBtn = document.createElement('button');
-    logOutBtn.textContent = "Logout";
-    logOutBtn.classList.add('logOutBtn');
-    app.append(logOutBtn);
+    logOutButton.textContent = "Logout";
+    logOutButton.classList.add('logOutBtn');
+    app.append(logOutButton);
 
-    logOutBtn.addEventListener('click', () => {
+    logOutButton.addEventListener('click', () => {
 
         console.log("click");
         localStorage.removeItem('user');

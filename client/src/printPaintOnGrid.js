@@ -1,12 +1,15 @@
 import { finishBtn } from './finishBtn.js';
 import io from 'socket.io-client';
 
-let gridDiv = document.createElement('div');
+
+
+export let gridDiv = document.createElement('div');
 gridDiv.setAttribute('class', 'grid-div');
-document.body.appendChild(gridDiv);
+
 
 export function printPaintOnGrid(){
-    
+    gridDiv.innerHTML = '';
+    app.innerHTML = '';
     const socket = io('http://localhost:3000');
     console.log('socket connected', socket.connected);
 
@@ -43,6 +46,7 @@ export function printPaintOnGrid(){
  //app.append(gridDiv)
 
  createGridDrawing(unColouredGrid, gridDiv, socket)
+ app.appendChild(gridDiv);
  finishBtn();
  console.log(gridDiv)
 }

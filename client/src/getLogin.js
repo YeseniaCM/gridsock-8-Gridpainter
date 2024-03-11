@@ -1,7 +1,8 @@
-import { printHomePage } from "./printHomePage";
-import { loginForm } from "./printLogin";
+import { homepageDiv, printHomePage } from "./printHomePage.js";
+import { loginForm } from "./printLogin.js";
 
 export function getLogIn (email, password, message) {
+    
     let checkUser = {userEmail: email, userPassword: password}
 
     fetch("http://localhost:3000/users/login", {
@@ -23,6 +24,7 @@ export function getLogIn (email, password, message) {
                 } , 2000)
             }else{
                 loginForm.innerHTML = '';
+                homepageDiv.innerHTML = '';
                 let setUser = JSON.stringify(data)
                 localStorage.setItem('user', setUser)
                 printHomePage()
