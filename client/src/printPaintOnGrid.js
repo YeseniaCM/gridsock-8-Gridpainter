@@ -16,7 +16,7 @@ export function printPaintOnGrid(){
     })
 
     function updateGridCell(gridCell) {
-        gridDiv.innerHTML = '';
+        //gridDiv.innerHTML = '';
         const { x, y, color } = gridCell;
         coloredPixel(x, y, unColouredGrid, color);
         //console.log("updated grid", updatedGrid);
