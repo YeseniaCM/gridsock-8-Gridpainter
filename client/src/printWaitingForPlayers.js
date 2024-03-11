@@ -3,6 +3,7 @@ import { logOutBtn } from "./printLogoutBtn";
 import { gsap } from 'gsap'
 import { homepageDiv } from './printHomePage';
 import { printPreviewPage } from './printPreviewPage';
+import { paintAndPrintImage } from './originalImages';
 
 export let instructionsDivText = document.createElement('div');
 instructionsDivText.setAttribute('class', 'instructions-div-text');
@@ -95,11 +96,15 @@ function playersWaiting(instructionsRight, roomInput){
             instructionsRight.textContent += `${user.userName}, `
            
          })
-          // check if 4 is connected and start game
-          if(usersWithName.length === 4){
-            printPreviewPage()
-            console.log('start game');
-          }
+         socket.on('randomImage', (image) => {
+            // check if 4 is connected and start game
+            if(usersWithName.length === 4){
+              printPreviewPage()
+              paintAndPrintImage(image)
+              console.log('start game');
+            }
+         })
+        
         })
     })
   })

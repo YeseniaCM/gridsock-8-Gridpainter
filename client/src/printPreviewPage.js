@@ -23,7 +23,7 @@ export function printPreviewPage(){
 
     headingStartGameDiv.append(heading, headingStartGameTime)
     app.appendChild(headingStartGameDiv);
-    paintAndPrintImage()
+    
     // hämta 
 
     countdownFrom(headingStartGameTime)
