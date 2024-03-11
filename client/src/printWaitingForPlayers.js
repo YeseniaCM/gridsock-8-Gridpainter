@@ -2,6 +2,7 @@ import io from 'socket.io-client';
 import { logOutBtn } from "./printLogoutBtn";
 import { gsap } from 'gsap'
 import { homepageDiv } from './printHomePage';
+import { printPreviewPage } from './printPreviewPage';
 
 export let instructionsDivText = document.createElement('div');
 instructionsDivText.setAttribute('class', 'instructions-div-text');
@@ -93,12 +94,13 @@ function playersWaiting(instructionsRight, roomInput){
           usersWithName.map(user => {
           
             instructionsRight.textContent += `${user.userName}, `
-            // check if 4 is connected and start game
-            if(usersWithName.length === 4){
-              // starta spelet!!
-              console.log('start game');
-            }
+           
          })
+          // check if 4 is connected and start game
+          if(usersWithName.length === 4){
+            printPreviewPage()
+            console.log('start game');
+          }
         })
     })
   })

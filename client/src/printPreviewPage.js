@@ -1,8 +1,15 @@
-import { paintAndPrintImage } from "./originalImages";
+import { paintAndPrintImage } from "./originalImages.js";
+import { homepageDiv } from "./printHomePage.js";
+import { instructionsDivText } from "./printWaitingForPlayers";
 
 export let headingStartGameDiv = document.createElement('div');
 
 export function printPreviewPage(){
+
+    app.innerHTML = '';
+     homepageDiv.innerHTML = '';
+     instructionsDivText.innerHTML= '';
+
     headingStartGameDiv.setAttribute('class', 'headingStartGameDiv')
 
     let heading = document.createElement('h1')
@@ -15,24 +22,27 @@ export function printPreviewPage(){
     paintAndPrintImage()
     // hämta 
 
-    countdownFrom()
+    countdownFrom(headingStartGameTime)
     
-    
-function countdownFrom() {
+
+}
+
+function countdownFrom(headingStartGameTime) {
     let count = 10;
     
     function updateCount() {
         if (count >= 0) {
             headingStartGameTime.textContent = `Game starts in ${count}`;
             count--;
-            setTimeout(updateCount, 1000); 
+            setTimeout(updateCount, 1000);
+            
         } else {
             // Ändra till PrintGamePage
             headingStartGameTime.textContent = "Game started!"; 
             console.log("Countdown finished!"); 
         }
     }
-
-    updateCount();
-}
+    
+    updateCount()
+   
 }
