@@ -1,7 +1,7 @@
 import { paintAndPrintImage } from "./originalImages.js";
 import { homepageDiv } from "./printHomePage.js";
 import { instructionsDivText } from "./printWaitingForPlayers";
-import { printPaintOnGrid } from './printPaintOnGrid.js'
+import { gridDiv, printPaintOnGrid } from './printPaintOnGrid.js'
 import { printchat } from './startGameBtn.js'
 
 
@@ -12,6 +12,7 @@ export function printPreviewPage(){
     app.innerHTML = '';
      homepageDiv.innerHTML = '';
      instructionsDivText.innerHTML= '';
+    
 
     headingStartGameDiv.setAttribute('class', 'headingStartGameDiv')
 
@@ -42,6 +43,7 @@ function countdownFrom(headingStartGameTime) {
         } else {
             headingStartGameDiv.innerHTML = '';
             app.innerHTML = '';
+            gridDiv.innerHTML ='';
             printPaintOnGrid()
             printchat()
             console.log("Countdown finished!"); 

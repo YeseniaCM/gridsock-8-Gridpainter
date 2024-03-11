@@ -25,8 +25,7 @@ export function startGameBtn(roomInput) {
 
         printWaitingForPlayers(roomInput.value);
         exitGameBtn();
-        printPaintOnGrid();
-
+        
         // Call on inside once game starts
         // startGameTimer();
 
@@ -67,5 +66,5 @@ export function printchat() {
     }
     
     chatContainer.append(chatList, sendMsg, sendBtn);
-    app.append(chatContainer, finishBtn());
+    app.append(chatContainer);
 }
