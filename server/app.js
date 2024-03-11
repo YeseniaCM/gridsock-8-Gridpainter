@@ -46,6 +46,24 @@ app.get('/images', function(req, res) {
      })
 });
 
+/* GET images after iamesId*/
+app.get('/images/:imageId', function(req, res) {
+
+    let imageId	= req.params.imageId;
+
+    connection.connect((err)=> {
+      if(err) console.log(err)
+    
+        let query = `SELECT * FROM images WHERE imageId	= ?`;
+        let values = [imageId]
+      connection.query(query , values, (err, result) => {
+        if(err) console.log(err)
+            
+        res.json(result) 
+      })
+     })
+});
+
   
 // Add new image
 app.post('/images/add', function(req, res) {
