@@ -9,7 +9,7 @@ export function printLogInForm() {
 
     loginForm.innerHTML = '';
     let heading = document.createElement('h1')
-    heading.textContent = 'Sign in'
+    heading.textContent = 'Gridpainter'
      
     let inputEmail = document.createElement('input');
     inputEmail.placeholder = 'Email';
