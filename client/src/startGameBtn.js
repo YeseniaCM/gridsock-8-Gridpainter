@@ -32,7 +32,7 @@ export function startGameBtn(roomInput) {
     })
 }
 
-function printchat() {
+export function printchat() {
     const socket = io('http://localhost:3000');
 
     let chatContainer = document.createElement('div');
