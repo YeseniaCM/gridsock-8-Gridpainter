@@ -36,8 +36,12 @@ let connectedUsers = {} // array för connected user
 let userNames = {};
 let userClickCount = 0;
 
+
+
+
 io.on('connection', function(socket) {
     console.log("Användare kopplad");
+
 
     socket.on('userName', (username) =>{ 
         userNames[socket.id] = username;
@@ -72,14 +76,12 @@ io.on('connection', function(socket) {
         socket.join(room)
         socket.emit('joinedroom', room)
 
-     
-    
-       
         updateConnectedUser(room)
+
 
     });
 
-
+  
     socket.on('chosenRoom', (chosenRoom) => {
 
         let usersInRoom =  io.sockets.adapter.rooms.get(chosenRoom)
@@ -87,12 +89,13 @@ io.on('connection', function(socket) {
             return;
         } else if ( usersInRoom.size > 4 ) {
             console.log('full')
-           io.emit('check', 'Room is full')
+           socket.emit('check', 'Room is full')
            socket.disconnect(true)
         } else {
             return;
         }
     })
+
 
 
 //dissconnect
@@ -106,6 +109,7 @@ io.on('connection', function(socket) {
         })
     })
 
+    
     //chat
     socket.emit("chat", "hello world")
 
