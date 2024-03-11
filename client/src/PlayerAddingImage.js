@@ -1,45 +1,38 @@
 import { originalImages } from "./originalImages";
-import { printWaitingForPlayers } from "./printWaitingForPlayers";
+import { printWaitingForPlayers } from "./printWaitingForPlayers.js";
 
-let button = document.createElement('button')
-button.textContent = 'Addera bild'
-app.append(button);
 
-button.addEventListener('click', () => {
-    playersAddingImage()
-})
+export function playersAddingImage (socket, room, usersInRoom) {
 
-export function playersAddingImage () {
-    const socket = io('http://localhost:3000');
+    socket.on('roomUsers', (usersInRoom) => {
+        console.log('Användare i rummet:', usersInRoom);
+        
+        });
+
+
+
+    socket.on('joinedroom',(room) => {
+        const usersInRoom = getUsersInRoom(room);
+        console.log('roominput', room)
+      })
+   
+    console.log('användare', socket.username);
+
+   
+   
     const user = JSON.parse(localStorage.getItem('user'));
-    const singleUser = user.find(user => user.userId);
-    const username = singleUser.userName;
-    let altText = "Skapad bild av lag:" + printWaitingForPlayers.roomInput;
-    let roomId = io.sockets.adapter.rooms.get(room)
+    let users = user.find(user => user.userName)
+    console.log('användareee:', users);
+
 
     let sendImage = {
-        src: username,
-        alt: altText,
-        colors : [
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-            [1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 1],
-            [1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 4, 3, 2, 2, 1],
-            [1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 4, 3, 2, 2, 1],
-            [1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 4, 3, 2, 2, 1],
-            [1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 4, 3, 2, 2, 1],
-            [1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 4, 3, 2, 2, 1],
-            [1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 1],
-            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-            [1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 1],
-            [1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 4, 3, 2, 2, 1],
-            [1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 4, 3, 2, 2, 1]
-      ]
+        imageId: '',
+        playersName: "Skapad bild av lag:" + users,
+        roomId: socket.id, 
+        gridImage : "[[coloredGrid]]"
     }
-
-    fetch("http://localhost:3000/images/add", {
+    // console.log(playersName);
+    fetch("http://localhost:3000/newImages/add", {
             method: "POST",
             headers: {
                 "content-Type": "application/json"
@@ -49,5 +42,6 @@ export function playersAddingImage () {
         .then(res => res.json())
         .then(data => {
             console.log("Adding Image", data);
+            console.log(socket, room, usersInRoom );
         })
 }

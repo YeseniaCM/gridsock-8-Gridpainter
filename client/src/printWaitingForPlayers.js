@@ -86,48 +86,6 @@ function playersWaiting(instructionsRight, roomInput){
       socket.emit('room', roomInput)
         socket.on('joinedroom',(roomArg) => {
           console.log(roomArg);
-          function playersAddingImage () {
-            const user = JSON.parse(localStorage.getItem('user'));
-            const singleUser = user.find(user => user.userId);
-            const username = singleUser.userName;
-            let altText = "Skapad bild av lag:" + printWaitingForPlayers.roomInput;
-            let roomId = io.sockets.adapter.rooms.get(roomArg)
-        
-            let sendImage = {
-                src: username,
-                alt: altText,
-                roomId: roomId,
-                colors : [
-                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                    [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-                    [1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 1],
-                    [1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 4, 3, 2, 2, 1],
-                    [1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 4, 3, 2, 2, 1],
-                    [1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 4, 3, 2, 2, 1],
-                    [1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 4, 3, 2, 2, 1],
-                    [1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 4, 3, 2, 2, 1],
-                    [1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 1],
-                    [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                    [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-                    [1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 1],
-                    [1, 2, 3, 4, 4, 4, 4, 4, 4, 4, 4, 3, 2, 2, 1],
-                    [1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 4, 3, 2, 2, 1]
-              ]
-            }
-        
-            fetch("http://localhost:3000/images/add", {
-                    method: "POST",
-                    headers: {
-                        "content-Type": "application/json"
-                    },
-                    body: JSON.stringify(sendImage)
-                })
-                .then(res => res.json())
-                .then(data => {
-                    console.log("Adding Image", data);
-                })
-        }
         })
 
         socket.on('playerConnected', (usersWithName) => {

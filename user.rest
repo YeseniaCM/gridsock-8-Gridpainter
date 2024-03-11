@@ -33,13 +33,21 @@ GET http://localhost:3000/images
 
 ###
 
+
+GET http://localhost:3000/images/006e740d-d27b-4125-9645-29ae66cf8dad
+
+###
+
+
 POST http://localhost:3000/images/add
 Content-Type: application/json
 
 {
-  "src": "test",
-  "alt": "test",
-  "colors" : [
+  "imageId": "",
+  "roomId": "2",
+  "playersName": "test",
+  "gridName": "image5",
+  "gridImage" : [
     [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
     [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4],
     [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4],
@@ -55,5 +63,6 @@ Content-Type: application/json
     [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4],
     [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4],
     [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+
 ]
 }

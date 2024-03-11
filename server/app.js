@@ -71,12 +71,12 @@ app.get('/images/:imageId', function(req, res) {
 // Add new image
 app.post('/images/add', function(req, res) {
     let imageId = randomUUID();
-    let src = req.body.src; 
-    let alt = req.body.alt; 
-    let colors = JSON.stringify(req.body.colors); 
+    let roomId = req.body.roomId; 
+    let playersName = req.body.playersName; 
+    let gridImage = JSON.stringify(req.body.gridImage); 
     
-    let sql = "INSERT INTO images (imageId, colors, src, alt) VALUES (?, ?, ?, ?)";
-    let values = [imageId, colors, src, alt];
+    let sql = "INSERT INTO images (imageId, roomId, gridImage, playersName) VALUES (?, ?, ?, ?)";
+    let values = [imageId, roomId, gridImage, playersName];
 
     connection.query(sql, values, (err, data) => {
         if (err) {
