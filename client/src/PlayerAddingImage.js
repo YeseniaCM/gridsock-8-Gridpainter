@@ -2,16 +2,18 @@ import io from 'socket.io-client';
 
 export function playersAddingImage (roomInput, usersWithName) {
 
+    console.log(usersWithName)
+
     // const socket = io('http://localhost:3000');
 
-    let playersName; 
-
+   // let playersName; 
+/*
     usersWithName.forEach(user => {
         console.log('useerss', user.userName);
         playersName = user.userName;
     })
     
-
+*/
 
         // let sendImage = {
         //     imageId: '',
