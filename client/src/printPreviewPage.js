@@ -7,7 +7,7 @@ import { printchat } from './startGameBtn.js'
 
 export let headingStartGameDiv = document.createElement('div');
 
-export function printPreviewPage(){
+export function printPreviewPage(roomInput){
 
     app.innerHTML = '';
      homepageDiv.innerHTML = '';
@@ -26,14 +26,15 @@ export function printPreviewPage(){
     
     // hämta 
 
-    countdownFrom(headingStartGameTime)
+    countdownFrom(headingStartGameTime, roomInput)
     
 
 }
 
-function countdownFrom(headingStartGameTime) {
+function countdownFrom(headingStartGameTime, roomInput) {
     let count = 5;
     
+    // const socket = io
     function updateCount() {
         if (count >= 0) {
             headingStartGameTime.textContent = `Game starts in ${count}`;
@@ -48,7 +49,14 @@ function countdownFrom(headingStartGameTime) {
             printchat()
             console.log("Countdown finished!"); 
 
-            // socket.on
+            // socket.emit('timer', roomInput) // meddelar vi servern att vimern ska starta
+
+            /* där timern ska printas
+                socket.on('timerUpdate', (minutes, seconds) => {
+                    // do toyr thing
+                    //appenda 
+                })
+            */
         }
     }
     

@@ -133,10 +133,30 @@ let image5 = [
 // mainarray containing 5 arrays
 let originalImages = [image1, image2, image3, image4, image5];
 
+/*
+socket.on('timer' (roomInput) => {
+
+// do your timer
+
+
+
+
+
+
+io.in(room).emit('timerUpdate', {minutes, seconds})
+
+
+
+
+
+})
+
+*/
 
 function startGameTimer(socket) {
     let distance = 10 * 60 * 1000;
 
+    // all dom manipulation i clienten
     let timerContainer = document.createElement('div');
     timerContainer.classList.add('timerContainer');
 
@@ -159,6 +179,7 @@ function startGameTimer(socket) {
         }
     }, 1000);
 
+    // får ligga i clienten
     timerContainer.appendChild(timer);
     app.append(timerContainer);   
 }
