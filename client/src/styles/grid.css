@@ -26,23 +26,23 @@
 .colorZero{
   background-color: #ffffff;
 }
-  .colorOne
-  {
-    background-color: #565676;
-  }
+.colorOne
+{
+  background-color: #565676;
+}
 
-   .colorTwo
-  {
-    background-color: #aeadf0;
-  }
-   .colorThree
-  {
-    background-color: #63b0cd;
-  }
-   .colorFour 
-  {
-    background-color: #e9d2f4;
-  }
+  .colorTwo
+{
+  background-color: #aeadf0;
+}
+  .colorThree
+{
+  background-color: #63b0cd;
+}
+  .colorFour 
+{
+  background-color: #e9d2f4;
+}
 /* 
   .pixel {
     width: 20px;

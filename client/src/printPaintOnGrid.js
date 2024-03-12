@@ -1,20 +1,34 @@
 import { finishBtn } from './finishBtn.js';
 import io from 'socket.io-client';
 
-
-
 export let gridDiv = document.createElement('div');
 gridDiv.setAttribute('class', 'grid-div');
 
+let colors = [1, 2, 3, 4];
+
 export function printPaintOnGrid(){
+    let userAssignedColor = null;
     gridDiv.innerHTML = '';
     app.innerHTML = '';
     const socket = io('http://localhost:3000');
     console.log('socket connected', socket.connected);
 
+    function updateUserColors(userColors) {
+        colors = userColors;
+    }
+
     socket.on("updatePaintGrid", (arg) => {
+        /*if (arg.color === userAssignedColor) {
+            
+        }*/
+
         console.log("socket", arg);
-        updateGridCell(arg);
+            updateGridCell(arg);
+        
+    })
+
+    socket.on('updateUserColors', (userColors) => {
+        updateUserColors(userColors);
     })
 
     function updateGridCell(gridCell) {
@@ -41,16 +55,13 @@ export function printPaintOnGrid(){
         [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     ]
 
- app.appendChild(gridDiv);
-
- createGridDrawing(unColouredGrid, gridDiv, socket)
- app.appendChild(gridDiv);
- finishBtn();
- console.log(gridDiv)
+    createGridDrawing(unColouredGrid, gridDiv, socket, userAssignedColor)
+    app.appendChild(gridDiv);
+    finishBtn();
+    console.log(gridDiv)
 }
-export let colors = [1, 2, 3, 4];
-
-function createGridDrawing(unColouredGrid, gridDiv, socket){
+ 
+function createGridDrawing(unColouredGrid, gridDiv, socket, userAssignedColor){
 
     let rows = 15;
     let columns = 15;
@@ -70,12 +81,16 @@ function createGridDrawing(unColouredGrid, gridDiv, socket){
             
 
             pixel.addEventListener('click', () => {
+                /*if (colors[currentColorIndex] === userAssignedColor) {
+                   
+                }*/
+
                 currentColorIndex = (currentColorIndex + 1) % colors.length;
                 coloredPixel(x, y, unColouredGrid, colors[currentColorIndex]);
 
-                // change updatedGrid to uncoloredGrid to connect to socket
                 socket.emit('gridCellClicked', { x, y, color: colors[currentColorIndex]});
                 console.log(pixel.style.backgroundColor);
+                
             })    
         }
     }
@@ -87,7 +102,7 @@ function coloredPixel(x,y, unColouredGrid, color){
 
     const pixel = gridDiv.querySelector(`.pixel:nth-child(${x * 15 + y + 1})`);
 
-    pixel.style.backgroundColor = getColorStringFromValue(color);
+    pixel.style.backgroundColor = getColorStringFromValue(colorClasses);
     console.log('x', x);
     console.log('y', y);
     console.log(unColouredGrid[x][y]);
@@ -95,15 +110,34 @@ function coloredPixel(x,y, unColouredGrid, color){
 
     console.log(pixel.style.backgroundColor);
 }
+
+const colorClasses = [
+    'colorOne',
+    'colorTwo',
+    'colorThree',
+    'colorFour'
+]
+
+/*
 export function getColorStringFromValue(value) {
     switch (value) {
         case 1:
-            return "red";
+            return 'colorOne';
         case 2:
-            return "blue";
+            return 'colorTwo';
         case 3:
-            return "green";
+            return 'colorThree';
         case 4:
-            return "pink";
+            return 'colorFour';
+    }
+}
+*/
+
+export function getColorStringFromValue(value) {
+    // Ensure the value is within the valid range
+    if (value >= 1 && value <= colorClasses.length) {
+        return colorClasses[value - 1];
+    } else {
+        throw new Error(`Invalid value: ${value}`);
     }
 }

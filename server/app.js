@@ -35,7 +35,6 @@ app.get('/', (req, res) => {
 let connectedUsers = {} // array för connected user
 let userNames = {};
 let userClickCount = 0;
-const userColors = {};
 
 let image1 = [
     [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
@@ -134,8 +133,6 @@ let image5 = [
 // mainarray containing 5 arrays
 let originalImages = [image1, image2, image3, image4, image5];
 
-
-
 io.on('connection', function(socket) {
     console.log("Användare kopplad");
 
@@ -143,10 +140,6 @@ io.on('connection', function(socket) {
     socket.on('userName', (username) =>{ 
         userNames[socket.id] = username;
     });
-
-    socket.on('userColor', ({userId, color}) => {
-        userColors[userId] = color;
-    })
 
 
     const updateConnectedUser = (room) => {

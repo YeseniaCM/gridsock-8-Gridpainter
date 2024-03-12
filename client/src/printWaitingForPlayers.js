@@ -31,13 +31,8 @@ export function printWaitingForPlayers(roomInput) {
   instructionRight.setAttribute('class', 'instruction-text instructionRight');
   instructionRight.textContent = 'Players joined: '; // ${user} ska in och hur många spelare som man väntar på
 
-  let singleUser;
-
-  const user = JSON.parse(localStorage.getItem('user'));
-  singleUser = user.find((user) => user.userId);
-
   let colorAssigned = document.createElement('p');
-  colorAssigned.textContent = `Your assigned colour is: "userColor"`;
+  colorAssigned.textContent = `Your assigned colour is: userColor`;
 
   let waitingTime = document.createElement('p');
   waitingTime.textContent = `you have waited in 00:00`;
@@ -61,9 +56,9 @@ export function printWaitingForPlayers(roomInput) {
   circleDiv.setAttribute('class', 'circle-div instructionsCircle');
 
     
-     instructionsDivText.append( instructionHeading, instructionLeft,instructionRight, waitingUserFrom, circleDiv)
-     app.append(instructionsDivText, loadingAnimation, loadingAnimation2, loadingAnimation3)
-     playersWaiting(instructionRight, roomInput)
+  instructionsDivText.append( instructionHeading, instructionLeft,instructionRight, waitingUserFrom, circleDiv)
+  app.append(instructionsDivText, loadingAnimation, loadingAnimation2, loadingAnimation3)
+  playersWaiting(instructionRight, roomInput)
 }
 
 
@@ -71,6 +66,13 @@ function playersWaiting(instructionsRight, roomInput){
   const socket = io('http://localhost:3000');
   const user = JSON.parse(localStorage.getItem('user'))
   let singleUser = user.find(user => user.userId)
+
+  const colorClasses = [
+    'colorOne',
+    'colorTwo',
+    'colorThree',
+    'colorFour'
+  ]
 
 
   fetch('http://localhost:3000/users/' + singleUser.userId)
@@ -81,27 +83,32 @@ function playersWaiting(instructionsRight, roomInput){
 
       socket.emit('userName', username)
       socket.emit('room', roomInput)
-        socket.on('joinedroom',(roomArg) => {
-          
+      socket.on('joinedroom',(roomArg) => {
+        
+      })
+
+      socket.on('playerConnected', (usersWithName) => {
+        instructionsRight.textContent = `Room: ${roomInput}, Connected users:`
+
+        usersWithName.forEach((user, index) => {
+          const userColorClass = colorClasses[index % colorClasses.length];
+          instructionsRight.innerHTML += `<span class="${userColorClass}">${user.userName}<span>`;
+
+          socket.emit('userColor', {userName: user.userName, userColorClass });
+
+          socket.emit('assignedColor', {userName: user.userName, userColorClass});
         })
 
-        socket.on('playerConnected', (usersWithName) => {
-          instructionsRight.textContent = `Room: ${roomInput}, Connected users:`
-          usersWithName.map(user => {
-          
-            instructionsRight.textContent += `${user.userName}, `
-           
-         })
-         socket.on('randomImage', (image) => {
-            // check if 4 is connected and start game
-            if(usersWithName.length === 4){
-              printPreviewPage()
-              paintAndPrintImage(image)
-              console.log('start game');
-            }
-         })
-        
+        socket.on('randomImage', (image) => {
+          // check if 4 is connected and start game
+          if(usersWithName.length === 4){
+            printPreviewPage()
+            paintAndPrintImage(image)
+            console.log('start game');
+          }
         })
+      
+      })
     })
   })
 }
