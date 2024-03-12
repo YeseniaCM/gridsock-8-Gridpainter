@@ -22,7 +22,7 @@ export function finishBtn(roomInput, usersWithName, uncoloredGrid) {
         finishBtn.disabled = true;
 
         buttonDesc.textContent = "waiting for the other players to press finish";
-        console.log(clickCount);
+        
 
         socket.emit('finishBtnClicked');
     })

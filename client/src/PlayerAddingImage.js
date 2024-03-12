@@ -22,7 +22,7 @@ let players = usersWithName.map(user => user.userName)
          })
          .then(res => res.json())
          .then(data => {
-            console.log("Adding Image", data);
+            //resultPage(data)
          });
 
 

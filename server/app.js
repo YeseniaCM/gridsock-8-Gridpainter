@@ -72,8 +72,12 @@ app.get('/images/:imageId', function(req, res) {
 app.post('/images/add', function(req, res) {
     let imageId = randomUUID();
     let roomId = req.body.roomId; 
-    let playersName = req.body.playersName; 
-    let gridImage = JSON.stringify(req.body.gridImage) 
+    let playersName = req.body.playersName.toString(); 
+    let gridImage = JSON.stringify(req.body.gridImage)
+    
+    console.log('roomId', roomId)
+    console.log('player', playersName)
+    //console.log('grid', gridImage)
     
     let sql = "INSERT INTO images (roomId, imageId, playersName, gridImage) VALUES (?, ?, ?, ?)";
     let values = [roomId, imageId, playersName, gridImage];
@@ -287,12 +291,13 @@ io.on('connection', function(socket) {
 
     //finish button
     socket.on('finishBtnClicked', () => {
-        userClickCount = (userClickCount % 2) + 1 ;
+        userClickCount = (userClickCount % 4) + 1 ;
+        console.log(userClickCount)
 
         io.emit('updateClickCount', userClickCount);
 
-        if (userClickCount === 2) {
-            io.emit('changeBackgroundColor');
+        if (userClickCount === 4) {
+            socket.emit('changeBackgroundColor');
         }
     })
 
