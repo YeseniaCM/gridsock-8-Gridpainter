@@ -1,40 +1,29 @@
 import io from 'socket.io-client';
 
-export function playersAddingImage (roomInput, usersWithName) {
-
-    console.log(usersWithName)
-
+export function playersAddingImage (roomInput, usersWithName, uncoloredGrid) {
     // const socket = io('http://localhost:3000');
 
-   // let playersName; 
-/*
-    usersWithName.forEach(user => {
-        console.log('useerss', user.userName);
-        playersName = user.userName;
-    })
+let players = usersWithName.map(user => user.userName)
     
-*/
-
-        // let sendImage = {
-        //     imageId: '',
-        //     roomId: roomInput,
-        //     playersName: "Skapad bild av:" + usersWithName.map(user => user.userName).join(', ') + ' från rum: ' + roomName,
-        //     gridImage: "[[coloredGrid]]"
-        // }
+        let sendImage = {
+            playersName: players,
+            roomId: roomInput,
+            gridImage: uncoloredGrid
+         }
 
         // // console.log('sendImage', sendImage);
 
-        // fetch("http://localhost:3000/images/add", {
-        //     method: "POST",
-        //     headers: {
-        //         "content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify(sendImage)
-        // })
-        // .then(res => res.json())
-        // .then(data => {
-        //     console.log("Adding Image", data);
-        // });
+         fetch("http://localhost:3000/images/add", {
+             method: "POST",
+            headers: {
+                 "Content-Type": "application/json"
+             },
+             body: JSON.stringify(sendImage)
+         })
+         .then(res => res.json())
+         .then(data => {
+            console.log("Adding Image", data);
+         });
 
 
    

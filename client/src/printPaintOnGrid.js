@@ -47,7 +47,7 @@ export function printPaintOnGrid(roomInput, usersWithName){
 
  createGridDrawing(unColouredGrid, gridDiv, socket)
  app.appendChild(gridDiv);
- finishBtn(roomInput, usersWithName);
+ finishBtn(roomInput, usersWithName, unColouredGrid);
  console.log(gridDiv)
 }
 

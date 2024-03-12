@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import { playersAddingImage } from './PlayerAddingImage';
 
-export function finishBtn(roomInput, usersWithName) {
+export function finishBtn(roomInput, usersWithName, uncoloredGrid) {
 
 
     const socket = io('http://localhost:3000');
@@ -33,7 +33,7 @@ export function finishBtn(roomInput, usersWithName) {
     
     socket.on('changeBackgroundColor', () => {
         document.body.style.backgroundColor = "red";
-        playersAddingImage(roomInput, usersWithName)
+        playersAddingImage(roomInput, usersWithName,uncoloredGrid)
     })
 
     buttonContainer.append(finishBtn, buttonDesc)

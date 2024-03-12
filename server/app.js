@@ -73,10 +73,10 @@ app.post('/images/add', function(req, res) {
     let imageId = randomUUID();
     let roomId = req.body.roomId; 
     let playersName = req.body.playersName; 
-    let gridImage = JSON.stringify(req.body.gridImage); 
+    let gridImage = JSON.stringify(req.body.gridImage) 
     
-    let sql = "INSERT INTO images (imageId, roomId, gridImage, playersName) VALUES (?, ?, ?, ?)";
-    let values = [imageId, roomId, gridImage, playersName];
+    let sql = "INSERT INTO images (roomId, imageId, playersName, gridImage) VALUES (?, ?, ?, ?)";
+    let values = [roomId, imageId, playersName, gridImage];
 
     connection.query(sql, values, (err, data) => {
         if (err) {
