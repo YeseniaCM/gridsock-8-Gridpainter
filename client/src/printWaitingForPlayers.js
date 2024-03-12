@@ -86,7 +86,7 @@ function playersWaiting(instructionsRight, roomInput){
         
       socket.emit('room', roomInput)
         socket.on('joinedroom',(roomArg) => {
-          
+          console.log(roomArg);
         })
 
         socket.on('playerConnected', (usersWithName) => {

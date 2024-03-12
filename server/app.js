@@ -35,6 +35,59 @@ app.get('/', (req, res) => {
 let connectedUsers = {} // array för connected user
 let userNames = {};
 let userClickCount = 0;
+/* GET all images*/
+app.get('/images', function(req, res) {
+    connection.connect((err)=> {
+      if(err) console.log(err)
+    
+        let query = `SELECT * FROM images`;
+      connection.query(query , (err, result) => {
+        if(err) console.log(err)
+            
+        res.json(result) 
+      })
+     })
+});
+
+/* GET images after iamesId*/
+app.get('/images/:imageId', function(req, res) {
+
+    let imageId	= req.params.imageId;
+
+    connection.connect((err)=> {
+      if(err) console.log(err)
+    
+        let query = `SELECT * FROM images WHERE imageId	= ?`;
+        let values = [imageId]
+      connection.query(query , values, (err, result) => {
+        if(err) console.log(err)
+            
+        res.json(result) 
+      })
+     })
+});
+
+  
+// Add new image
+app.post('/images/add', function(req, res) {
+    let imageId = randomUUID();
+    let roomId = req.body.roomId; 
+    let playersName = req.body.playersName; 
+    let gridImage = JSON.stringify(req.body.gridImage); 
+    
+    let sql = "INSERT INTO images (imageId, roomId, gridImage, playersName) VALUES (?, ?, ?, ?)";
+    let values = [imageId, roomId, gridImage, playersName];
+
+    connection.query(sql, values, (err, data) => {
+        if (err) {
+            console.log("Error:", err);
+            res.status(500).send("Internal Server Error");
+            return;
+        }
+
+        res.status(201).json({ message: "Image added successfully", imageId: imageId, data: data});
+    });
+})
 
 let image1 = [
     [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
