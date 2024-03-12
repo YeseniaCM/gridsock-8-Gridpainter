@@ -51,7 +51,7 @@ let count = 5;
             gridDiv.innerHTML ='';
 
             printPaintOnGrid(roomInput, usersWithName, image)
-            printchat()
+            printchat(roomInput)
 
             console.log("Countdown finished!"); 
         }
