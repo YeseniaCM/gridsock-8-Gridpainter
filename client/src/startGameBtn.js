@@ -43,6 +43,8 @@ export function printchat(room) {
 
     chatContainer.classList.add('chatContainer');
   
+    let heading = document.createElement('h4')
+    heading.textContent = `Gridpainter gameroom ${room}`;
     let sendMsg = document.createElement('input');
     sendMsg.placeholder = 'Type message';
   
@@ -64,20 +66,19 @@ export function printchat(room) {
           console.log("send chat", sendMsg.value);
           socket.emit("chat", {userName: user.userName, room: room, message: sendMsg.value});
           sendMsg.value = "";
+
         })
     })
-
   })
-
-  
-  chatContainer.append( sendMsg, sendBtn);
+  chatContainer.append(heading, chatList, sendMsg, sendBtn);
   app.append(chatContainer);
 }
 
-export function updateChat(chat) {
+
+
+export function updateChatList(chat) {
   console.log('chat', chat)
   let li = document.createElement("li")
   li.innerText =  `${chat.userName}: ${chat.message}`;
   chatList.appendChild(li);
-  chatContainer.appendChild(chatList)
 }

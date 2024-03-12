@@ -183,7 +183,7 @@ io.on('connection', function(socket) {
 
         updateConnectedUser(room)
         randomizeImage(room)
-   
+        
 
     });
 
@@ -218,20 +218,16 @@ io.on('connection', function(socket) {
     
     //chat
 
-        socket.emit("chat", {userName: '  ', message: 'Start gridpainting'})
+        //socket.emit("chat", {userName: '  ', message: 'Start gridpainting'})
 
         socket.on("chat", (arg) =>{
-        console.log("kommande chat", arg);
-        console.log('rooms', io.sockets.adapter.rooms.get(arg.room))
 
-        updateChat(arg)
-     })
- 
-    const updateChat = (arg) => {
-        console.log('chat att skicka', arg.room)
+        console.log("kommande chat", arg);
+        console.log('rooms', Object.keys(socket.rooms))
+        
         let room = arg.room
-        socket.in(room).emit("chat", arg);
-    }
+        io.in(room).emit("chat", arg)
+        })
     
     //grid
 
