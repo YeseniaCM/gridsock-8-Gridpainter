@@ -1,3 +1,6 @@
+import { paintAndPrintImage } from "./originalImages";
+import { logOutBtn } from "./printLogoutBtn";
+import { exitGameBtn } from "./printexitGameBtn";
 import { printchat } from "./startGameBtn";
 
 export let resultDivText = document.createElement('div');
@@ -6,7 +9,8 @@ resultDivText.setAttribute('class', 'instructions-div-text');
 export function printResultPage(data, roomInput, image){
     // console.log('datan som kommer från playersAddingImage: ', data);
 
-    printchat()
+    
+    printchat(roomInput)
 
     let imageId = data.imageId;
 
@@ -75,36 +79,7 @@ app.append(resultHeading, imageDiv, resultDivText)
  
 
 // Visa gruppens slumpmässigabild
-let originalImageContainer = document.createElement('div');
-originalImageContainer.setAttribute('class', 'grid-div');
-
-let rows = 15;
-let columns = 15;
-
-for(let x = 0; x < rows; x++) {
-
-    for(let y = 0; y < columns; y++) {
-        const pixel = document.createElement('div');
-
-       
-        if (image[x][y] === 0) {
-            pixel.classList.add('colorZero');
-        } else if (image[x][y] === 1) {
-            pixel.classList.add('colorOne');
-        } else if (image[x][y] === 2) {
-            pixel.classList.add('colorTwo');
-        } else if (image[x][y] === 3) {
-            pixel.classList.add('colorThree');
-        } else if (image[x][y] === 4) {
-            pixel.classList.add('colorFour');
-        }
-
-        originalImageContainer.appendChild(pixel);
-    }
-
-}
-app.appendChild(originalImageContainer);
-
-
-    
+paintAndPrintImage(image)
+exitGameBtn()
+logOutBtn()
 }
