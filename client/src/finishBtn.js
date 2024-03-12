@@ -47,15 +47,23 @@ export function finishBtn() {
         document.body.style.backgroundColor = "red";
         
     })
+   
 
     buttonContainer.append(finishBtn, buttonDesc)
     app.append(buttonContainer);
 
-    let timerInterval = startGameTimer();
+    let timerInterval = startGameTimer(socket);
 
     if (!timerInterval) {
-        timerInterval = startGameTimer();
+        timerInterval = startGameTimer(socket);
     }
+
+    
     
   
 }
+
+
+socket.on('timerUpdate', ({ minutes, seconds }) => {
+    // Update the timer display with the received minutes and seconds
+});

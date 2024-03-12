@@ -134,6 +134,36 @@ let image5 = [
 let originalImages = [image1, image2, image3, image4, image5];
 
 
+function startGameTimer(socket) {
+    let distance = 10 * 60 * 1000;
+
+    let timerContainer = document.createElement('div');
+    timerContainer.classList.add('timerContainer');
+
+    let timer = document.createElement('p');
+    timer.classList.add('timer');
+    
+
+    let intervalId = setInterval(function() {
+        let minutes = Math.floor(distance / (1000 * 60));
+        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        timer.innerText = minutes + ":" + (seconds < 10 ? "0" : "") + seconds; 
+        if (distance <= 0) {
+            clearInterval(intervalId); 
+            timer.innerText = "You have run out of time!";
+            printNoTimeLeftPage()
+        } else {
+            distance -= 1000; 
+            socket.emit('timerUpdate', { minutes, seconds });
+        }
+    }, 1000);
+
+    timerContainer.appendChild(timer);
+    app.append(timerContainer);   
+}
+
+
 
 io.on('connection', function(socket) {
     console.log("Användare kopplad");
@@ -178,13 +208,12 @@ io.on('connection', function(socket) {
     
     socket.on('room', (room) => {
 
-        
         socket.join(room)
         socket.emit('joinedroom', room)
 
         updateConnectedUser(room)
         randomizeImage(room)
-
+        
     });
 
   
@@ -242,6 +271,7 @@ io.on('connection', function(socket) {
 
         if (userClickCount === 4) {
             io.emit('changeBackgroundColor');
+            
         }
     })
 

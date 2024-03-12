@@ -1,4 +1,4 @@
-export function startGameTimer() {
+export function startGameTimer(socket) {
     let distance = 10 * 60 * 1000;
 
     let timerContainer = document.createElement('div');
@@ -19,6 +19,7 @@ export function startGameTimer() {
             printNoTimeLeftPage()
         } else {
             distance -= 1000; 
+            socket.emit('timerUpdate', { minutes, seconds });
         }
     }, 1000);
 
@@ -32,4 +33,7 @@ export function startGameTimer() {
     app.append(timerContainer); 
     // document.body.append(timerContainer);
     return intervalId;
+
+    
 }
+

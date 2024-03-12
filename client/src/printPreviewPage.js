@@ -47,6 +47,8 @@ function countdownFrom(headingStartGameTime) {
             printPaintOnGrid()
             printchat()
             console.log("Countdown finished!"); 
+
+            // socket.on
         }
     }
     
