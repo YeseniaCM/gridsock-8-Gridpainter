@@ -7,7 +7,7 @@ export let gridDiv = document.createElement('div');
 gridDiv.setAttribute('class', 'grid-div');
 
 
-export function printPaintOnGrid(){
+export function printPaintOnGrid(roomInput, usersWithName){
     gridDiv.innerHTML = '';
     app.innerHTML = '';
     const socket = io('http://localhost:3000');
@@ -47,7 +47,7 @@ export function printPaintOnGrid(){
 
  createGridDrawing(unColouredGrid, gridDiv, socket)
  app.appendChild(gridDiv);
- finishBtn();
+ finishBtn(roomInput, usersWithName);
  console.log(gridDiv)
 }
 

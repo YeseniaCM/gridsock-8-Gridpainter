@@ -223,7 +223,7 @@ io.on('connection', function(socket) {
     const randomizeImage = (room) => {
         
         let image = originalImages[Math.floor(Math.random()*originalImages.length)];
-        console.log("Här är vår image", image);
+        // console.log("Här är vår image", image);
 
         io.in(room).emit('randomImage', image)
 
@@ -287,11 +287,11 @@ io.on('connection', function(socket) {
 
     //finish button
     socket.on('finishBtnClicked', () => {
-        userClickCount = (userClickCount % 4) + 1 ;
+        userClickCount = (userClickCount % 2) + 1 ;
 
         io.emit('updateClickCount', userClickCount);
 
-        if (userClickCount === 4) {
+        if (userClickCount === 2) {
             io.emit('changeBackgroundColor');
         }
     })

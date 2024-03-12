@@ -4,10 +4,12 @@ import { exitGameBtn }  from "./printexitGameBtn.js";
 import { homepageDiv, printHomePage } from './printHomePage.js'
 import { printWaitingForPlayers }  from './printWaitingForPlayers.js'
 import { printPaintOnGrid } from './printPaintOnGrid.js';
+import { playersAddingImage } from './PlayerAddingImage.js';
 
 
 export function startGameBtn(roomInput) {
 
+  
     let startGameBtn = document.createElement('button');
     startGameBtn.textContent = "Start game";
     startGameBtn.classList.add('startGameBtn');

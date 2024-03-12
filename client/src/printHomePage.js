@@ -2,6 +2,7 @@ import io from 'socket.io-client';
 import { loginForm } from './printLogin.js'
 import { logOutBtn } from './printLogoutBtn.js';
 import { startGameBtn } from './startGameBtn.js';
+import { playersAddingImage } from './PlayerAddingImage.js';
 
 export let homepageDiv = document.createElement('div');
 homepageDiv.classList.add('homePage');
@@ -87,4 +88,5 @@ export function printHomePage() {
     homepageDiv.append( homeHeading, circleDiv, instructionsDiv,roomInput, allRooms)
     app.appendChild(homepageDiv)
     startGameBtn(roomInput)
+    playersAddingImage(roomInput.value);
 }
