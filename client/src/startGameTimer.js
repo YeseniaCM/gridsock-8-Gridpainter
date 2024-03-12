@@ -6,7 +6,7 @@ export function startGameTimer() {
 
     let timer = document.createElement('p');
     timer.classList.add('timer');
-    timerContainer.appendChild(timer);
+    
 
     let intervalId = setInterval(function() {
         let minutes = Math.floor(distance / (1000 * 60));
@@ -28,5 +28,8 @@ export function startGameTimer() {
     //    clearInterval(intervalId);
     //});
 
-    document.body.appendChild(timerContainer); 
+    timerContainer.appendChild(timer);
+    app.append(timerContainer); 
+    // document.body.append(timerContainer);
+    return intervalId;
 }

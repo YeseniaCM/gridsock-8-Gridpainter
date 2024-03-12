@@ -1,6 +1,8 @@
 import io from 'socket.io-client';
+import { startGameTimer } from './startGameTimer.js';
 
 export function finishBtn() {
+   
 
     const socket = io('http://localhost:3000');
 
@@ -25,14 +27,35 @@ export function finishBtn() {
         socket.emit('finishBtnClicked');
     })
 
-    socket.on('updateClickCount', (userClickCount) => {
-        console.log("total click count", userClickCount);
-    })
+    socket.on('totalClickCount', (totalClickCount) => {
+        console.log("total click count so far", totalClickCount);
+        if (totalClickCount === 4 && timerInterval) {
+            clearInterval(timerInterval); // Stop the timer
+            // You can add additional logic here if needed
+        }
+    });
+
+    socket.on('totalClickCount', (totalClickCount) => {
+        console.log("total click count so far", totalClickCount);
+        if (totalClickCount === 4) {
+            clearInterval(timerInterval); // Stop the timer
+            // You can add additional logic here if needed
+        }
+    });
     
     socket.on('changeBackgroundColor', () => {
         document.body.style.backgroundColor = "red";
+        
     })
 
     buttonContainer.append(finishBtn, buttonDesc)
     app.append(buttonContainer);
+
+    let timerInterval = startGameTimer();
+
+    if (!timerInterval) {
+        timerInterval = startGameTimer();
+    }
+    
+  
 }

@@ -238,6 +238,8 @@ io.on('connection', function(socket) {
 
         io.emit('updateClickCount', userClickCount);
 
+        io.emit('totalClickCount', userClickCount);
+
         if (userClickCount === 4) {
             io.emit('changeBackgroundColor');
         }
