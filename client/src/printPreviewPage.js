@@ -36,12 +36,6 @@ export function printPreviewPage(roomInput, usersWithName){
 
 function countdownFrom(headingStartGameTime, roomInput, usersWithName) {
 
-    countdownFrom(headingStartGameTime,room)
-    
-
-}
-
-function countdownFrom(headingStartGameTime,room) {
 
 let count = 5;
     
