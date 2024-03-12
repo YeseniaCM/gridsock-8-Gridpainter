@@ -7,7 +7,7 @@ import { printchat } from './startGameBtn.js'
 
 export let headingStartGameDiv = document.createElement('div');
 
-export function printPreviewPage(){
+export function printPreviewPage(room){
 
     app.innerHTML = '';
      homepageDiv.innerHTML = '';
@@ -26,12 +26,12 @@ export function printPreviewPage(){
     
     // hämta 
 
-    countdownFrom(headingStartGameTime)
+    countdownFrom(headingStartGameTime,room)
     
 
 }
 
-function countdownFrom(headingStartGameTime) {
+function countdownFrom(headingStartGameTime,room) {
     let count = 5;
     
     function updateCount() {
@@ -45,7 +45,7 @@ function countdownFrom(headingStartGameTime) {
             app.innerHTML = '';
             gridDiv.innerHTML ='';
             printPaintOnGrid()
-            printchat()
+            printchat(room);
             console.log("Countdown finished!"); 
         }
     }
