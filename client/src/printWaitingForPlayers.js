@@ -31,12 +31,34 @@ export function printWaitingForPlayers(roomInput) {
   instructionRight.setAttribute('class', 'instruction-text instructionRight');
   instructionRight.textContent = 'Players joined: '; // ${user} ska in och hur många spelare som man väntar på
 
-  let colorAssigned = document.createElement('p');
-
   let singleUser;
 
   const user = JSON.parse(localStorage.getItem('user'));
   singleUser = user.find((user) => user.userId);
+
+  let colorAssigned = document.createElement('p');
+  colorAssigned.textContent = `Your assigned colour is: "userColor"`;
+
+  let waitingTime = document.createElement('p');
+  waitingTime.textContent = `you have waited in 00:00`;
+
+  let loadingAnimation = document.createElement('div');
+  loadingAnimation.setAttribute('class', 'loading-div')
+
+  let loadingAnimation2 = document.createElement('div');
+  loadingAnimation2.setAttribute('class', 'loading-div')
+
+  let loadingAnimation3 = document.createElement('div');
+  loadingAnimation3.setAttribute('class', 'loading-div')
+  animateLoading(loadingAnimation, loadingAnimation2, loadingAnimation3)
+
+  let waitingUserFrom = document.createElement('div');
+  waitingUserFrom.setAttribute('class', 'waiting-user-form');
+  waitingUserFrom.appendChild(colorAssigned); 
+
+
+  let circleDiv = document.createElement('div');
+  circleDiv.setAttribute('class', 'circle-div instructionsCircle');
 
     
      instructionsDivText.append( instructionHeading, instructionLeft,instructionRight, waitingUserFrom, circleDiv)
@@ -56,12 +78,8 @@ function playersWaiting(instructionsRight, roomInput){
   .then(data => {
     data.map(user => {
       let username = user.userName
-      let userColor = assignedUserColor(user.userId);
-      console.log(colors);
-      console.log(userColor);
 
       socket.emit('userName', username)
-      socket.emit('userColor', {userId: user.userId, color: userColor});
       socket.emit('room', roomInput)
         socket.on('joinedroom',(roomArg) => {
           
@@ -87,11 +105,6 @@ function playersWaiting(instructionsRight, roomInput){
     })
   })
 }
-
-function assignedUserColor(userId) {
-  const index = userId % colors.length;
-  return colors[index];
-s}
 
 function animateLoading(loadingAnimation, loadingAnimation2, loadingAnimation3){
   gsap.to(loadingAnimation, {
