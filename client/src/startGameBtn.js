@@ -3,7 +3,6 @@ import { startGameTimer } from "./startGameTimer.js";
 import { exitGameBtn }  from "./printexitGameBtn.js";
 import { homepageDiv, printHomePage } from './printHomePage.js'
 import { printWaitingForPlayers }  from './printWaitingForPlayers.js'
-import { printPaintOnGrid } from './printPaintOnGrid.js';
 
 
 export function startGameBtn(roomInput) {
@@ -17,15 +16,11 @@ export function startGameBtn(roomInput) {
     app.append(startGameBtn);
 
     startGameBtn.addEventListener('click', () => {
-
-   
-  
         homepageDiv.innerHTML = '';
         app.innerHTML = '';
 
         printWaitingForPlayers(roomInput.value);
         exitGameBtn();
-        printPaintOnGrid();
 
         // Call on inside once game starts
         // startGameTimer();
@@ -67,5 +62,5 @@ export function printchat() {
     }
     
     chatContainer.append(chatList, sendMsg, sendBtn);
-    app.append(chatContainer, finishBtn());
+    app.append(chatContainer);
 }

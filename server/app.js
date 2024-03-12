@@ -35,13 +35,18 @@ app.get('/', (req, res) => {
 let connectedUsers = {} // array för connected user
 let userNames = {};
 let userClickCount = 0;
+const userColors = {};
 
 io.on('connection', function(socket) {
     console.log("Användare kopplad");
 
     socket.on('userName', (username) =>{ 
         userNames[socket.id] = username;
-      });
+    });
+
+    socket.on('userColor', ({userId, color}) => {
+        userColors[userId] = color;
+    })
 
 
     const updateConnectedUser = (room) => {
@@ -71,10 +76,6 @@ io.on('connection', function(socket) {
         
         socket.join(room)
         socket.emit('joinedroom', room)
-
-     
-    
-       
         updateConnectedUser(room)
 
     });
@@ -118,7 +119,6 @@ io.on('connection', function(socket) {
     socket.on("gridCellClicked", (arg) => {
         
         console.log("färg uppdaterad", arg);
-        
         io.emit("updatePaintGrid", arg);
     })
 

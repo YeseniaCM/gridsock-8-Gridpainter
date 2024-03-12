@@ -3,7 +3,6 @@ import io from 'socket.io-client';
 
 let gridDiv = document.createElement('div');
 gridDiv.setAttribute('class', 'grid-div');
-document.body.appendChild(gridDiv);
 
 export function printPaintOnGrid(){
     
@@ -16,7 +15,6 @@ export function printPaintOnGrid(){
     })
 
     function updateGridCell(gridCell) {
-        //gridDiv.innerHTML = '';
         const { x, y, color } = gridCell;
         coloredPixel(x, y, unColouredGrid, color);
         //console.log("updated grid", updatedGrid);
@@ -39,20 +37,21 @@ export function printPaintOnGrid(){
         [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     ]
-       
- //app.append(gridDiv)
+
+ app.appendChild(gridDiv);
 
  createGridDrawing(unColouredGrid, gridDiv, socket)
  finishBtn();
  console.log(gridDiv)
 }
+export let colors = [1, 2, 3, 4];
 
 function createGridDrawing(unColouredGrid, gridDiv, socket){
 
     let rows = 15;
     let columns = 15;
 
-    let colors = [1, 2, 3, 4];
+    
     let currentColorIndex = 0;
 
     
@@ -92,7 +91,7 @@ function coloredPixel(x,y, unColouredGrid, color){
 
     console.log(pixel.style.backgroundColor);
 }
-function getColorStringFromValue(value) {
+export function getColorStringFromValue(value) {
     switch (value) {
         case 1:
             return "red";
@@ -104,6 +103,3 @@ function getColorStringFromValue(value) {
             return "pink";
     }
 }
-
-
-// printPaintOnGrid()

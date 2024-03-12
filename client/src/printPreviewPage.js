@@ -43,7 +43,7 @@ function countdownFrom(headingStartGameTime) {
             headingStartGameDiv.innerHTML = '';
             app.innerHTML = '';
             printPaintOnGrid()
-            printchat()
+            //printchat()
             console.log("Countdown finished!"); 
         }
     }
