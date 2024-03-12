@@ -99,14 +99,14 @@ function playersWaiting(instructionsRight, roomInput){
          })
          socket.on('randomImage', (image) => {
             // check if 4 is connected and start game
-            if(usersWithName.length === 2){
+            if(usersWithName.length === 3){
               printPreviewPage(roomInput)
               paintAndPrintImage(image);
               console.log('start game');
             }
          })
 
-         socket.once("chat", (arg) => {
+         socket.on("chat", (arg) => {
           console.log('chatchat', arg)
           updateChat(arg);
         })

@@ -222,6 +222,7 @@ io.on('connection', function(socket) {
 
         socket.on("chat", (arg) =>{
         console.log("kommande chat", arg);
+        console.log('rooms', io.sockets.adapter.rooms.get(arg.room))
 
         updateChat(arg)
      })
