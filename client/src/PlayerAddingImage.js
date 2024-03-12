@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import { printResultPage } from './printResultPage';
 
 export function playersAddingImage (roomInput, usersWithName, uncoloredGrid) {
     // const socket = io('http://localhost:3000');
@@ -22,7 +23,7 @@ let players = usersWithName.map(user => user.userName)
          })
          .then(res => res.json())
          .then(data => {
-            //resultPage(data)
+            printResultPage(data)
          });
 
 
