@@ -3,7 +3,7 @@ import { playersAddingImage } from './PlayerAddingImage';
 import { gridDiv } from './printPaintOnGrid';
 
 
-export function finishBtn(roomInput, usersWithName, uncoloredGrid) {
+export function finishBtn(roomInput, usersWithName, uncoloredGrid, image) {
 
 
     const socket = io('http://localhost:3000');
@@ -37,7 +37,7 @@ export function finishBtn(roomInput, usersWithName, uncoloredGrid) {
         document.body.style.backgroundColor = "red";
         gridDiv.innerHTML = '';
         app.innerHTML = '';
-        playersAddingImage(roomInput, usersWithName,uncoloredGrid)
+        playersAddingImage(roomInput, usersWithName,uncoloredGrid, image)
     })
 
     buttonContainer.append(finishBtn, buttonDesc)
