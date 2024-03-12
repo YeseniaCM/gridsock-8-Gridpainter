@@ -35,6 +35,59 @@ app.get('/', (req, res) => {
 let connectedUsers = {} // array för connected user
 let userNames = {};
 let userClickCount = 0;
+/* GET all images*/
+app.get('/images', function(req, res) {
+    connection.connect((err)=> {
+      if(err) console.log(err)
+    
+        let query = `SELECT * FROM images`;
+      connection.query(query , (err, result) => {
+        if(err) console.log(err)
+            
+        res.json(result) 
+      })
+     })
+});
+
+/* GET images after iamesId*/
+app.get('/images/:imageId', function(req, res) {
+
+    let imageId	= req.params.imageId;
+
+    connection.connect((err)=> {
+      if(err) console.log(err)
+    
+        let query = `SELECT * FROM images WHERE imageId	= ?`;
+        let values = [imageId]
+      connection.query(query , values, (err, result) => {
+        if(err) console.log(err)
+            
+        res.json(result) 
+      })
+     })
+});
+
+  
+// Add new image
+app.post('/images/add', function(req, res) {
+    let imageId = randomUUID();
+    let roomId = req.body.roomId; 
+    let playersName = req.body.playersName; 
+    let gridImage = JSON.stringify(req.body.gridImage); 
+    
+    let sql = "INSERT INTO images (imageId, roomId, gridImage, playersName) VALUES (?, ?, ?, ?)";
+    let values = [imageId, roomId, gridImage, playersName];
+
+    connection.query(sql, values, (err, data) => {
+        if (err) {
+            console.log("Error:", err);
+            res.status(500).send("Internal Server Error");
+            return;
+        }
+
+        res.status(201).json({ message: "Image added successfully", imageId: imageId, data: data});
+    });
+})
 
 let image1 = [
     [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
@@ -170,17 +223,17 @@ io.on('connection', function(socket) {
         let image = originalImages[Math.floor(Math.random()*originalImages.length)];
         console.log("Här är vår image", image);
 
-        io.in(room).emit('randomImage', image)
+        io.to(room).emit('randomImage', image)
 
     }
     
     socket.on('room', (room) => {
 
-        
         socket.join(room)
         socket.emit('joinedroom', room)
         updateConnectedUser(room)
         randomizeImage(room)
+        
 
     });
 
@@ -214,12 +267,18 @@ io.on('connection', function(socket) {
 
     
     //chat
-    socket.emit("chat", "hello world")
 
-    socket.on("chat", (arg) =>{
+        //socket.emit("chat", {userName: '  ', message: 'Start gridpainting'})
+
+        socket.on("chat", (arg) =>{
+
         console.log("kommande chat", arg);
-        io.emit("chat", arg);
-    })
+        console.log('rooms', Object.keys(socket.rooms))
+        
+        let room = arg.room
+        io.in(room).emit("chat", arg)
+        })
+    
     //grid
 
     socket.on("gridCellClicked", (arg) => {

@@ -29,38 +29,52 @@ export function startGameBtn(roomInput) {
 
     })
 }
+let chatContainer = document.createElement('div');
 
-export function printchat() {
+let chatList = document.createElement('ul');
+export function printchat(room) {
+  
     const socket = io('http://localhost:3000');
 
-    let chatContainer = document.createElement('div');
+
     chatContainer.classList.add('chatContainer');
   
+    let heading = document.createElement('h4')
+    heading.textContent = `Gridpainter gameroom ${room}`;
     let sendMsg = document.createElement('input');
     sendMsg.placeholder = 'Type message';
   
     let sendBtn = document.createElement('button')
     sendBtn.textContent ='Send'
   
-    let chatList = document.createElement('ul');
+   
+    const user = JSON.parse(localStorage.getItem('user'))
+    let singleUser = user.find(user => user.userId)
+  
+  
+    fetch('http://localhost:3000/users/' + singleUser.userId)
+    .then(res => res.json())
+    .then(data => {
+  console.log(data)
       
-    sendBtn.addEventListener("click", () => {
-      console.log("send chat", sendMsg.value);
-      socket.emit("chat", sendMsg.value);
-      sendMsg.value = "";
+      sendBtn.addEventListener("click", () => {
+        data.map(user => {
+          console.log("send chat", sendMsg.value);
+          socket.emit("chat", {userName: user.userName, room: room, message: sendMsg.value});
+          sendMsg.value = "";
+
+        })
     })
-    
-    socket.on("chat", (arg) => {
-      console.log("socket", arg);
-      updateChat(arg);
-    })
-    
-    function updateChat(chat) {
-      let li = document.createElement("li")
-      li.innerText = chat ;
-      chatList.appendChild(li);
-    }
-    
-    chatContainer.append(chatList, sendMsg, sendBtn);
-    app.append(chatContainer);
+  })
+  chatContainer.append(heading, chatList, sendMsg, sendBtn);
+  app.append(chatContainer);
+}
+
+
+
+export function updateChatList(chat) {
+  console.log('chat', chat)
+  let li = document.createElement("li")
+  li.innerText =  `${chat.userName}: ${chat.message}`;
+  chatList.appendChild(li);
 }

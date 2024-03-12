@@ -4,6 +4,7 @@ import { gsap } from 'gsap'
 import { homepageDiv } from './printHomePage';
 import { printPreviewPage } from './printPreviewPage';
 import { paintAndPrintImage } from './originalImages';
+import { updateChatList } from './startGameBtn'
 
 export let instructionsDivText = document.createElement('div');
 instructionsDivText.setAttribute('class', 'instructions-div-text');
@@ -83,32 +84,33 @@ function playersWaiting(instructionsRight, roomInput){
 
       socket.emit('userName', username)
       socket.emit('room', roomInput)
-      socket.on('joinedroom',(roomArg) => {
-        
-      })
-
-      socket.on('playerConnected', (usersWithName) => {
-        instructionsRight.textContent = `Room: ${roomInput}, Connected users:`
-
-        usersWithName.forEach((user, index) => {
-          const userColorClass = colorClasses[index % colorClasses.length];
-          instructionsRight.innerHTML += `<span class="${userColorClass}">${user.userName}<span>`;
-
-          socket.emit('userColor', {userName: user.userName, userColorClass });
-
-          socket.emit('assignedColor', {userName: user.userName, userColorClass});
+        socket.on('joinedroom',(roomArg) => {
+          console.log(roomArg);
         })
 
-        socket.on('randomImage', (image) => {
-          // check if 4 is connected and start game
-          if(usersWithName.length === 4){
-            printPreviewPage()
-            paintAndPrintImage(image)
-            console.log('start game');
-          }
+        socket.on('playerConnected', (usersWithName) => {
+          usersWithName.forEach((user, index) => {
+            const userColorClass = colorClasses[index % colorClasses.length];
+            instructionsRight.innerHTML += `<span class="${userColorClass}">${user.userName}<span>`;
+  
+            socket.emit('userColor', {userName: user.userName, userColorClass });
+  
+            socket.emit('assignedColor', {userName: user.userName, userColorClass});
+          })
+         socket.on('randomImage', (image) => {
+            // check if 4 is connected and start game
+            if(usersWithName.length === 2){
+              printPreviewPage(roomInput)
+              paintAndPrintImage(image);
+              console.log('start game');
+            }
+         })
+        })
+        socket.on("chat", (arg) => {
+          console.log('chatchat', arg)
+          updateChatList(arg);
         })
       
-      })
     })
   })
 }
