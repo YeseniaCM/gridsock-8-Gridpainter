@@ -68,9 +68,6 @@ export function printWaitingForPlayers(roomInput) {
 }
 
 
-
-
-
 function playersWaiting(instructionsRight, roomInput){
   const socket = io('http://localhost:3000');
   const user = JSON.parse(localStorage.getItem('user'))
@@ -99,9 +96,10 @@ function playersWaiting(instructionsRight, roomInput){
          })
          socket.on('randomImage', (image) => {
             // check if 4 is connected and start game
-            if(usersWithName.length === 2){
-              printPreviewPage(roomInput)
-              paintAndPrintImage(image);
+
+            if(usersWithName.length === 4){
+              printPreviewPage(roomInput, usersWithName)
+              paintAndPrintImage(image)
               console.log('start game');
             }
          })

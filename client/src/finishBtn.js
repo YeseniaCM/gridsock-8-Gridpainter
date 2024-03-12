@@ -1,6 +1,8 @@
 import io from 'socket.io-client';
+import { playersAddingImage } from './PlayerAddingImage';
 
-export function finishBtn() {
+export function finishBtn(roomInput, usersWithName, uncoloredGrid) {
+
 
     const socket = io('http://localhost:3000');
 
@@ -20,7 +22,7 @@ export function finishBtn() {
         finishBtn.disabled = true;
 
         buttonDesc.textContent = "waiting for the other players to press finish";
-        console.log(clickCount);
+        
 
         socket.emit('finishBtnClicked');
     })
@@ -31,6 +33,7 @@ export function finishBtn() {
     
     socket.on('changeBackgroundColor', () => {
         document.body.style.backgroundColor = "red";
+        playersAddingImage(roomInput, usersWithName,uncoloredGrid)
     })
 
     buttonContainer.append(finishBtn, buttonDesc)

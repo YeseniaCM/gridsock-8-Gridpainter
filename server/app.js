@@ -72,11 +72,15 @@ app.get('/images/:imageId', function(req, res) {
 app.post('/images/add', function(req, res) {
     let imageId = randomUUID();
     let roomId = req.body.roomId; 
-    let playersName = req.body.playersName; 
-    let gridImage = JSON.stringify(req.body.gridImage); 
+    let playersName = req.body.playersName.toString(); 
+    let gridImage = JSON.stringify(req.body.gridImage)
     
-    let sql = "INSERT INTO images (imageId, roomId, gridImage, playersName) VALUES (?, ?, ?, ?)";
-    let values = [imageId, roomId, gridImage, playersName];
+    console.log('roomId', roomId)
+    console.log('player', playersName)
+    //console.log('grid', gridImage)
+    
+    let sql = "INSERT INTO images (roomId, imageId, playersName, gridImage) VALUES (?, ?, ?, ?)";
+    let values = [roomId, imageId, playersName, gridImage];
 
     connection.query(sql, values, (err, data) => {
         if (err) {
@@ -223,7 +227,7 @@ io.on('connection', function(socket) {
     const randomizeImage = (room) => {
         
         let image = originalImages[Math.floor(Math.random()*originalImages.length)];
-        console.log("Här är vår image", image);
+        // console.log("Här är vår image", image);
 
         io.to(room).emit('randomImage', image)
 
@@ -294,11 +298,12 @@ io.on('connection', function(socket) {
     //finish button
     socket.on('finishBtnClicked', () => {
         userClickCount = (userClickCount % 4) + 1 ;
+        console.log(userClickCount)
 
         io.emit('updateClickCount', userClickCount);
 
         if (userClickCount === 4) {
-            io.emit('changeBackgroundColor');
+            socket.emit('changeBackgroundColor');
         }
     })
 
