@@ -1,5 +1,5 @@
 import { loginForm, printLogInForm } from "./printLogin";
-import { printHomePage } from "./printHomePage.js";
+import { homepageDiv, printHomePage } from "./printHomePage.js";
 
 
 export function printCreateUserForm() {
@@ -52,7 +52,7 @@ export function printCreateUserForm() {
        })
        .then(res => res.json())
        .then(data => {
-           
+            homepageDiv.innerHTML = '';
             localStorage.setItem("user", JSON.stringify(data));
             app.innerHTML = "";
             printHomePage()

@@ -3,8 +3,7 @@ import { logOutBtn } from "./printLogoutBtn";
 import { gsap } from 'gsap'
 import { homepageDiv } from './printHomePage';
 import { printPreviewPage } from './printPreviewPage';
-import { colors } from './printPaintOnGrid.js';
-import { getColorStringFromValue } from './printPaintOnGrid.js';
+import { paintAndPrintImage } from './originalImages';
 
 export let instructionsDivText = document.createElement('div');
 instructionsDivText.setAttribute('class', 'instructions-div-text');
@@ -39,39 +38,10 @@ export function printWaitingForPlayers(roomInput) {
   const user = JSON.parse(localStorage.getItem('user'));
   singleUser = user.find((user) => user.userId);
 
-  let userColor = assignedUserColor(singleUser.userId);
-  colorAssigned.textContent = `Your assigned colour is: ${getColorStringFromValue(userColor)}`;
-
-  let waitingTime = document.createElement('p');
-  waitingTime.textContent = `you have waited in 00:00`;
-
-  let loadingAnimation = document.createElement('div');
-  loadingAnimation.setAttribute('class', 'loading-div')
-
-  let loadingAnimation2 = document.createElement('div');
-  loadingAnimation2.setAttribute('class', 'loading-div')
-
-  let loadingAnimation3 = document.createElement('div');
-  loadingAnimation3.setAttribute('class', 'loading-div');
-  animateLoading(loadingAnimation, loadingAnimation2, loadingAnimation3)
-
-  let waitingUserFrom = document.createElement('div');
-  waitingUserFrom.setAttribute('class', 'waiting-user-form');
-  waitingUserFrom.appendChild(colorAssigned); 
-
-
-  let circleDiv = document.createElement('div');
-  circleDiv.setAttribute('class', 'circle-div instructionsCircle');
-
-  /*
-    Funktionen för när alla 4 spelare har klickat på knappen
-    Star-Game så kommer man vidare till Preview Image-sidan
-  */
-
-  logOutBtn()
-  instructionsDivText.append( instructionHeading, instructionLeft,instructionRight, waitingUserFrom, circleDiv)
-  app.append(instructionsDivText, loadingAnimation, loadingAnimation2, loadingAnimation3)
-  playersWaiting(instructionRight, roomInput)
+    
+     instructionsDivText.append( instructionHeading, instructionLeft,instructionRight, waitingUserFrom, circleDiv)
+     app.append(instructionsDivText, loadingAnimation, loadingAnimation2, loadingAnimation3)
+     playersWaiting(instructionRight, roomInput)
 }
 
 
@@ -104,11 +74,15 @@ function playersWaiting(instructionsRight, roomInput){
             instructionsRight.textContent += `${user.userName}, `
            
          })
-          // check if 4 is connected and start game
-          if(usersWithName.length === 4){
-            printPreviewPage()
-            console.log('start game');
-          }
+         socket.on('randomImage', (image) => {
+            // check if 4 is connected and start game
+            if(usersWithName.length === 4){
+              printPreviewPage()
+              paintAndPrintImage(image)
+              console.log('start game');
+            }
+         })
+        
         })
     })
   })
@@ -117,7 +91,7 @@ function playersWaiting(instructionsRight, roomInput){
 function assignedUserColor(userId) {
   const index = userId % colors.length;
   return colors[index];
-}
+s}
 
 function animateLoading(loadingAnimation, loadingAnimation2, loadingAnimation3){
   gsap.to(loadingAnimation, {

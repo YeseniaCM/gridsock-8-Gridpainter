@@ -21,7 +21,7 @@ export function startGameBtn(roomInput) {
 
         printWaitingForPlayers(roomInput.value);
         exitGameBtn();
-
+        
         // Call on inside once game starts
         // startGameTimer();
 
