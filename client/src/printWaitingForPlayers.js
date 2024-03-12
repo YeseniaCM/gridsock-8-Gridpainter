@@ -4,6 +4,7 @@ import { gsap } from 'gsap'
 import { homepageDiv } from './printHomePage';
 import { printPreviewPage } from './printPreviewPage';
 import { paintAndPrintImage } from './originalImages';
+import { updateChatList } from './startGameBtn'
 
 export let instructionsDivText = document.createElement('div');
 instructionsDivText.setAttribute('class', 'instructions-div-text');
@@ -95,13 +96,17 @@ function playersWaiting(instructionsRight, roomInput){
          })
          socket.on('randomImage', (image) => {
             // check if 4 is connected and start game
+
             if(usersWithName.length === 4){
               printPreviewPage(roomInput, usersWithName)
               paintAndPrintImage(image)
               console.log('start game');
             }
          })
-        
+        })
+        socket.on("chat", (arg) => {
+          console.log('chatchat', arg)
+          updateChatList(arg);
         })
     })
   })
