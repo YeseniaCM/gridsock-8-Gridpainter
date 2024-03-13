@@ -2,9 +2,11 @@ import io from 'socket.io-client';
 
 import { playersAddingImage } from './PlayerAddingImage';
 import { gridDiv } from './printPaintOnGrid';
+import { updateTimer } from './printPreviewPage.js';
+
+let clickCount = 0;
 
 export function finishBtn(roomInput, usersWithName, uncoloredGrid, image) {
-
 
 
     const socket = io('http://localhost:3000');
@@ -18,41 +20,48 @@ export function finishBtn(roomInput, usersWithName, uncoloredGrid, image) {
     let buttonDesc = document.createElement('p');
     buttonDesc.textContent = "when clicked you will not be able to edit the grid anymore";
 
-    let clickCount = 0;
+    
 
     finishBtn.addEventListener('click', () => {
-
         finishBtn.disabled = true;
-
         buttonDesc.textContent = "waiting for the other players to press finish";
-        
-
+        clickCount++; // Increment clickCount when the button is clicked
         socket.emit('finishBtnClicked');
     })
 
-    socket.on('totalClickCount', (totalClickCount) => {
-        console.log("total click count so far", totalClickCount);
-        if (totalClickCount === 4 && timerInterval) {
-            clearInterval(timerInterval); // Stop the timer
-            // You can add additional logic here if needed
-        }
-    });
+   
 
-    socket.on('totalClickCount', (totalClickCount) => {
-        console.log("total click count so far", totalClickCount);
-        if (totalClickCount === 4) {
-            clearInterval(timerInterval); // Stop the timer
-            // You can add additional logic here if needed
-        }
-    });
+   
+
+
+//     socket.on('totalClickCount', (totalClickCount) => {
+        
+//         if (totalClickCount === 4) {
+//             console.log("2. alla har klickat");
+//         }
+
+
+//     })
+    
+//     socket.on('updateClickCount', (userClickCount) => {
+//         console.log("total click count so far", userClickCount);
+//        if (userClickCount === 4) {
+//            console.log("1. total clickcount", userClickCount);
+//        }
+//    });
+    
+
     
     socket.on('changeBackgroundColor', () => {
-
         gridDiv.innerHTML = '';
         app.innerHTML = '';
         playersAddingImage(roomInput, usersWithName,uncoloredGrid, image)
 
     })
+
+    socket.on('intervalCleared', () => {
+       console.log("intervallet är rensat");
+    });
    
 
     buttonContainer.append(finishBtn, buttonDesc)
@@ -70,8 +79,3 @@ export function finishBtn(roomInput, usersWithName, uncoloredGrid, image) {
 }
 
 
-/*
-socket.on('timerUpdate', ({ minutes, seconds }) => {
-    // Update the timer display with the received minutes and seconds
-});
-*/

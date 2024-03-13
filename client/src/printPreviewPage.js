@@ -81,7 +81,7 @@ let count = 5;
 
 export function updateTimer(time){
  
-        console.log(time);
+      //  console.log(time);
 
         if (!timerContainer) {
             timer.textContent = `${time.room}: ${time.minutes}:${time.seconds}`
