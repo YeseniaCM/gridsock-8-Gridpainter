@@ -1,5 +1,6 @@
 import { finishBtn } from './finishBtn.js';
 import io from 'socket.io-client';
+import { userAssignedColor } from './printWaitingForPlayers.js';
 
 export let gridDiv = document.createElement('div');
 gridDiv.setAttribute('class', 'grid-div');
@@ -7,15 +8,10 @@ gridDiv.setAttribute('class', 'grid-div');
 let colors = [1, 2, 3, 4];
 
 export function printPaintOnGrid(){
-    let userAssignedColor = null;
     gridDiv.innerHTML = '';
     app.innerHTML = '';
     const socket = io('http://localhost:3000');
     console.log('socket connected', socket.connected);
-
-    function updateUserColors(userColors) {
-        colors = userColors;
-    }
 
     socket.on("updatePaintGrid", (arg) => {
         /*if (arg.color === userAssignedColor) {
@@ -27,14 +23,9 @@ export function printPaintOnGrid(){
         
     })
 
-    socket.on('updateUserColors', (userColors) => {
-        updateUserColors(userColors);
-    })
-
     function updateGridCell(gridCell) {
         const { x, y, color } = gridCell;
         coloredPixel(x, y, unColouredGrid, color);
-        //console.log("updated grid", updatedGrid);
     }
 
     let unColouredGrid = [
@@ -55,13 +46,14 @@ export function printPaintOnGrid(){
         [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     ]
 
-    createGridDrawing(unColouredGrid, gridDiv, socket, userAssignedColor)
+    createGridDrawing(unColouredGrid, gridDiv, socket)
     app.appendChild(gridDiv);
+    console.log(userAssignedColor);
     finishBtn();
     console.log(gridDiv)
 }
  
-function createGridDrawing(unColouredGrid, gridDiv, socket, userAssignedColor){
+function createGridDrawing(unColouredGrid, gridDiv, socket){
 
     let rows = 15;
     let columns = 15;
@@ -78,66 +70,51 @@ function createGridDrawing(unColouredGrid, gridDiv, socket, userAssignedColor){
 
             gridDiv.append(pixel);
 
-            
-
+        
             pixel.addEventListener('click', () => {
-                /*if (colors[currentColorIndex] === userAssignedColor) {
-                   
-                }*/
-
-                currentColorIndex = (currentColorIndex + 1) % colors.length;
-                coloredPixel(x, y, unColouredGrid, colors[currentColorIndex]);
-
-                socket.emit('gridCellClicked', { x, y, color: colors[currentColorIndex]});
-                console.log(pixel.style.backgroundColor);
                 
+                //userAssignedColor = (userAssignedColor + 1) % colors.length;
+                //userAssignedColor = currentColorIndex;
+                //coloredPixel(x, y, unColouredGrid, colors[userAssignedColor], userAssignedColor);
+                coloredPixel(x, y, unColouredGrid, colors);
+                //coloredPixel(x, y, unColouredGrid, colors);
+
+                socket.emit('gridCellClicked', { x, y, color: userAssignedColor});
+                socket.emit('gridCellClicked', { x, y, color: colors[currentColorIndex]});
+                console.log(currentColorIndex);
+                console.log(userAssignedColor);
             })    
         }
     }
 }
 
-function coloredPixel(x,y, unColouredGrid, color){
+function coloredPixel(x,y, unColouredGrid, color, userAssignedColor){
 
     unColouredGrid[x][y] = color;
 
     const pixel = gridDiv.querySelector(`.pixel:nth-child(${x * 15 + y + 1})`);
-
-    pixel.style.backgroundColor = getColorStringFromValue(colorClasses);
+    
+    pixel.style.backgroundColor = getColorStringFromValue(userAssignedColor);
     console.log('x', x);
     console.log('y', y);
+    console.log(color);
     console.log(unColouredGrid[x][y]);
-    console.log(unColouredGrid);
+    console.log(userAssignedColor);
 
     console.log(pixel.style.backgroundColor);
+    
 }
 
-const colorClasses = [
-    'colorOne',
-    'colorTwo',
-    'colorThree',
-    'colorFour'
-]
 
-/*
 export function getColorStringFromValue(value) {
     switch (value) {
         case 1:
-            return 'colorOne';
+            return '#ff0000';
         case 2:
-            return 'colorTwo';
+            return '#1500ff';
         case 3:
-            return 'colorThree';
+            return '#1eff00';
         case 4:
-            return 'colorFour';
-    }
-}
-*/
-
-export function getColorStringFromValue(value) {
-    // Ensure the value is within the valid range
-    if (value >= 1 && value <= colorClasses.length) {
-        return colorClasses[value - 1];
-    } else {
-        throw new Error(`Invalid value: ${value}`);
+            return '#fff200';
     }
 }

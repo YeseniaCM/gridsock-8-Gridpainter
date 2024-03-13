@@ -287,6 +287,11 @@ io.on('connection', function(socket) {
         io.emit("updatePaintGrid", arg);
     })
 
+    //coloring
+    socket.on('assignedColor', (userAssignedColor) => {
+        //console.log(userAssignedColor);
+        io.emit('assignedColor', (userAssignedColor));
+    })
     //finish button
     socket.on('finishBtnClicked', () => {
         userClickCount = (userClickCount % 4) + 1 ;

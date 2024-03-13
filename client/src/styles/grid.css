@@ -26,22 +26,22 @@
 .colorZero{
   background-color: #ffffff;
 }
-.colorOne
+.RED
 {
-  background-color: #565676;
+  background-color: #ff0000;
 }
 
-  .colorTwo
+.BLUE
 {
-  background-color: #aeadf0;
+  background-color: #1500ff;
 }
-  .colorThree
+  .GREEN
 {
-  background-color: #63b0cd;
+  background-color: #1eff00;
 }
-  .colorFour 
+  .YELLOW
 {
-  background-color: #e9d2f4;
+  background-color: #fff200;
 }
 /* 
   .pixel {

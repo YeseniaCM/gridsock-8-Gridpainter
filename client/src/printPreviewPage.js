@@ -45,7 +45,7 @@ function countdownFrom(headingStartGameTime,room) {
             app.innerHTML = '';
             gridDiv.innerHTML ='';
             printPaintOnGrid()
-            printchat(room);
+            //printchat(room);
             console.log("Countdown finished!"); 
         }
     }

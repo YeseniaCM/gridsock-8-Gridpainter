@@ -9,6 +9,9 @@ import { updateChatList } from './startGameBtn'
 export let instructionsDivText = document.createElement('div');
 instructionsDivText.setAttribute('class', 'instructions-div-text');
 
+export let colorAssigned = document.createElement('span');
+export let userAssignedColor = null;
+
 export function printWaitingForPlayers(roomInput) {
   
   app.innerHTML = '';
@@ -31,9 +34,6 @@ export function printWaitingForPlayers(roomInput) {
   let instructionRight = document.createElement('p');
   instructionRight.setAttribute('class', 'instruction-text instructionRight');
   instructionRight.textContent = 'Players joined: '; // ${user} ska in och hur många spelare som man väntar på
-
-  let colorAssigned = document.createElement('p');
-  colorAssigned.textContent = `Your assigned colour is: userColor`;
 
   let waitingTime = document.createElement('p');
   waitingTime.textContent = `you have waited in 00:00`;
@@ -69,12 +69,11 @@ function playersWaiting(instructionsRight, roomInput){
   let singleUser = user.find(user => user.userId)
 
   const colorClasses = [
-    'colorOne',
-    'colorTwo',
-    'colorThree',
-    'colorFour'
+    1,
+    2,
+    3,
+    4
   ]
-
 
   fetch('http://localhost:3000/users/' + singleUser.userId)
   .then(res => res.json())
@@ -88,23 +87,53 @@ function playersWaiting(instructionsRight, roomInput){
           console.log(roomArg);
         })
 
+        let initialUserJoined = false;
         socket.on('playerConnected', (usersWithName) => {
+          instructionsRight.textContent = `Room: ${roomInput}, Connected users:`
+          
+          //assign color to user
           usersWithName.forEach((user, index) => {
-            const userColorClass = colorClasses[index % colorClasses.length];
+            const userColorClass = colorClasses[index % colorClasses.length]
+            console.log(userColorClass);
             instructionsRight.innerHTML += `<span class="${userColorClass}">${user.userName}<span>`;
+
+            if (user.userName === singleUser.userName && !initialUserJoined) {
+              let userAssignedColor;
+              if (userColorClass === 1) {
+                userAssignedColor = '#565676';
+                colorAssigned.innerHTML = `Your assigned color is <span class="Dark Purple">${userAssignedColor}<span>`
+                socket.emit('assignedColor', {userName: user.userName, userAssignedColor});
+              } else if (userColorClass === 2) {
+                userAssignedColor = '#aeadf0';
+                colorAssigned.innerHTML = `Your assigned color is <span class="Light Purple">${userAssignedColor}<span>`
+                socket.emit('assignedColor', {userName: user.userName, userAssignedColor});
+              }else if (userColorClass === 3) {
+                userAssignedColor = '#63b0cd';
+                colorAssigned.innerHTML = `Your assigned color is <span class="Baby Blue">${userAssignedColor}<span>`
+                socket.emit('assignedColor', {userName: user.userName, userAssignedColor});
+              }else if (userColorClass === 4) {
+                userAssignedColor = '#e9d2f4';
+                colorAssigned.innerHTML = `Your assigned color is <span class="Pink">${userAssignedColor}<span>`
+                socket.emit('assignedColor', {userName: user.userName, userAssignedColor});
+              }
+              
+            }
   
             socket.emit('userColor', {userName: user.userName, userColorClass });
-  
-            socket.emit('assignedColor', {userName: user.userName, userColorClass});
+
+            console.log(userColorClass);
+
           })
-         socket.on('randomImage', (image) => {
+          initialUserJoined = true;
+
+          socket.on('randomImage', (image) => {
             // check if 4 is connected and start game
-            if(usersWithName.length === 2){
+            if(usersWithName.length === 4){
               printPreviewPage(roomInput)
               paintAndPrintImage(image);
               console.log('start game');
             }
-         })
+          })
         })
         socket.on("chat", (arg) => {
           console.log('chatchat', arg)
