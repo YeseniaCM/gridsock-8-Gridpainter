@@ -322,10 +322,10 @@ socket.on('timer', (arg) => {
 
     //coloring
     socket.on('assignedColor', (userAssignedColor, userColorClasses) => {
-        
+        console.log('angiven färg', userAssignedColor);
+        console.log('färger', userColorClasses);
         io.emit('assignedColor', (userAssignedColor, userColorClasses));
-        console.log(userAssignedColor);
-        console.log(userColorClasses);
+        
     })
     //finish button
     socket.on('finishBtnClicked', () => {

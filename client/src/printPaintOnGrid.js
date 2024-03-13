@@ -14,14 +14,14 @@ export function printPaintOnGrid(roomInput, usersWithName, image){
     console.log('socket connected', socket.connected);
 
     socket.on("updatePaintGrid", (arg) => {
-        console.log("socket", arg);
+        //console.log("socket", arg);
         updateGridCell(arg);
         
     })
 
     function updateGridCell(gridCell) {
-        const { x, y, color, userAssignedColor } = gridCell;
-        coloredPixel(x, y, unColouredGrid, color, userAssignedColor);
+        const { x, y, color } = gridCell;
+        coloredPixel(x, y, unColouredGrid, color);
     }
 
     let unColouredGrid = [
@@ -42,13 +42,13 @@ export function printPaintOnGrid(roomInput, usersWithName, image){
         [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     ]
 
- createGridDrawing(unColouredGrid, gridDiv, socket, userAssignedColor)
+ createGridDrawing(unColouredGrid, gridDiv, socket)
  app.appendChild(gridDiv);
  finishBtn(roomInput, usersWithName, unColouredGrid, image);
  console.log(gridDiv)
 }
  
-function createGridDrawing(unColouredGrid, gridDiv, socket, userAssignedColor){
+function createGridDrawing(unColouredGrid, gridDiv, socket, color){
 
     let rows = 15;
     let columns = 15;
@@ -71,11 +71,11 @@ function createGridDrawing(unColouredGrid, gridDiv, socket, userAssignedColor){
                 //userAssignedColor = (userAssignedColor + 1) % colors.length;
                 //userAssignedColor = currentColorIndex;
                 //coloredPixel(x, y, unColouredGrid, colors[userAssignedColor], userAssignedColor);
-                coloredPixel(x, y, unColouredGrid, colors, userAssignedColor);
-                //coloredPixel(x, y, unColouredGrid, colors);
+                //coloredPixel(x, y, unColouredGrid, colors, userAssignedColor);
+                coloredPixel(x, y, unColouredGrid, color);
                 const userColorClass = colors[currentColorIndex % colors.length]
                 //socket.emit('gridCellClicked', { x, y, color: userAssignedColor});
-                socket.emit('gridCellClicked', { x, y, userAssignedColor, color: userColorClass});
+                socket.emit('gridCellClicked', { x, y, unColouredGrid, userAssignedColor, color: userColorClass});
                 console.log(currentColorIndex);
                 console.log(userAssignedColor);
             })    
@@ -83,20 +83,20 @@ function createGridDrawing(unColouredGrid, gridDiv, socket, userAssignedColor){
     }
 }
 
-function coloredPixel(x,y, color, userAssignedColor){
+function coloredPixel(x, y,unColouredGrid, color){
 
-    //unColouredGrid[x][y] = color;
-    userAssignedColor = color;
+    unColouredGrid[x][y] = color;
+    //userAssignedColor = color;
 
     const pixel = gridDiv.querySelector(`.pixel:nth-child(${x * 15 + y + 1})`);
     
-    pixel.style.backgroundColor = getColorStringFromValue(userAssignedColor);
-    //console.log('x', x);
-    //console.log('y', y);
-    //console.log(color);
+    pixel.style.backgroundColor = getColorStringFromValue(color);
+    console.log('x', x);
+    console.log('y', y);
+    console.log(color);
     //console.log(unColouredGrid[x][y]);
     //console.log(userAssignedColor);
-    //console.log(pixel.style.backgroundColor);
+    console.log(pixel.style.backgroundColor);
     
 }
 

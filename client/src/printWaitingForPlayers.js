@@ -89,6 +89,12 @@ function playersWaiting(instructionsRight, roomInput){
         })
 
         let initialUserJoined = false;
+        let userAssignedColor = localStorage.getItem('userAssignedColor');
+        if (!userAssignedColor) {
+          userAssignedColor = colorClasses[Math.floor(Math.random() * colorClasses.length)]
+          localStorage.setItem('userAssignedColor', userAssignedColor);
+        }
+        
         socket.on('playerConnected', (usersWithName) => {
           instructionsRight.textContent = `Room: ${roomInput}, Connected users:`
           //localStorage.setItem(colorClasses, '');
@@ -97,12 +103,14 @@ function playersWaiting(instructionsRight, roomInput){
           usersWithName.forEach((user, index) => {
             const userColorClass = colorClasses[index % colorClasses.length]
             console.log(index);
-            //console.log(userColorClass);
+            console.log(userColorClass);
             instructionsRight.innerHTML += `<span class="${userColorClass}">${user.userName}<span>`;
+            colorAssigned.innerHTML = `Your assigned color is <span class="${userAssignedColor}">${userAssignedColor}</span>`;
+            socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor, userColorClass})
 
             /*
             if (user.userName === singleUser.userName && !initialUserJoined) {
-              let userAssignedColor = localStorage.setItem(colorClasses, '');
+              
               if (localStorage.getItem(userAssignedColor) === 1) {
                 colorClasses = '#565676';
                 colorAssigned.innerHTML = `Your assigned color is <span class="Dark Purple">${userAssignedColor}<span>`
@@ -123,6 +131,7 @@ function playersWaiting(instructionsRight, roomInput){
               
             }
             */
+            /*
             if (user.userName === singleUser.userName && !initialUserJoined) {
               let userAssignedColor = localStorage.setItem(colorClasses, '');
               if (localStorage.getItem(userAssignedColor) === 1) {
@@ -144,6 +153,7 @@ function playersWaiting(instructionsRight, roomInput){
               }
               
             }
+            */
   
             socket.emit('userColor', {userName: user.userName, userColorClass });
 
