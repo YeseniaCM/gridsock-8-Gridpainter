@@ -329,14 +329,14 @@ socket.on('timer', (arg) => {
     })
     //finish button
     socket.on('finishBtnClicked', () => {
-        userClickCount = (userClickCount % 4) + 1 ;
+        userClickCount = (userClickCount % 2) + 1 ;
         console.log(userClickCount)
 
         io.emit('updateClickCount', userClickCount);
 
         io.emit('totalClickCount', userClickCount);
 
-        if (userClickCount === 4) {
+        if (userClickCount === 2) {
 
             socket.emit('changeBackgroundColor');
 

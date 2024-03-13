@@ -23,26 +23,26 @@
   }
 
 /* Original Images style */
-.colorZero{
+.colorZero {
   background-color: #ffffff;
 }
-.RED
-{
-  background-color: #ff0000;
+
+.colorOne {
+  background-color: #565676;
 }
 
-.BLUE
-{
-  background-color: #1500ff;
+.colorTwo {
+  background-color: #aeadf0;
 }
-  .GREEN
-{
-  background-color: #1eff00;
+
+.colorThree {
+  background-color: #63b0cd;
 }
-  .YELLOW
-{
-  background-color: #fff200;
+
+.colorFour {
+  background-color: #e9d2f4;
 }
+
 /* 
   .pixel {
     width: 20px;
@@ -54,3 +54,7 @@
     cursor: pointer;
   }
 */
+
+
+
+

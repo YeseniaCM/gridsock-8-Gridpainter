@@ -5,7 +5,6 @@ import { userAssignedColor } from './printWaitingForPlayers.js';
 export let gridDiv = document.createElement('div');
 gridDiv.setAttribute('class', 'grid-div');
 
-let colors = [1, 2, 3, 4];
 
 export function printPaintOnGrid(roomInput, usersWithName, image){
     gridDiv.innerHTML = '';
@@ -14,14 +13,16 @@ export function printPaintOnGrid(roomInput, usersWithName, image){
     console.log('socket connected', socket.connected);
 
     socket.on("updatePaintGrid", (arg) => {
-        //console.log("socket", arg);
         updateGridCell(arg);
         
     })
 
     function updateGridCell(gridCell) {
-        const { x, y, color } = gridCell;
-        coloredPixel(x, y, unColouredGrid, color);
+        console.log('gridcell', gridCell)
+     
+        const { x, y, color} = gridCell;
+
+        coloredPixel(x, y, unColouredGrid, Number(color));
     }
 
     let unColouredGrid = [
@@ -54,62 +55,81 @@ function createGridDrawing(unColouredGrid, gridDiv, socket, color){
     let columns = 15;
 
     
-    let currentColorIndex = 0;
+
 
     
     for(let x = 0; x < rows; x++) {
 
         for(let y = 0; y < columns; y++) {
             const pixel = document.createElement('div');
-            pixel.className = 'pixel';
+            pixel.classList.add('pixel')
 
             gridDiv.append(pixel);
 
         
             pixel.addEventListener('click', () => {
                 
-                //userAssignedColor = (userAssignedColor + 1) % colors.length;
-                //userAssignedColor = currentColorIndex;
-                //coloredPixel(x, y, unColouredGrid, colors[userAssignedColor], userAssignedColor);
-                //coloredPixel(x, y, unColouredGrid, colors, userAssignedColor);
-                coloredPixel(x, y, unColouredGrid, color);
-                const userColorClass = colors[currentColorIndex % colors.length]
-                //socket.emit('gridCellClicked', { x, y, color: userAssignedColor});
-                socket.emit('gridCellClicked', { x, y, unColouredGrid, userAssignedColor, color: userColorClass});
-                console.log(currentColorIndex);
-                console.log(userAssignedColor);
+                
+                const storedColor = localStorage.getItem('userAssignedColor');
+                
+
+                //const userColorClass = colors[currentColorIndex % colors.length]
+               
+                socket.emit('gridCellClicked', { x, y, unColouredGrid, color: storedColor});
+
+             
+
+                coloredPixel(x, y, unColouredGrid, storedColor,pixel);
             })    
         }
     }
 }
 
-function coloredPixel(x, y,unColouredGrid, color){
+function coloredPixel(x, y,unColouredGrid, storedColor, pixel){
 
-    unColouredGrid[x][y] = color;
-    //userAssignedColor = color;
-
-    const pixel = gridDiv.querySelector(`.pixel:nth-child(${x * 15 + y + 1})`);
+   pixel = gridDiv.querySelector(`.pixel:nth-child(${x * 15 + y + 1})`);
+   unColouredGrid[x][y] = storedColor;
+  
+    console.log('stored colour', storedColor)
+    if(storedColor == 1){
+        console.log('kommer vi hit ?')
+        pixel.classList.add('colorOne')
+       } else if(storedColor == 2){
+        pixel.classList.add('colorTwo')
+       } else if(storedColor == 3){
+        pixel.classList.add('colorThree')
+       } else if(storedColor == 4){
+        pixel.classList.add('colorFour')
+       }
     
-    pixel.style.backgroundColor = getColorStringFromValue(color);
+    
+ 
+
+    
+
+    
+  
+
     console.log('x', x);
     console.log('y', y);
-    console.log(color);
-    //console.log(unColouredGrid[x][y]);
-    //console.log(userAssignedColor);
-    console.log(pixel.style.backgroundColor);
     
+
 }
 
+/*
+export function getColorStringFromValue(value, paintwith) {
+   console.log('value', value)
+   
 
-export function getColorStringFromValue(value) {
+   
+   /*
     switch (value) {
         case 1:
-            return '#ff0000';
+         
         case 2:
-            return '#1500ff';
+         paintwith =  'blue';
         case 3:
-            return '#1eff00';
+            '#1eff00';
         case 4:
-            return '#fff200';
-    }
-}
+            '#fff200';
+    }*/

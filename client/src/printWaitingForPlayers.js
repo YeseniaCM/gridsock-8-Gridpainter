@@ -88,7 +88,7 @@ function playersWaiting(instructionsRight, roomInput){
           console.log(roomArg);
         })
 
-        let initialUserJoined = false;
+      
         let userAssignedColor = localStorage.getItem('userAssignedColor');
         if (!userAssignedColor) {
           userAssignedColor = colorClasses[Math.floor(Math.random() * colorClasses.length)]
@@ -97,75 +97,29 @@ function playersWaiting(instructionsRight, roomInput){
         
         socket.on('playerConnected', (usersWithName) => {
           instructionsRight.textContent = `Room: ${roomInput}, Connected users:`
-          //localStorage.setItem(colorClasses, '');
+         
           
           //assign color to user
           usersWithName.forEach((user, index) => {
             const userColorClass = colorClasses[index % colorClasses.length]
-            console.log(index);
-            console.log(userColorClass);
+            
+         
             instructionsRight.innerHTML += `<span class="${userColorClass}">${user.userName}<span>`;
             colorAssigned.innerHTML = `Your assigned color is <span class="${userAssignedColor}">${userAssignedColor}</span>`;
             socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor, userColorClass})
 
-            /*
-            if (user.userName === singleUser.userName && !initialUserJoined) {
-              
-              if (localStorage.getItem(userAssignedColor) === 1) {
-                colorClasses = '#565676';
-                colorAssigned.innerHTML = `Your assigned color is <span class="Dark Purple">${userAssignedColor}<span>`
-                socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor, userColorClass});
-              } else if (localStorage.getItem(colorClasses) === 2) {
-                userAssignedColor = '#aeadf0';
-                colorAssigned.innerHTML = `Your assigned color is <span class="Light Purple">${userAssignedColor}<span>`
-                socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor, userColorClass});
-              }else if (localStorage.getItem(colorClasses) === 3) {
-                userAssignedColor = '#63b0cd';
-                colorAssigned.innerHTML = `Your assigned color is <span class="Baby Blue">${userAssignedColor}<span>`
-                socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor, userColorClass});
-              }else if (localStorage.getItem(colorClasses) === 4) {
-                userAssignedColor = '#e9d2f4';
-                colorAssigned.innerHTML = `Your assigned color is <span class="Pink">${userAssignedColor}<span>`
-                socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor, userColorClass});
-              }
-              
-            }
-            */
-            /*
-            if (user.userName === singleUser.userName && !initialUserJoined) {
-              let userAssignedColor = localStorage.setItem(colorClasses, '');
-              if (localStorage.getItem(userAssignedColor) === 1) {
-                colorClasses = '#565676';
-                colorAssigned.innerHTML = `Your assigned color is <span class="Dark Purple">${userAssignedColor}<span>`
-                socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor, userColorClass});
-              } else if (localStorage.getItem(userAssignedColor) === 2) {
-                colorClasses = '#aeadf0';
-                colorAssigned.innerHTML = `Your assigned color is <span class="Light Purple">${userAssignedColor}<span>`
-                socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor, userColorClass});
-              }else if (localStorage.getItem(userAssignedColor) === 3) {
-                colorClasses= '#63b0cd';
-                colorAssigned.innerHTML = `Your assigned color is <span class="Baby Blue">${userAssignedColor}<span>`
-                socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor, userColorClass});
-              }else if (localStorage.getItem(userAssignedColor) === 4) {
-                colorClasses = '#e9d2f4';
-                colorAssigned.innerHTML = `Your assigned color is <span class="Pink">${userAssignedColor}<span>`
-                socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor, userColorClass});
-              }
-              
-            }
-            */
   
             socket.emit('userColor', {userName: user.userName, userColorClass });
 
-            console.log(userColorClass);
+           
 
           })
-          initialUserJoined = true;
+       
 
           socket.on('randomImage', (image) => {
             // check if 4 is connected and start game
 
-            if(usersWithName.length === 4){
+            if(usersWithName.length === 2){
               printPreviewPage(roomInput, usersWithName, image)
               paintAndPrintImage(image)
               console.log('start game');

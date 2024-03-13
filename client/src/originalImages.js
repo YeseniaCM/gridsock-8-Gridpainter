@@ -21,13 +21,13 @@ export function paintAndPrintImage(image) {
             if (image[x][y] === 0) {
                 pixel.classList.add('colorZero');
             } else if (image[x][y] === 1) {
-                pixel.classList.add('RED');
+                pixel.classList.add('colorOne');
             } else if (image[x][y] === 2) {
-                pixel.classList.add('BLUE');
+                pixel.classList.add('colorTwo');
             } else if (image[x][y] === 3) {
-                pixel.classList.add('GREEN');
+                pixel.classList.add('colorThree');
             } else if (image[x][y] === 4) {
-                pixel.classList.add('YELLOW');
+                pixel.classList.add('colorFour');
             }
 
             originalImageContainer.appendChild(pixel);
