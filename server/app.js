@@ -35,6 +35,7 @@ app.get('/', (req, res) => {
 let connectedUsers = {} // array för connected user
 let userNames = {};
 let userClickCount = 0;
+let intervalId;
 /* GET all images*/
 app.get('/images', function(req, res) {
     connection.connect((err)=> {
@@ -269,24 +270,25 @@ io.on('connection', function(socket) {
         }
     })
 
-
+    
 
 socket.on('timer', (arg) => {
     if (arg.message === 'start timer') {
         
         let distance = 10 * 60 * 1000; 
 
-        let intervalId = setInterval(() => {
+        intervalId = setInterval(() => {
         let minutes = Math.floor(distance / (1000 * 60));
         let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             if (distance <= 0) {
-                clearInterval(intervalId);
+                setTimeout(intervalId);
             } else {
                 distance -= 1000;
             }
 
             io.in(arg.room).emit('timerUpdate', { room: arg.room,minutes: minutes,seconds: seconds });
+           
 
             console.log("what room is this", arg.room, { minutes, seconds });
         }, 1000);
@@ -333,21 +335,28 @@ socket.on('timer', (arg) => {
     //finish button
     socket.on('finishBtnClicked', () => {
         userClickCount = (userClickCount % 4) + 1 ;
-        console.log(userClickCount)
+        console.log("this is the total clickCount", userClickCount)
 
-        io.emit('updateClickCount', userClickCount);
-
-        io.emit('totalClickCount', userClickCount);
+      // io.emit('totalClickCount', userClickCount);
 
         if (userClickCount === 4) {
+            console.log('Clearing interval with ID:', intervalId);
 
             socket.emit('changeBackgroundColor');
+             clearInterval(intervalId);
+            
 
-        }
+            socket.emit('intervalCleared');
+
+            // intervalId = null;
+            console.log("What is this", intervalId);
+            
+        }   
     })
 
     socket.on("disconnect", function () {
         console.log("Användare frånkopplad");
+        
         
     })
 })
