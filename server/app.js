@@ -261,7 +261,7 @@ io.on('connection', function(socket) {
     })
 
 
-
+/*
 socket.on('timer', (arg) => {
     if (arg.message === 'start timer') {
         console.log("hej hej hejhejejhej");
@@ -283,7 +283,7 @@ socket.on('timer', (arg) => {
         }, 1000);
     }
 });
-
+*/
 
 
 

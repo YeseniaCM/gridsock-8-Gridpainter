@@ -20,8 +20,8 @@ export function printPaintOnGrid(roomInput, usersWithName, image){
     })
 
     function updateGridCell(gridCell) {
-        const { x, y, color } = gridCell;
-        coloredPixel(x, y, unColouredGrid, color, userAssignedColor);
+        const { x, y, color, userColorClass } = gridCell;
+        coloredPixel(x, y, unColouredGrid, color, userAssignedColor, userColorClass);
     }
 
     let unColouredGrid = [
@@ -85,8 +85,7 @@ function createGridDrawing(unColouredGrid, gridDiv, socket){
 
 function coloredPixel(x,y, unColouredGrid, color, userAssignedColor){
 
-    //unColouredGrid[x][y] = color;
-    userAssignedColor = color;
+    unColouredGrid[x][y] = color;
 
     const pixel = gridDiv.querySelector(`.pixel:nth-child(${x * 15 + y + 1})`);
     
