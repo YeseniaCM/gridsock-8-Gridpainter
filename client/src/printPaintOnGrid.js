@@ -7,7 +7,7 @@ export let gridDiv = document.createElement('div');
 gridDiv.setAttribute('class', 'grid-div');
 
 
-export function printPaintOnGrid(roomInput, usersWithName){
+export function printPaintOnGrid(roomInput, usersWithName, image){
     gridDiv.innerHTML = '';
     app.innerHTML = '';
     const socket = io('http://localhost:3000');
@@ -47,7 +47,7 @@ export function printPaintOnGrid(roomInput, usersWithName){
 
  createGridDrawing(unColouredGrid, gridDiv, socket)
  app.appendChild(gridDiv);
- finishBtn(roomInput, usersWithName, unColouredGrid);
+ finishBtn(roomInput, usersWithName, unColouredGrid, image);
  console.log(gridDiv)
 }
 
@@ -89,10 +89,10 @@ function coloredPixel(x,y, unColouredGrid, color){
     const pixel = gridDiv.querySelector(`.pixel:nth-child(${x * 15 + y + 1})`);
 
     pixel.style.backgroundColor = getColorStringFromValue(color);
-    console.log('x', x);
-    console.log('y', y);
-    console.log(unColouredGrid[x][y]);
-    console.log(unColouredGrid);
+    // console.log('x', x);
+    // console.log('y', y);
+    // console.log(unColouredGrid[x][y]);
+    // console.log(unColouredGrid);
 
     console.log(pixel.style.backgroundColor);
 }

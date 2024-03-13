@@ -1,7 +1,9 @@
 import io from 'socket.io-client';
 import { playersAddingImage } from './PlayerAddingImage';
+import { gridDiv } from './printPaintOnGrid';
 
-export function finishBtn(roomInput, usersWithName, uncoloredGrid) {
+
+export function finishBtn(roomInput, usersWithName, uncoloredGrid, image) {
 
 
     const socket = io('http://localhost:3000');
@@ -33,7 +35,9 @@ export function finishBtn(roomInput, usersWithName, uncoloredGrid) {
     
     socket.on('changeBackgroundColor', () => {
         document.body.style.backgroundColor = "red";
-        playersAddingImage(roomInput, usersWithName,uncoloredGrid)
+        gridDiv.innerHTML = '';
+        app.innerHTML = '';
+        playersAddingImage(roomInput, usersWithName,uncoloredGrid, image)
     })
 
     buttonContainer.append(finishBtn, buttonDesc)
