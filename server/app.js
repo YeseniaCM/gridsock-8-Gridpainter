@@ -297,12 +297,12 @@ io.on('connection', function(socket) {
 
     //finish button
     socket.on('finishBtnClicked', () => {
-        userClickCount = (userClickCount % 1) + 1 ;
+        userClickCount = (userClickCount % 4) + 1 ;
         console.log(userClickCount)
 
         io.emit('updateClickCount', userClickCount);
 
-        if (userClickCount === 1) {
+        if (userClickCount === 4) {
             socket.emit('changeBackgroundColor');
         }
     })
