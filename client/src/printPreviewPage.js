@@ -8,7 +8,11 @@ import io from 'socket.io-client';
 
 export let headingStartGameDiv = document.createElement('div');
 
-export function printPreviewPage(roomInput, usersWithName){
+
+
+export function printPreviewPage(roomInput, usersWithName, image){
+
+
 
     app.innerHTML = '';
      homepageDiv.innerHTML = '';
@@ -27,16 +31,20 @@ export function printPreviewPage(roomInput, usersWithName){
     
     // hämta 
 
-    countdownFrom(headingStartGameTime, roomInput, usersWithName)
+
+    countdownFrom(headingStartGameTime, roomInput, usersWithName, image)
     
 
 }
 
 
-function countdownFrom(headingStartGameTime, roomInput, usersWithName) {
+
+
+function countdownFrom(headingStartGameTime, roomInput, usersWithName, image) {
     const socket = io('http://localhost:3000');
-    
-    let count = 5;
+
+let count = 5;
+
     
    
     function updateCount() {
@@ -49,8 +57,10 @@ function countdownFrom(headingStartGameTime, roomInput, usersWithName) {
             headingStartGameDiv.innerHTML = '';
             app.innerHTML = '';
             gridDiv.innerHTML ='';
-            printPaintOnGrid()
-            printchat()
+
+            printPaintOnGrid(roomInput, usersWithName, image)
+            printchat(roomInput)
+
             console.log("Countdown finished!"); 
             
             

@@ -1,8 +1,11 @@
 import io from 'socket.io-client';
-// import { startGameTimer } from './startGameTimer.js';
 
-export function finishBtn() {
-   
+import { playersAddingImage } from './PlayerAddingImage';
+import { gridDiv } from './printPaintOnGrid';
+
+export function finishBtn(roomInput, usersWithName, uncoloredGrid, image) {
+
+
 
     const socket = io('http://localhost:3000');
 
@@ -22,7 +25,7 @@ export function finishBtn() {
         finishBtn.disabled = true;
 
         buttonDesc.textContent = "waiting for the other players to press finish";
-        console.log(clickCount);
+        
 
         socket.emit('finishBtnClicked');
     })
@@ -44,8 +47,11 @@ export function finishBtn() {
     });
     
     socket.on('changeBackgroundColor', () => {
-        document.body.style.backgroundColor = "red";
-        
+
+        gridDiv.innerHTML = '';
+        app.innerHTML = '';
+        playersAddingImage(roomInput, usersWithName,uncoloredGrid, image)
+
     })
    
 
