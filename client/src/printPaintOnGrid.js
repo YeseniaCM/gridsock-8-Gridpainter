@@ -20,8 +20,8 @@ export function printPaintOnGrid(roomInput, usersWithName, image){
     })
 
     function updateGridCell(gridCell) {
-        const { x, y, color, userColorClass } = gridCell;
-        coloredPixel(x, y, unColouredGrid, color, userAssignedColor, userColorClass);
+        const { x, y, color, userAssignedColor } = gridCell;
+        coloredPixel(x, y, unColouredGrid, color, userAssignedColor);
     }
 
     let unColouredGrid = [
@@ -42,13 +42,13 @@ export function printPaintOnGrid(roomInput, usersWithName, image){
         [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     ]
 
- createGridDrawing(unColouredGrid, gridDiv, socket)
+ createGridDrawing(unColouredGrid, gridDiv, socket, userAssignedColor)
  app.appendChild(gridDiv);
  finishBtn(roomInput, usersWithName, unColouredGrid, image);
  console.log(gridDiv)
 }
  
-function createGridDrawing(unColouredGrid, gridDiv, socket){
+function createGridDrawing(unColouredGrid, gridDiv, socket, userAssignedColor){
 
     let rows = 15;
     let columns = 15;
@@ -71,7 +71,7 @@ function createGridDrawing(unColouredGrid, gridDiv, socket){
                 //userAssignedColor = (userAssignedColor + 1) % colors.length;
                 //userAssignedColor = currentColorIndex;
                 //coloredPixel(x, y, unColouredGrid, colors[userAssignedColor], userAssignedColor);
-                coloredPixel(x, y, unColouredGrid, colors);
+                coloredPixel(x, y, unColouredGrid, colors, userAssignedColor);
                 //coloredPixel(x, y, unColouredGrid, colors);
                 const userColorClass = colors[currentColorIndex % colors.length]
                 //socket.emit('gridCellClicked', { x, y, color: userAssignedColor});
@@ -83,9 +83,10 @@ function createGridDrawing(unColouredGrid, gridDiv, socket){
     }
 }
 
-function coloredPixel(x,y, unColouredGrid, color, userAssignedColor){
+function coloredPixel(x,y, color, userAssignedColor){
 
-    unColouredGrid[x][y] = color;
+    //unColouredGrid[x][y] = color;
+    userAssignedColor = color;
 
     const pixel = gridDiv.querySelector(`.pixel:nth-child(${x * 15 + y + 1})`);
     

@@ -66,7 +66,7 @@ let count = 5;
             gridDiv.innerHTML ='';
 
             printPaintOnGrid(roomInput, usersWithName, image)
-            printchat(roomInput)
+            //printchat(roomInput)
             
             if (usersWithName.length === 4) {
                 socket.emit('timer', { room: roomInput, message: 'start timer' });

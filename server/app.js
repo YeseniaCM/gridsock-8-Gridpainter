@@ -325,6 +325,7 @@ socket.on('timer', (arg) => {
         
         io.emit('assignedColor', (userAssignedColor, userColorClasses));
         console.log(userAssignedColor);
+        console.log(userColorClasses);
     })
     //finish button
     socket.on('finishBtnClicked', () => {
