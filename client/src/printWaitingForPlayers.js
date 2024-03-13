@@ -131,7 +131,9 @@ function playersWaiting(instructionsRight, roomInput){
             // check if 4 is connected and start game
 
             if(usersWithName.length === 4){
+
               printPreviewPage(roomInput, usersWithName, image)
+
               paintAndPrintImage(image)
               console.log('start game');
             }

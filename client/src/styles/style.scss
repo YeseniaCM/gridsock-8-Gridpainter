@@ -142,20 +142,16 @@ body {
         bottom: 100px;
         right: 300px;
 
-    }
 
+     
+    }
     .timerContainer {
         @include titles;
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-
-        p {
-            margin: 0;
-        }
+        
+        
     }
 
+ 
 
     .instructions-div-text {
         display: flex;
