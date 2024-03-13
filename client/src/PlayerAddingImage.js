@@ -23,7 +23,7 @@ let players = usersWithName.map(user => user.userName)
          })
          .then(res => res.json())
          .then(data => {
-            printResultPage(data, roomInput, image)
+            printResultPage(data, roomInput, image, uncoloredGrid)
          });
 
 

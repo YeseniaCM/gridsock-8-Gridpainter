@@ -6,9 +6,29 @@ import { printchat } from "./startGameBtn";
 export let resultDivText = document.createElement('div');
 resultDivText.setAttribute('class', 'instructions-div-text');
 
-export function printResultPage(data, roomInput, image){
+export function printResultPage(data, roomInput, image, uncoloredGrid){
     // console.log('datan som kommer från playersAddingImage: ', data);
+    console.log('original bild:', image);
+    console.log('jämför med', uncoloredGrid);
 
+
+// Comparing two images
+    let commonElementsCount = 0;
+
+    const totalElements = 15 * 15;
+
+    for (let i = 0; i < 15; i++) {
+        for (let j = 0; j < 15; j++) {
+            
+            if (image[i][j] === uncoloredGrid[i][j] && image[i][j] > 0) {
+                commonElementsCount++;
+            }
+        }
+    }
+
+    const percentageUnFixed = (commonElementsCount / totalElements) * 100;
+    
+    const procentage = percentageUnFixed.toFixed(2) + '%';
     
     printchat(roomInput)
 
@@ -66,7 +86,7 @@ resultHeading.textContent = 'Your result';
 
 let resultLeft = document.createElement('p');
 // resultLeft.setAttribute('class', '');
-resultLeft.textContent = `Correct colors: xx%`;
+resultLeft.textContent = `Correct colors: ${procentage}`;
 
 let resultRight = document.createElement('p');
 // resultRight.setAttribute('class', '');
