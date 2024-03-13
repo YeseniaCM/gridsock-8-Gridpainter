@@ -94,7 +94,8 @@ function playersWaiting(instructionsRight, roomInput){
           //assign color to user
           usersWithName.forEach((user, index) => {
             const userColorClass = colorClasses[index % colorClasses.length]
-            console.log(userColorClass);
+            console.log(index);
+            //console.log(userColorClass);
             instructionsRight.innerHTML += `<span class="${userColorClass}">${user.userName}<span>`;
 
             if (user.userName === singleUser.userName && !initialUserJoined) {
@@ -102,19 +103,19 @@ function playersWaiting(instructionsRight, roomInput){
               if (userColorClass === 1) {
                 userAssignedColor = '#565676';
                 colorAssigned.innerHTML = `Your assigned color is <span class="Dark Purple">${userAssignedColor}<span>`
-                socket.emit('assignedColor', {userName: user.userName, userAssignedColor});
+                socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor, userColorClass});
               } else if (userColorClass === 2) {
                 userAssignedColor = '#aeadf0';
                 colorAssigned.innerHTML = `Your assigned color is <span class="Light Purple">${userAssignedColor}<span>`
-                socket.emit('assignedColor', {userName: user.userName, userAssignedColor});
+                socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor, userColorClass});
               }else if (userColorClass === 3) {
                 userAssignedColor = '#63b0cd';
                 colorAssigned.innerHTML = `Your assigned color is <span class="Baby Blue">${userAssignedColor}<span>`
-                socket.emit('assignedColor', {userName: user.userName, userAssignedColor});
+                socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor, userColorClass});
               }else if (userColorClass === 4) {
                 userAssignedColor = '#e9d2f4';
                 colorAssigned.innerHTML = `Your assigned color is <span class="Pink">${userAssignedColor}<span>`
-                socket.emit('assignedColor', {userName: user.userName, userAssignedColor});
+                socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor, userColorClass});
               }
               
             }

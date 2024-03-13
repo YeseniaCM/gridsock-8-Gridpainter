@@ -221,7 +221,6 @@ io.on('connection', function(socket) {
     const randomizeImage = (room) => {
         
         let image = originalImages[Math.floor(Math.random()*originalImages.length)];
-        console.log("Här är vår image", image);
 
         io.to(room).emit('randomImage', image)
 
@@ -288,9 +287,10 @@ io.on('connection', function(socket) {
     })
 
     //coloring
-    socket.on('assignedColor', (userAssignedColor) => {
-        //console.log(userAssignedColor);
-        io.emit('assignedColor', (userAssignedColor));
+    socket.on('assignedColor', (userAssignedColor, userColorClasses) => {
+        
+        io.emit('assignedColor', (userAssignedColor, userColorClasses));
+        console.log(userAssignedColor);
     })
     //finish button
     socket.on('finishBtnClicked', () => {

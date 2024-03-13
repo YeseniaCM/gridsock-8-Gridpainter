@@ -14,18 +14,14 @@ export function printPaintOnGrid(){
     console.log('socket connected', socket.connected);
 
     socket.on("updatePaintGrid", (arg) => {
-        /*if (arg.color === userAssignedColor) {
-            
-        }*/
-
         console.log("socket", arg);
-            updateGridCell(arg);
+        updateGridCell(arg);
         
     })
 
     function updateGridCell(gridCell) {
         const { x, y, color } = gridCell;
-        coloredPixel(x, y, unColouredGrid, color);
+        coloredPixel(x, y, unColouredGrid, color, userAssignedColor);
     }
 
     let unColouredGrid = [
@@ -78,9 +74,9 @@ function createGridDrawing(unColouredGrid, gridDiv, socket){
                 //coloredPixel(x, y, unColouredGrid, colors[userAssignedColor], userAssignedColor);
                 coloredPixel(x, y, unColouredGrid, colors);
                 //coloredPixel(x, y, unColouredGrid, colors);
-
-                socket.emit('gridCellClicked', { x, y, color: userAssignedColor});
-                socket.emit('gridCellClicked', { x, y, color: colors[currentColorIndex]});
+                const userColorClass = colors[currentColorIndex % colors.length]
+                //socket.emit('gridCellClicked', { x, y, color: userAssignedColor});
+                socket.emit('gridCellClicked', { x, y, userAssignedColor, color: userColorClass});
                 console.log(currentColorIndex);
                 console.log(userAssignedColor);
             })    
@@ -90,7 +86,8 @@ function createGridDrawing(unColouredGrid, gridDiv, socket){
 
 function coloredPixel(x,y, unColouredGrid, color, userAssignedColor){
 
-    unColouredGrid[x][y] = color;
+    //unColouredGrid[x][y] = color;
+    userAssignedColor = color;
 
     const pixel = gridDiv.querySelector(`.pixel:nth-child(${x * 15 + y + 1})`);
     
@@ -100,7 +97,6 @@ function coloredPixel(x,y, unColouredGrid, color, userAssignedColor){
     console.log(color);
     console.log(unColouredGrid[x][y]);
     console.log(userAssignedColor);
-
     console.log(pixel.style.backgroundColor);
     
 }
