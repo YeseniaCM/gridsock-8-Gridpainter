@@ -35,6 +35,8 @@ export function startGameBtn(roomInput) {
 let chatContainer = document.createElement('div');
 
 let chatList = document.createElement('ul');
+
+
 export function printchat(room) {
   chatContainer.innerHTML = '';
     const socket = io('http://localhost:3000');

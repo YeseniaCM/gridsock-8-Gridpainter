@@ -264,7 +264,7 @@ io.on('connection', function(socket) {
 /*
 socket.on('timer', (arg) => {
     if (arg.message === 'start timer') {
-        console.log("hej hej hejhejejhej");
+        
         let distance = 10 * 60 * 1000; 
 
         let intervalId = setInterval(() => {
@@ -277,7 +277,7 @@ socket.on('timer', (arg) => {
                 distance -= 1000;
             }
 
-            io.emit('timerUpdate', { room: arg.room, minutes, seconds });
+            io.in(arg.room).emit('timerUpdate', { room: arg.room,minutes: minutes,seconds: seconds });
 
             console.log("what room is this", arg.room, { minutes, seconds });
         }, 1000);

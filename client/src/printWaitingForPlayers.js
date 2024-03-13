@@ -2,9 +2,10 @@ import io from 'socket.io-client';
 import { logOutBtn } from "./printLogoutBtn";
 import { gsap } from 'gsap'
 import { homepageDiv } from './printHomePage';
-import { printPreviewPage } from './printPreviewPage';
+import { printPreviewPage, updateTimer } from './printPreviewPage';
 import { paintAndPrintImage } from './originalImages';
 import { updateChatList } from './startGameBtn'
+
 
 export let instructionsDivText = document.createElement('div');
 instructionsDivText.setAttribute('class', 'instructions-div-text');
@@ -155,9 +156,7 @@ function playersWaiting(instructionsRight, roomInput){
             // check if 4 is connected and start game
 
             if(usersWithName.length === 4){
-
               printPreviewPage(roomInput, usersWithName, image)
-
               paintAndPrintImage(image)
               console.log('start game');
             }
@@ -167,7 +166,10 @@ function playersWaiting(instructionsRight, roomInput){
           console.log('chatchat', arg)
           updateChatList(arg);
         })
-      
+
+        socket.on('timerUpdate', (time) =>{
+          updateTimer(time)
+        })
     })
   })
 }

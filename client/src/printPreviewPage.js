@@ -38,6 +38,12 @@ export function printPreviewPage(roomInput, usersWithName, image){
 }
 
 
+let timerContainer = document.createElement('div');
+timerContainer.classList.add('timerContainer');
+
+let timer = document.createElement('p');
+timer.classList.add('timer');
+;
 
 
 function countdownFrom(headingStartGameTime, roomInput, usersWithName, image) {
@@ -54,55 +60,35 @@ let count = 5;
             setTimeout(updateCount, 1000);
             
         } else {
+
             headingStartGameDiv.innerHTML = '';
             app.innerHTML = '';
             gridDiv.innerHTML ='';
 
             printPaintOnGrid(roomInput, usersWithName, image)
-            //printchat(roomInput)
-
-            console.log("Countdown finished!"); 
-            
-            
-            let timerContainer;
-            let timer;
+            printchat(roomInput)
             
             if (usersWithName.length === 4) {
                 socket.emit('timer', { room: roomInput, message: 'start timer' });
             }
-            
-            console.log("is this connected", socket.connected);
-            console.log("users with name", usersWithName);
-            console.log("which room", roomInput);
+            timerContainer.appendChild(timer);
+            app.appendChild(timerContainer);
 
-            socket.on('timerUpdate', ({ room, minutes, seconds }) => {
-                console.log("connected to the server or not?");
-
-              
-                if (!timerContainer) {
-                    timerContainer = document.createElement('div');
-                    timerContainer.classList.add('timerContainer');
-            
-                    timer = document.createElement('p');
-                    timer.classList.add('timer');
-                    timer.textContent = `${room}: ${minutes}:${seconds}`;
-            
-                    timerContainer.appendChild(timer);
-                    app.appendChild(timerContainer);
-                } else {
-                 
-                    timer.textContent = `${room}: ${minutes}:${seconds}`;
-                }
-            });
         }
-       
     }
-
-    
-
- 
-    
     updateCount();
-   
 }
+
+export function updateTimer(time){
+ 
+        console.log(time);
+
+        if (!timerContainer) {
+            timer.textContent = `${time.room}: ${time.minutes}:${time.seconds}`
+        } else {
+         
+            timer.textContent = `${time.room}: ${time.minutes}:${time.seconds}`;
+        }   
+    
+  } 
 
