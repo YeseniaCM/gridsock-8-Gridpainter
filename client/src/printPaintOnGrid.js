@@ -101,14 +101,7 @@ function coloredPixel(x, y,unColouredGrid, storedColor, pixel){
        } else if(storedColor == 4){
         pixel.classList.add('colorFour')
        }
-    
-    
- 
 
-    
-
-    
-  
 
     console.log('x', x);
     console.log('y', y);
@@ -116,20 +109,3 @@ function coloredPixel(x, y,unColouredGrid, storedColor, pixel){
 
 }
 
-/*
-export function getColorStringFromValue(value, paintwith) {
-   console.log('value', value)
-   
-
-   
-   /*
-    switch (value) {
-        case 1:
-         
-        case 2:
-         paintwith =  'blue';
-        case 3:
-            '#1eff00';
-        case 4:
-            '#fff200';
-    }*/
