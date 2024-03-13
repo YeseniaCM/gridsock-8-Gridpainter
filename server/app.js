@@ -193,20 +193,13 @@ let image5 = [
 // mainarray containing 5 arrays
 let originalImages = [image1, image2, image3, image4, image5];
 
-
-   
-
-
-
-
-
 io.on('connection', function(socket) {
    // console.log("Användare kopplad");
 
 
     socket.on('userName', (username) =>{ 
         userNames[socket.id] = username;
-      });
+    });
 
 
     const updateConnectedUser = (room) => {
@@ -235,7 +228,6 @@ io.on('connection', function(socket) {
     const randomizeImage = (room) => {
         
         let image = originalImages[Math.floor(Math.random()*originalImages.length)];
-        // console.log("Här är vår image", image);
 
         io.to(room).emit('randomImage', image)
 
@@ -245,7 +237,6 @@ io.on('connection', function(socket) {
 
         socket.join(room)
         socket.emit('joinedroom', room)
-
         updateConnectedUser(room)
         randomizeImage(room)
         
@@ -334,18 +325,22 @@ io.on('connection', function(socket) {
     socket.on("gridCellClicked", (arg) => {
         
         console.log("färg uppdaterad", arg);
-        
         io.emit("updatePaintGrid", arg);
     })
 
+    //coloring
+    socket.on('assignedColor', (userAssignedColor, userColorClasses) => {
+        console.log('angiven färg', userAssignedColor);
+        console.log('färger', userColorClasses);
+        io.emit('assignedColor', (userAssignedColor, userColorClasses));
+        
+    })
     //finish button
     socket.on('finishBtnClicked', () => {
         userClickCount = (userClickCount % 4) + 1 ;
         console.log("this is the total clickCount", userClickCount)
 
-        // io.emit('totalClickCount', userClickCount);
-
-       // io.emit('updateClickCount', userClickCount);
+   
 
         
 

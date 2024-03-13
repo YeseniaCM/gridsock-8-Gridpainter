@@ -19,9 +19,6 @@ export function startGameBtn(roomInput) {
     app.append(startGameBtn);
 
     startGameBtn.addEventListener('click', () => {
-
-   
-  
         homepageDiv.innerHTML = '';
         app.innerHTML = '';
 

@@ -88,5 +88,5 @@ export function printHomePage() {
     homepageDiv.append( homeHeading, circleDiv, instructionsDiv,roomInput, allRooms)
     app.appendChild(homepageDiv)
     startGameBtn(roomInput)
-    // playersAddingImage(roomInput.value);
+
 }

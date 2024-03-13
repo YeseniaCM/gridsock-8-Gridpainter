@@ -11,10 +11,8 @@ export function printNoTimeLeftPage(){
 
 
     let heading = document.createElement('h3')
-    heading.textContent = 'The time has run out, this is your result...';
+    heading.textContent = 'The time has run out';
 
-    
-    //display painted image, fetch from database
 
 
 

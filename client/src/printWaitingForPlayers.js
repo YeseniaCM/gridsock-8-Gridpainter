@@ -10,62 +10,57 @@ import { updateChatList } from './startGameBtn'
 export let instructionsDivText = document.createElement('div');
 instructionsDivText.setAttribute('class', 'instructions-div-text');
 
+export let colorAssigned = document.createElement('span');
+export let userAssignedColor;
+
 export function printWaitingForPlayers(roomInput) {
   
-     app.innerHTML = '';
-     homepageDiv.innerHTML = '';
-     instructionsDivText.innerHTML= '';
- 
-     let instructionHeading = document.createElement('h1');
-     instructionHeading.textContent = 'Waiting for players to join';
-     instructionHeading.setAttribute('class', 'instruction-eading');
+  app.innerHTML = '';
+  homepageDiv.innerHTML = '';
+  instructionsDivText.innerHTML= '';
 
-     let instructionLeft = document.createElement('p');
-     instructionLeft.setAttribute('class', 'instruction-text instructionLeft');
-     instructionLeft.textContent = `
-     Once 4 players have joined, the game will start.
-      You will get a 5 second glimpse of a picture.
-      Each person will get assigned a paint, press the box you want to color!
-      You will have 10 minutes to complete the task
-     `;
+  let instructionHeading = document.createElement('h1');
+  instructionHeading.textContent = 'Waiting for players to join';
+  instructionHeading.setAttribute('class', 'instruction-eading');
 
-     let instructionRight = document.createElement('p');
-     instructionRight.setAttribute('class', 'instruction-text instructionRight');
-     instructionRight.textContent = 'Players joined: '; // ${user} ska in och hur många spelare som man väntar på
-     
-     let colorAssigned = document.createElement('p');
-     colorAssigned.textContent = `Your assigned colour is: "userColor"`;
- 
-     let waitingTime = document.createElement('p');
-     waitingTime.textContent = `you have waited in 00:00`;
+  let instructionLeft = document.createElement('p');
+  instructionLeft.setAttribute('class', 'instruction-text instructionLeft');
+  instructionLeft.textContent = `
+  Once 4 players have joined, the game will start.
+  You will get a 5 second glimpse of a picture.
+  Each person will get assigned a paint, press the box you want to color!
+  You will have 10 minutes to complete the task
+  `;
 
-     let loadingAnimation = document.createElement('div');
-     loadingAnimation.setAttribute('class', 'loading-div')
+  let instructionRight = document.createElement('p');
+  instructionRight.setAttribute('class', 'instruction-text instructionRight');
+  instructionRight.textContent = 'Players joined: '; // ${user} ska in och hur många spelare som man väntar på
 
-     let loadingAnimation2 = document.createElement('div');
-     loadingAnimation2.setAttribute('class', 'loading-div')
+  let waitingTime = document.createElement('p');
+  waitingTime.textContent = `you have waited in 00:00`;
 
-     let loadingAnimation3 = document.createElement('div');
-     loadingAnimation3.setAttribute('class', 'loading-div')
-    animateLoading(loadingAnimation, loadingAnimation2, loadingAnimation3)
- 
-     let waitingUserFrom = document.createElement('div');
-     waitingUserFrom.setAttribute('class', 'waiting-user-form');
-     waitingUserFrom.appendChild(colorAssigned); 
+  let loadingAnimation = document.createElement('div');
+  loadingAnimation.setAttribute('class', 'loading-div')
 
- 
-     let circleDiv = document.createElement('div');
-     circleDiv.setAttribute('class', 'circle-div instructionsCircle');
- 
-     /*
-       Funktionen för när alla 4 spelare har klickat på knappen
-       Star-Game så kommer man vidare till Preview Image-sidan
-     */
+  let loadingAnimation2 = document.createElement('div');
+  loadingAnimation2.setAttribute('class', 'loading-div')
+
+  let loadingAnimation3 = document.createElement('div');
+  loadingAnimation3.setAttribute('class', 'loading-div')
+  animateLoading(loadingAnimation, loadingAnimation2, loadingAnimation3)
+
+  let waitingUserFrom = document.createElement('div');
+  waitingUserFrom.setAttribute('class', 'waiting-user-form');
+  waitingUserFrom.appendChild(colorAssigned); 
+
+
+  let circleDiv = document.createElement('div');
+  circleDiv.setAttribute('class', 'circle-div instructionsCircle');
 
     
-     instructionsDivText.append( instructionHeading, instructionLeft,instructionRight, waitingUserFrom, circleDiv)
-     app.append(instructionsDivText, loadingAnimation, loadingAnimation2, loadingAnimation3)
-     playersWaiting(instructionRight, roomInput)
+  instructionsDivText.append( instructionHeading, instructionLeft,instructionRight, waitingUserFrom, circleDiv)
+  app.append(instructionsDivText, loadingAnimation, loadingAnimation2, loadingAnimation3)
+  playersWaiting(instructionRight, roomInput)
 }
 
 
@@ -74,6 +69,12 @@ function playersWaiting(instructionsRight, roomInput){
   const user = JSON.parse(localStorage.getItem('user'))
   let singleUser = user.find(user => user.userId)
 
+  const colorClasses = [
+    1,
+    2,
+    3,
+    4
+  ]
 
   fetch('http://localhost:3000/users/' + singleUser.userId)
   .then(res => res.json())
@@ -82,20 +83,40 @@ function playersWaiting(instructionsRight, roomInput){
       let username = user.userName
 
       socket.emit('userName', username)
-        
       socket.emit('room', roomInput)
         socket.on('joinedroom',(roomArg) => {
           console.log(roomArg);
         })
 
+      
+        let userAssignedColor = localStorage.getItem('userAssignedColor');
+        if (!userAssignedColor) {
+          userAssignedColor = colorClasses[Math.floor(Math.random() * colorClasses.length)]
+          localStorage.setItem('userAssignedColor', userAssignedColor);
+        }
+        
         socket.on('playerConnected', (usersWithName) => {
           instructionsRight.textContent = `Room: ${roomInput}, Connected users:`
-          usersWithName.map(user => {
+         
           
-            instructionsRight.textContent += `${user.userName}, `
+          //assign color to user
+          usersWithName.forEach((user, index) => {
+            const userColorClass = colorClasses[index % colorClasses.length]
+            
+         
+            instructionsRight.innerHTML += `<span class="${userColorClass}">${user.userName}<span>`;
+            colorAssigned.innerHTML = `Your assigned color is <span class="${userAssignedColor}">${userAssignedColor}</span>`;
+            socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor, userColorClass})
+
+  
+            socket.emit('userColor', {userName: user.userName, userColorClass });
+
            
-         })
-         socket.on('randomImage', (image) => {
+
+          })
+       
+
+          socket.on('randomImage', (image) => {
             // check if 4 is connected and start game
 
             if(usersWithName.length === 4){
@@ -103,7 +124,7 @@ function playersWaiting(instructionsRight, roomInput){
               paintAndPrintImage(image)
               console.log('start game');
             }
-         })
+          })
         })
         socket.on("chat", (arg) => {
           console.log('chatchat', arg)

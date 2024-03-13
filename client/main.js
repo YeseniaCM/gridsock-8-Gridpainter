@@ -9,7 +9,6 @@ import { printHomePage } from './src/printHomePage.js'
 
 if(localStorage.getItem('user')) {
     printHomePage()
-
  } else {     
     printLogInForm() 
 }
