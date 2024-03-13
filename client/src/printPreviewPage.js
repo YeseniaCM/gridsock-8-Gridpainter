@@ -3,11 +3,12 @@ import { homepageDiv } from "./printHomePage.js";
 import { instructionsDivText } from "./printWaitingForPlayers";
 import { gridDiv, printPaintOnGrid } from './printPaintOnGrid.js'
 import { printchat } from './startGameBtn.js'
+import io from 'socket.io-client';
 
 
 export let headingStartGameDiv = document.createElement('div');
 
-export function printPreviewPage(roomInput){
+export function printPreviewPage(roomInput, usersWithName){
 
     app.innerHTML = '';
      homepageDiv.innerHTML = '';
@@ -26,15 +27,18 @@ export function printPreviewPage(roomInput){
     
     // hämta 
 
-    countdownFrom(headingStartGameTime, roomInput)
+    countdownFrom(headingStartGameTime, roomInput, usersWithName)
     
 
 }
 
-function countdownFrom(headingStartGameTime, roomInput) {
+
+function countdownFrom(headingStartGameTime, roomInput, usersWithName) {
+    const socket = io('http://localhost:3000');
+    
     let count = 5;
     
-    // const socket = io
+   
     function updateCount() {
         if (count >= 0) {
             headingStartGameTime.textContent = `Game starts in ${count}`;
@@ -48,18 +52,47 @@ function countdownFrom(headingStartGameTime, roomInput) {
             printPaintOnGrid()
             printchat()
             console.log("Countdown finished!"); 
+            
+            
+            let timerContainer;
+            let timer;
+            
+            if (usersWithName.length === 4) {
+                socket.emit('timer', { room: roomInput, message: 'start timer' });
+            }
+            
+            console.log("is this connected", socket.connected);
+            console.log("users with name", usersWithName);
+            console.log("which room", roomInput);
 
-            // socket.emit('timer', roomInput) // meddelar vi servern att vimern ska starta
+            socket.on('timerUpdate', ({ room, minutes, seconds }) => {
+                console.log("connected to the server or not?");
 
-            /* där timern ska printas
-                socket.on('timerUpdate', (minutes, seconds) => {
-                    // do toyr thing
-                    //appenda 
-                })
-            */
+              
+                if (!timerContainer) {
+                    timerContainer = document.createElement('div');
+                    timerContainer.classList.add('timerContainer');
+            
+                    timer = document.createElement('p');
+                    timer.classList.add('timer');
+                    timer.textContent = `${room}: ${minutes}:${seconds}`;
+            
+                    timerContainer.appendChild(timer);
+                    app.appendChild(timerContainer);
+                } else {
+                 
+                    timer.textContent = `${room}: ${minutes}:${seconds}`;
+                }
+            });
         }
+       
     }
+
     
-    updateCount()
+
+ 
+    
+    updateCount();
    
 }
+

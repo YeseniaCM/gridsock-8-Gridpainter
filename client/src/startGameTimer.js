@@ -1,3 +1,6 @@
+/*
+
+
 export function startGameTimer(socket) {
     let distance = 10 * 60 * 1000;
 
@@ -36,4 +39,6 @@ export function startGameTimer(socket) {
 
     
 }
+
+*/
 

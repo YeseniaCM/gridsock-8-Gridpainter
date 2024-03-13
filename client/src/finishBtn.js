@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import { startGameTimer } from './startGameTimer.js';
+// import { startGameTimer } from './startGameTimer.js';
 
 export function finishBtn() {
    
@@ -52,18 +52,20 @@ export function finishBtn() {
     buttonContainer.append(finishBtn, buttonDesc)
     app.append(buttonContainer);
 
-    let timerInterval = startGameTimer(socket);
+  /*  let timerInterval = startGameTimer(socket);
 
     if (!timerInterval) {
         timerInterval = startGameTimer(socket);
     }
-
+*/
     
     
   
 }
 
 
+/*
 socket.on('timerUpdate', ({ minutes, seconds }) => {
     // Update the timer display with the received minutes and seconds
 });
+*/

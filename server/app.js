@@ -133,61 +133,15 @@ let image5 = [
 // mainarray containing 5 arrays
 let originalImages = [image1, image2, image3, image4, image5];
 
-/*
-socket.on('timer' (roomInput) => {
 
-// do your timer
+   
 
 
-
-
-
-
-io.in(room).emit('timerUpdate', {minutes, seconds})
-
-
-
-
-
-})
-
-*/
-
-function startGameTimer(socket) {
-    let distance = 10 * 60 * 1000;
-
-    // all dom manipulation i clienten
-    let timerContainer = document.createElement('div');
-    timerContainer.classList.add('timerContainer');
-
-    let timer = document.createElement('p');
-    timer.classList.add('timer');
-    
-
-    let intervalId = setInterval(function() {
-        let minutes = Math.floor(distance / (1000 * 60));
-        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        timer.innerText = minutes + ":" + (seconds < 10 ? "0" : "") + seconds; 
-        if (distance <= 0) {
-            clearInterval(intervalId); 
-            timer.innerText = "You have run out of time!";
-            printNoTimeLeftPage()
-        } else {
-            distance -= 1000; 
-            socket.emit('timerUpdate', { minutes, seconds });
-        }
-    }, 1000);
-
-    // får ligga i clienten
-    timerContainer.appendChild(timer);
-    app.append(timerContainer);   
-}
 
 
 
 io.on('connection', function(socket) {
-    console.log("Användare kopplad");
+   // console.log("Användare kopplad");
 
 
     socket.on('userName', (username) =>{ 
@@ -234,6 +188,11 @@ io.on('connection', function(socket) {
 
         updateConnectedUser(room)
         randomizeImage(room)
+
+            
+        
+
+        console.log("how many are logged in", connectedUsers);
         
     });
 
@@ -251,6 +210,31 @@ io.on('connection', function(socket) {
             return;
         }
     })
+
+
+
+socket.on('timer', (arg) => {
+    if (arg.message === 'start timer') {
+        console.log("hej hej hejhejejhej");
+        let distance = 10 * 60 * 1000; 
+
+        let intervalId = setInterval(() => {
+        let minutes = Math.floor(distance / (1000 * 60));
+        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            if (distance <= 0) {
+                clearInterval(intervalId);
+            } else {
+                distance -= 1000;
+            }
+
+            io.emit('timerUpdate', { room: arg.room, minutes, seconds });
+
+            console.log("what room is this", arg.room, { minutes, seconds });
+        }, 1000);
+    }
+});
+
 
 
 
