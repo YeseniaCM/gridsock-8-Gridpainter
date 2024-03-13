@@ -29,19 +29,28 @@ export function finishBtn(roomInput, usersWithName, uncoloredGrid, image) {
         socket.emit('finishBtnClicked');
     })
 
-    // socket.on('totalClickCount', (totalClickCount) => {
-        
-    //     if (totalClickCount === 4) {
-    //         console.log("total click count so far", totalClickCount);
-    //         // You can add additional logic here if needed
-    //     }
-    // });
+   
 
-    // socket.on('totalClickCount', (userClickCount) => {
-    //      console.log("total click count so far", userClickCount);
-    //      if (userClickCount === 4) {
-    //      }
-    // });
+   
+
+
+//     socket.on('totalClickCount', (totalClickCount) => {
+        
+//         if (totalClickCount === 4) {
+//             console.log("2. alla har klickat");
+//         }
+
+
+//     })
+    
+//     socket.on('updateClickCount', (userClickCount) => {
+//         console.log("total click count so far", userClickCount);
+//        if (userClickCount === 4) {
+//            console.log("1. total clickcount", userClickCount);
+//        }
+//    });
+    
+
     
     socket.on('changeBackgroundColor', () => {
         gridDiv.innerHTML = '';

@@ -36,6 +36,8 @@ let connectedUsers = {} // array för connected user
 let userNames = {};
 let userClickCount = 0;
 let intervalId;
+const usersInRoom = new Map();
+
 /* GET all images*/
 app.get('/images', function(req, res) {
     connection.connect((err)=> {
@@ -247,8 +249,15 @@ io.on('connection', function(socket) {
         updateConnectedUser(room)
         randomizeImage(room)
         
+        // Increment the user count for the room
+        const count = usersInRoom.get(room) || 0;
+        usersInRoom.set(room, count + 1);
 
-            
+        // If there are 4 users in the room, start the timer
+        if (usersInRoom.get(room) === 4) {
+            startTimerForRoom(room);
+        }
+                    
         
 
         console.log("how many are logged in", connectedUsers);
@@ -272,28 +281,25 @@ io.on('connection', function(socket) {
 
     
 
-socket.on('timer', (arg) => {
-    if (arg.message === 'start timer') {
-        
-        let distance = 10 * 60 * 1000; 
-
-        intervalId = setInterval(() => {
-        let minutes = Math.floor(distance / (1000 * 60));
-        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
+    function startTimerForRoom(room) {
+        console.log("Starting timer for room:", room);
+        let distance = 10 * 60 * 1000;
+    
+            intervalId = setInterval(() => {
+            let minutes = Math.floor(distance / (1000 * 60));
+            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
             if (distance <= 0) {
-                setTimeout(intervalId);
+                clearInterval(intervalId);
             } else {
                 distance -= 1000;
             }
-
-            io.in(arg.room).emit('timerUpdate', { room: arg.room,minutes: minutes,seconds: seconds });
-           
-
-            console.log("what room is this", arg.room, { minutes, seconds });
+    
+            io.in(room).emit('timerUpdate', { room: room, minutes: minutes, seconds: seconds });
+    
+            console.log("Room:", room, "Timer:", { minutes, seconds });
         }, 1000);
     }
-});
 
 
 
@@ -337,13 +343,18 @@ socket.on('timer', (arg) => {
         userClickCount = (userClickCount % 4) + 1 ;
         console.log("this is the total clickCount", userClickCount)
 
-      // io.emit('totalClickCount', userClickCount);
+        // io.emit('totalClickCount', userClickCount);
+
+       // io.emit('updateClickCount', userClickCount);
+
+        
 
         if (userClickCount === 4) {
             console.log('Clearing interval with ID:', intervalId);
 
-            socket.emit('changeBackgroundColor');
-             clearInterval(intervalId);
+            io.emit('changeBackgroundColor');
+            
+            clearInterval(intervalId);
             
 
             socket.emit('intervalCleared');
