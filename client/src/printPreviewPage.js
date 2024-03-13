@@ -7,7 +7,9 @@ import { printchat } from './startGameBtn.js'
 
 export let headingStartGameDiv = document.createElement('div');
 
-export function printPreviewPage(room){
+
+export function printPreviewPage(roomInput, usersWithName, image){
+
 
     app.innerHTML = '';
      homepageDiv.innerHTML = '';
@@ -26,13 +28,16 @@ export function printPreviewPage(room){
     
     // hämta 
 
-    countdownFrom(headingStartGameTime,room)
+
+    countdownFrom(headingStartGameTime, roomInput, usersWithName, image)
     
 
 }
 
-function countdownFrom(headingStartGameTime,room) {
-    let count = 5;
+function countdownFrom(headingStartGameTime, roomInput, usersWithName, image) {
+
+
+let count = 5;
     
     function updateCount() {
         if (count >= 0) {
@@ -44,8 +49,10 @@ function countdownFrom(headingStartGameTime,room) {
             headingStartGameDiv.innerHTML = '';
             app.innerHTML = '';
             gridDiv.innerHTML ='';
-            printPaintOnGrid()
-            //printchat(room);
+
+            printPaintOnGrid(roomInput, usersWithName, image)
+            printchat(roomInput)
+
             console.log("Countdown finished!"); 
         }
     }

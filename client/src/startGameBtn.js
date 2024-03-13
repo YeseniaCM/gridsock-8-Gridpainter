@@ -3,10 +3,13 @@ import { startGameTimer } from "./startGameTimer.js";
 import { exitGameBtn }  from "./printexitGameBtn.js";
 import { homepageDiv, printHomePage } from './printHomePage.js'
 import { printWaitingForPlayers }  from './printWaitingForPlayers.js'
+import { printPaintOnGrid } from './printPaintOnGrid.js';
+import { playersAddingImage } from './PlayerAddingImage.js';
 
 
 export function startGameBtn(roomInput) {
 
+  
     let startGameBtn = document.createElement('button');
     startGameBtn.textContent = "Start game";
     startGameBtn.classList.add('startGameBtn');
@@ -33,7 +36,7 @@ let chatContainer = document.createElement('div');
 
 let chatList = document.createElement('ul');
 export function printchat(room) {
-  
+  chatContainer.innerHTML = '';
     const socket = io('http://localhost:3000');
 
 
