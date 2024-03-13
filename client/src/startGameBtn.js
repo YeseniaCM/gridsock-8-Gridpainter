@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import { startGameTimer } from "./startGameTimer.js";
+// { startGameTimer } from "./startGameTimer.js";
 import { exitGameBtn }  from "./printexitGameBtn.js";
 import { homepageDiv, printHomePage } from './printHomePage.js'
 import { printWaitingForPlayers }  from './printWaitingForPlayers.js'

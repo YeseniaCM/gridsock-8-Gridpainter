@@ -191,9 +191,14 @@ let image5 = [
 let originalImages = [image1, image2, image3, image4, image5];
 
 
+   
+
+
+
+
 
 io.on('connection', function(socket) {
-    console.log("Användare kopplad");
+   // console.log("Användare kopplad");
 
 
     socket.on('userName', (username) =>{ 
@@ -242,6 +247,11 @@ io.on('connection', function(socket) {
         randomizeImage(room)
         
 
+            
+        
+
+        console.log("how many are logged in", connectedUsers);
+        
     });
 
   
@@ -258,6 +268,31 @@ io.on('connection', function(socket) {
             return;
         }
     })
+
+
+
+socket.on('timer', (arg) => {
+    if (arg.message === 'start timer') {
+        console.log("hej hej hejhejejhej");
+        let distance = 10 * 60 * 1000; 
+
+        let intervalId = setInterval(() => {
+        let minutes = Math.floor(distance / (1000 * 60));
+        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            if (distance <= 0) {
+                clearInterval(intervalId);
+            } else {
+                distance -= 1000;
+            }
+
+            io.emit('timerUpdate', { room: arg.room, minutes, seconds });
+
+            console.log("what room is this", arg.room, { minutes, seconds });
+        }, 1000);
+    }
+});
+
 
 
 
@@ -302,8 +337,12 @@ io.on('connection', function(socket) {
 
         io.emit('updateClickCount', userClickCount);
 
+        io.emit('totalClickCount', userClickCount);
+
         if (userClickCount === 4) {
+
             socket.emit('changeBackgroundColor');
+
         }
     })
 
