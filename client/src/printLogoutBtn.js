@@ -13,8 +13,9 @@ export function logOutBtn() {
     logOutButton.addEventListener('click', () => {
         const socket = io('http://localhost:3000');
 
-        console.log("click");
+        
         localStorage.removeItem('user');
+        localStorage.removeItem('userAssignedColor');
         app.innerHTML = "";
         printLogInForm();
         

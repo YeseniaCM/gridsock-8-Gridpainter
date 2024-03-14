@@ -8,6 +8,7 @@ export function exitGameBtn(){
     const socket = io('http://localhost:3000');
         printHomePage()
         socket.emit('disconnecting')
+        
     })
     app.appendChild(exitBtn)
 }
