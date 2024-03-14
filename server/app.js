@@ -329,10 +329,9 @@ io.on('connection', function(socket) {
     })
 
     //coloring
-    socket.on('assignedColor', (userAssignedColor, userColorClasses) => {
+    socket.on('assignedColor', (userAssignedColor) => {
         console.log('angiven färg', userAssignedColor);
-        console.log('färger', userColorClasses);
-        io.emit('assignedColor', (userAssignedColor, userColorClasses));
+        io.emit('assignedColor', (userAssignedColor));
         
     })
     //finish button

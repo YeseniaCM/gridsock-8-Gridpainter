@@ -17,15 +17,15 @@ export function paintAndPrintImage(image) {
 
            
             if (image[x][y] === 0) {
-                pixel.classList.add('colorZero');
+                pixel.classList.add('White');
             } else if (image[x][y] === 1) {
-                pixel.classList.add('colorOne');
+                pixel.classList.add('Dark-purple');
             } else if (image[x][y] === 2) {
-                pixel.classList.add('colorTwo');
+                pixel.classList.add('Light-purple');
             } else if (image[x][y] === 3) {
-                pixel.classList.add('colorThree');
+                pixel.classList.add('Baby-blue');
             } else if (image[x][y] === 4) {
-                pixel.classList.add('colorFour');
+                pixel.classList.add('Pink');
             }
 
             originalImageContainer.appendChild(pixel);

@@ -23,24 +23,41 @@
   }
 
 /* Original Images style */
-.colorZero {
+.White {
   background-color: #ffffff;
 }
 
-.colorOne {
+.Dark-purple {
   background-color: #565676;
 }
 
-.colorTwo {
+.Light-purple {
   background-color: #aeadf0;
 }
 
-.colorThree {
+.Baby-blue {
   background-color: #63b0cd;
 }
 
-.colorFour {
+.Pink {
   background-color: #e9d2f4;
+}
+
+/* text color*/
+.Dark-purple-text {
+  color: #565676;
+}
+
+.Light-purple-text {
+  color: #aeadf0;
+}
+
+.Baby-blue-text {
+  color: #63b0cd;
+}
+
+.Pink-text {
+  color: #e9d2f4;
 }
 
 /* 

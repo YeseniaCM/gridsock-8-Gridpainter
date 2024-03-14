@@ -1,10 +1,9 @@
 import io from 'socket.io-client';
 // { startGameTimer } from "./startGameTimer.js";
 import { exitGameBtn }  from "./printexitGameBtn.js";
-import { homepageDiv, printHomePage } from './printHomePage.js'
-import { printWaitingForPlayers }  from './printWaitingForPlayers.js'
-import { printPaintOnGrid } from './printPaintOnGrid.js';
-import { playersAddingImage } from './PlayerAddingImage.js';
+import { homepageDiv } from './printHomePage.js'
+import { printWaitingForPlayers, userAssignedColor }  from './printWaitingForPlayers.js'
+
 
 
 export function startGameBtn(roomInput) {
@@ -60,12 +59,17 @@ export function printchat(room) {
     fetch('http://localhost:3000/users/' + singleUser.userId)
     .then(res => res.json())
     .then(data => {
-  console.log(data)
+    console.log(data)
       
       sendBtn.addEventListener("click", () => {
         data.map(user => {
           console.log("send chat", sendMsg.value);
-          socket.emit("chat", {userName: user.userName, room: room, message: sendMsg.value});
+          socket.emit("chat", {
+            userName: user.userName,
+            room: room,
+            message: sendMsg.value,
+            setNameColor: user.setNameColor
+          });
           sendMsg.value = "";
 
         })
@@ -78,8 +82,33 @@ export function printchat(room) {
 
 
 export function updateChatList(chat) {
+  const userAssignedColor = localStorage.getItem('userAssignedColor');
+
+  const colors = {
+    1: 'Dark-purple',
+    2: 'Light-purple',
+    3: 'Baby-blue',
+    4: 'Pink'
+  };
+
+  const setNameColor = colors[userAssignedColor];
+  
   console.log('chat', chat)
   let li = document.createElement("li")
-  li.innerText =  `${chat.userName}: ${chat.message}`;
+  let usernameSpan = document.createElement('span');
+  let messageSpan = document.createElement('span');
+
+  //add color to both user and message
+  //li.innerText = `${chat.userName}: ${chat.message}`;
+  //li.classList.add(setNameColor);
+
+
+  usernameSpan.innerText = chat.userName;
+  usernameSpan.classList.add(setNameColor);
+
+  messageSpan.innerText = ": " + chat.message;
+  
+  li.appendChild(usernameSpan)
+  li.appendChild(messageSpan);
   chatList.appendChild(li);
 }

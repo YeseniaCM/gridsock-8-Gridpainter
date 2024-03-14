@@ -2,7 +2,6 @@ import io from 'socket.io-client';
 import { loginForm } from './printLogin.js'
 import { logOutBtn } from './printLogoutBtn.js';
 import { startGameBtn } from './startGameBtn.js';
-import { playersAddingImage } from './PlayerAddingImage.js';
 
 export let homepageDiv = document.createElement('div');
 homepageDiv.classList.add('homePage');
@@ -11,6 +10,7 @@ homepageDiv.classList.add('homePage');
 export function printHomePage() {
     loginForm.innerHTML = '';
     app.innerHTML = '';
+    localStorage.removeItem('userAssignedColor');
 
     let instructionArray = [
         'When 4 players has joined the game will start.',

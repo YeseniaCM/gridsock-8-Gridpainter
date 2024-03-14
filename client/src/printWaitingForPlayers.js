@@ -51,7 +51,7 @@ export function printWaitingForPlayers(roomInput) {
 
   let waitingUserFrom = document.createElement('div');
   waitingUserFrom.setAttribute('class', 'waiting-user-form');
-  waitingUserFrom.appendChild(colorAssigned); 
+  waitingUserFrom.textContent = "players waiting";
 
 
   let circleDiv = document.createElement('div');
@@ -60,21 +60,16 @@ export function printWaitingForPlayers(roomInput) {
     
   instructionsDivText.append( instructionHeading, instructionLeft,instructionRight, waitingUserFrom, circleDiv)
   app.append(instructionsDivText, loadingAnimation, loadingAnimation2, loadingAnimation3)
-  playersWaiting(instructionRight, roomInput)
+  playersWaiting(instructionRight, roomInput, waitingUserFrom)
 }
 
+let colorPool = [1, 2, 3, 4];
 
-function playersWaiting(instructionsRight, roomInput){
+function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
   const socket = io('http://localhost:3000');
   const user = JSON.parse(localStorage.getItem('user'))
   let singleUser = user.find(user => user.userId)
-
-  const colorClasses = [
-    1,
-    2,
-    3,
-    4
-  ]
+  
 
   fetch('http://localhost:3000/users/' + singleUser.userId)
   .then(res => res.json())
@@ -84,36 +79,58 @@ function playersWaiting(instructionsRight, roomInput){
 
       socket.emit('userName', username)
       socket.emit('room', roomInput)
-        socket.on('joinedroom',(roomArg) => {
-          console.log(roomArg);
-        })
 
-      
-        let userAssignedColor = localStorage.getItem('userAssignedColor');
-        if (!userAssignedColor) {
-          userAssignedColor = colorClasses[Math.floor(Math.random() * colorClasses.length)]
-          localStorage.setItem('userAssignedColor', userAssignedColor);
-        }
+      socket.on('joinedroom',(roomArg) => {
+        console.log(roomArg);
+      })
+
         
         socket.on('playerConnected', (usersWithName) => {
-          instructionsRight.textContent = `Room: ${roomInput}, Connected users:`
-         
+          instructionsRight.textContent = `Room: ${roomInput}, Connected users: `
+          waitingUserFrom.textContent = "Your assigned color is: "
           
+
           //assign color to user
           usersWithName.forEach((user, index) => {
-            const userColorClass = colorClasses[index % colorClasses.length]
-            
-         
-            instructionsRight.innerHTML += `<span class="${userColorClass}">${user.userName}<span>`;
-            colorAssigned.innerHTML = `Your assigned color is <span class="${userAssignedColor}">${userAssignedColor}</span>`;
-            socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor, userColorClass})
+            if (colorPool.length > 0) {
+              const randomIndex = Math.floor(Math.random() * colorPool.length);
+              const randomColor = colorPool[randomIndex];
+              colorPool.splice(randomIndex, 1);
+              console.log(randomColor);
+              //console.log(setUserColor);
 
-  
-            socket.emit('userColor', {userName: user.userName, userColorClass });
+              const colors = {
+                1: 'Dark-purple',
+                2: 'Light-purple',
+                3: 'Baby-blue',
+                4: 'Pink'
+              }
 
-           
+              let setUserColor = colors[randomColor]
+              console.log(setUserColor);
 
+              let instructionsRightColor = document.createElement('span');
+              instructionsRightColor.innerText += user.userName + ', ';
+              instructionsRightColor.classList.add(setUserColor);
+              instructionsRight.appendChild(instructionsRightColor);
+
+              let colorAssignedColor = document.createElement('span');
+              colorAssignedColor.innerText = setUserColor;
+              colorAssignedColor.classList.add(setUserColor);
+              waitingUserFrom.appendChild(colorAssignedColor);
+
+              localStorage.setItem(`userAssignedColor`, randomColor);
+              
+              socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor})
+              socket.emit('userColor', {userName: user.userName});
+              
+            }
           })
+
+          
+
+          console.log(colorAssigned);
+          console.log(colorPool);
        
 
           socket.on('randomImage', (image) => {
