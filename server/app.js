@@ -295,16 +295,6 @@ io.on('connection', function(socket) {
 
 
 
-//dissconnect
-
-    socket.on('disconnecting', () => {
-
-        const rooms = Object.keys(socket.rooms);
-
-        rooms.forEach((room) => {
-            updateConnectedUser(room)
-        })
-    })
 
     
     //chat
@@ -359,10 +349,17 @@ io.on('connection', function(socket) {
         }   
     })
 
-    socket.on("disconnect", function () {
+    //dissconnect
+
+    socket.on('disconnecting', () => {
         console.log("Användare frånkopplad");
-        
-        
+
+        const rooms = Object.keys(socket.rooms);
+
+        rooms.forEach((room) => {
+            updateConnectedUser(room)
+        })
     })
+
 })
 server.listen(process.env.PORT || '3000');

@@ -12,7 +12,7 @@ let gridFinished = false;
 export function printPaintOnGrid(roomInput, usersWithName, image){
     gridDiv.innerHTML = '';
     app.innerHTML = '';
-    const socket = io('http://localhost:3000');
+    const socket = io('https://gridpainter-ltfli.ondigitalocean.app');
     console.log('socket connected', socket.connected);
 
     socket.on("updatePaintGrid", (arg) => {
