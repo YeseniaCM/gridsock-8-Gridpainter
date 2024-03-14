@@ -49,7 +49,7 @@ timer.classList.add('timer');
 function countdownFrom(headingStartGameTime, roomInput, usersWithName, image) {
     const socket = io('http://localhost:3000');
 
-let count = 5;
+let count = 10;
 
     
    
@@ -80,13 +80,13 @@ let count = 5;
 }
 
 export function updateTimer(time){
+    const formattedMinutes = time.minutes < 10 ? `0${time.minutes}` : time.minutes;
+    const formattedSeconds = time.seconds < 10 ? `0${time.seconds}` : time.seconds;
 
-        if (!timerContainer) {
-            timer.textContent = `${time.room}: ${time.minutes}:${time.seconds}`
-        } else {
-         
-            timer.textContent = `${time.room}: ${time.minutes}:${time.seconds}`;
-        }   
-    
+    if (!timerContainer) {
+        timer.textContent = `${formattedMinutes}:${formattedSeconds}`;
+    } else {
+        timer.textContent = `${formattedMinutes}:${formattedSeconds}`;
+    }
   } 
 

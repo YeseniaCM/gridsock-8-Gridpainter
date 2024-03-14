@@ -6,7 +6,11 @@ import { printchat } from "./startGameBtn";
 export let resultDivText = document.createElement('div');
 resultDivText.setAttribute('class', 'instructions-div-text');
 
+let resultPageContainer = document.createElement('div');
+resultPageContainer.setAttribute('class', 'resultPageContainer');
+
 export function printResultPage(data, roomInput, image, uncoloredGrid){
+    app.classList.add('resultPage');
    
     console.log('original bild:', image);
     console.log('jämför med', uncoloredGrid);
@@ -63,7 +67,10 @@ resultLeft.textContent = `Correct colors: ${procentage}`;
 
 
 resultDivText.append(resultLeft)
-app.append(resultHeading, imageDiv, resultDivText)
+imageDiv.append()
+resultPageContainer.append(resultHeading, imageDiv, resultDivText)
+app.append(resultPageContainer);
+
        
 })
  
