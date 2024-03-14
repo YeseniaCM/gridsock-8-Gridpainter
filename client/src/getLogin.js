@@ -5,7 +5,7 @@ export function getLogIn (email, password, message) {
     
     let checkUser = {userEmail: email, userPassword: password}
 
-    fetch("http://localhost:3000/users/login", {
+    fetch("https://gridpainter-ltfli.ondigitalocean.app/users/login", {
             method: "POST",
             headers: {
                 "content-Type": "application/json"

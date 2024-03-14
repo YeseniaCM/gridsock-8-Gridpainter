@@ -11,7 +11,7 @@ export function logOutBtn() {
     app.append(logOutButton);
 
     logOutButton.addEventListener('click', () => {
-        const socket = io('http://localhost:3000');
+        const socket = io('https://gridpainter-ltfli.ondigitalocean.app');
 
         
         localStorage.removeItem('user');

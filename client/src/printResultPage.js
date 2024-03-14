@@ -38,7 +38,7 @@ export function printResultPage(data, roomInput, image, uncoloredGrid){
 
     let imageId = data.imageId;
 
-    fetch(`http://localhost:3000/images/${imageId}`)
+    fetch(`https://gridpainter-ltfli.ondigitalocean.app/images/${imageId}`)
     .then(res => res.json())
     .then(data => {
     

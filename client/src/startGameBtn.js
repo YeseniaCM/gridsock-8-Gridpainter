@@ -38,7 +38,7 @@ let chatList = document.createElement('ul');
 
 export function printchat(room) {
   chatContainer.innerHTML = '';
-    const socket = io('http://localhost:3000');
+    const socket = io('https://gridpainter-ltfli.ondigitalocean.app');
 
 
     chatContainer.classList.add('chatContainer');
@@ -56,7 +56,7 @@ export function printchat(room) {
     let singleUser = user.find(user => user.userId)
   
   
-    fetch('http://localhost:3000/users/' + singleUser.userId)
+    fetch('https://gridpainter-ltfli.ondigitalocean.app/users/' + singleUser.userId)
     .then(res => res.json())
     .then(data => {
     console.log(data)

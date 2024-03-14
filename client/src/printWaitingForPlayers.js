@@ -66,12 +66,12 @@ export function printWaitingForPlayers(roomInput) {
 let colorPool = [1, 2, 3, 4];
 
 function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
-  const socket = io('http://localhost:3000');
+  const socket = io('https://gridpainter-ltfli.ondigitalocean.app');
   const user = JSON.parse(localStorage.getItem('user'))
   let singleUser = user.find(user => user.userId)
   
 
-  fetch('http://localhost:3000/users/' + singleUser.userId)
+  fetch('https://gridpainter-ltfli.ondigitalocean.app/users/' + singleUser.userId)
   .then(res => res.json())
   .then(data => {
     data.map(user => {

@@ -5,7 +5,7 @@ export function exitGameBtn(){
     exitBtn.classList.add('exitGameBtn');
     exitBtn.textContent = 'Exit game';
     exitBtn.addEventListener('click', ()=> {
-    const socket = io('http://localhost:3000');
+    const socket = io('https://gridpainter-ltfli.ondigitalocean.app');
         printHomePage()
         socket.emit('disconnecting')
         
