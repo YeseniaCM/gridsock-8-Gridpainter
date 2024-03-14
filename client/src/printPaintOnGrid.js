@@ -1,6 +1,9 @@
 import { finishBtn } from './finishBtn.js';
 import io from 'socket.io-client';
 
+export let gridDivContainer = document.createElement('div');
+gridDivContainer.setAttribute('class', 'grid-div-container');
+
 export let gridDiv = document.createElement('div');
 gridDiv.setAttribute('class', 'grid-div');
 
@@ -44,7 +47,8 @@ export function printPaintOnGrid(roomInput, usersWithName, image){
     ]
 
  createGridDrawing(unColouredGrid, gridDiv, socket)
- app.appendChild(gridDiv);
+ gridDivContainer.appendChild(gridDiv);
+ app.appendChild(gridDivContainer);
  finishBtn(roomInput, usersWithName, unColouredGrid, image);
  console.log(gridDiv)
 }

@@ -85,7 +85,7 @@ export function printHomePage() {
   
     logOutBtn()
     instructionsDiv.append(instructionsUL, instructionQuote)
-    homepageDiv.append( homeHeading, circleDiv, instructionsDiv,roomInput, allRooms)
+    homepageDiv.append( homeHeading, circleDiv, instructionsDiv, roomInput, allRooms)
     app.appendChild(homepageDiv)
     startGameBtn(roomInput)
 
