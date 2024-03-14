@@ -119,7 +119,7 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
               colorAssignedColor.classList.add(setUserColor);
               waitingUserFrom.appendChild(colorAssignedColor);
 
-              localStorage.setItem(`userAssignedColor}`, randomColor);
+              localStorage.setItem(`userAssignedColor`, randomColor);
               
               socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor})
               socket.emit('userColor', {userName: user.userName});
@@ -136,7 +136,7 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
           socket.on('randomImage', (image) => {
             // check if 4 is connected and start game
 
-            if(usersWithName.length === 3){
+            if(usersWithName.length === 4){
               printPreviewPage(roomInput, usersWithName, image)
               paintAndPrintImage(image)
               console.log('start game');
