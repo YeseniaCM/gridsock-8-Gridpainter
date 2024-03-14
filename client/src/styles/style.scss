@@ -368,6 +368,10 @@ body {
             @include smaller-titles;
             margin: 0;
             padding: 0;
+            .image-div {
+                display: flex;
+                flex-direction: row;
+            }
 
         }
     }
