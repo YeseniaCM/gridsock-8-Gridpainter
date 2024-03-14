@@ -51,7 +51,7 @@ export function printWaitingForPlayers(roomInput) {
 
   let waitingUserFrom = document.createElement('div');
   waitingUserFrom.setAttribute('class', 'waiting-user-form');
-  waitingUserFrom.appendChild(colorAssigned); 
+  waitingUserFrom.textContent = "players waiting";
 
 
   let circleDiv = document.createElement('div');
@@ -60,12 +60,12 @@ export function printWaitingForPlayers(roomInput) {
     
   instructionsDivText.append( instructionHeading, instructionLeft,instructionRight, waitingUserFrom, circleDiv)
   app.append(instructionsDivText, loadingAnimation, loadingAnimation2, loadingAnimation3)
-  playersWaiting(instructionRight, roomInput)
+  playersWaiting(instructionRight, roomInput, waitingUserFrom)
 }
 
-let availableColors = [1, 2, 3, 4];
+let colorPool = [1, 2, 3, 4];
 
-function playersWaiting(instructionsRight, roomInput){
+function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
   const socket = io('http://localhost:3000');
   const user = JSON.parse(localStorage.getItem('user'))
   let singleUser = user.find(user => user.userId)
@@ -86,54 +86,49 @@ function playersWaiting(instructionsRight, roomInput){
 
         
         socket.on('playerConnected', (usersWithName) => {
-          instructionsRight.textContent = `Room: ${roomInput}, Connected users:`
-         
-          let colorPool = [...availableColors];
-          let userColors = [];
+          instructionsRight.textContent = `Room: ${roomInput}, Connected users: `
+          waitingUserFrom.textContent = "Your assigned color is: "
+          
 
           //assign color to user
           usersWithName.forEach((user, index) => {
+            localStorage.setItem(`userAssignedColor_${user.userId}`, userAssignedColor);
             if (colorPool.length > 0) {
-              const userAssignedColor = colorPool.splice(Math.floor(Math.random() * colorPool.length), 1)[0];
-              userColors[user.userName] = userAssignedColor;
+              const randomIndex = Math.floor(Math.random() * colorPool.length);
+              const randomColor = colorPool[randomIndex];
+              colorPool.splice(randomIndex, 1);
+              console.log(randomColor);
+              //console.log(setUserColor);
 
-              localStorage.setItem('userAssignedColor', userAssignedColor);
-              console.log(userAssignedColor);
-              console.log(userColors);
-
-              availableColors = colorPool;
-              
-              if (usersWithName.length === 5) {
-                availableColors = [];
-              }
-            }
-          })
-
-          usersWithName.forEach((user, index) => {
-            const userAssignedColor = userColors[user.userName]
-
-            if (userAssignedColor !== undefined) {
-  
               const colors = {
                 1: 'Dark-purple',
                 2: 'Light-purple',
                 3: 'Baby-blue',
                 4: 'Pink'
-              };
-  
-              instructionsRight.innerHTML += `<span class="${colors[userAssignedColor]}">${user.userName}, <span>`;
-              colorAssigned.innerHTML = `Your assigned color is <span class="${colors[userAssignedColor]}">${colors[userAssignedColor]}</span>`;
+              }
+
+              let setUserColor = colors[randomColor]
+              console.log(setUserColor);
+
+              let instructionsRightColor = document.createElement('span');
+              instructionsRightColor.innerText += user.userName + ', ';
+              instructionsRightColor.classList.add(setUserColor);
+              instructionsRight.appendChild(instructionsRightColor);
+
+              let colorAssignedColor = document.createElement('span');
+              colorAssignedColor.innerText = setUserColor;
+              colorAssignedColor.classList.add(setUserColor);
+              waitingUserFrom.appendChild(colorAssignedColor);
+              
               socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor})
               socket.emit('userColor', {userName: user.userName});
+              
             }
           })
+
           
-          if (colorPool.length === 0) {
-            availableColors = [1, 2, 3, 4]
-          }
+
           console.log(colorAssigned);
-          //availableColors = colorPool;
-          console.log(availableColors);
           console.log(colorPool);
        
 

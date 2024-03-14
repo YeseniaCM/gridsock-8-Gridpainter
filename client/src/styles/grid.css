@@ -43,6 +43,23 @@
   background-color: #e9d2f4;
 }
 
+/* text color*/
+.Dark-purple-text {
+  color: #565676;
+}
+
+.Light-purple-text {
+  color: #aeadf0;
+}
+
+.Baby-blue-text {
+  color: #63b0cd;
+}
+
+.Pink-text {
+  color: #e9d2f4;
+}
+
 /* 
   .pixel {
     width: 20px;

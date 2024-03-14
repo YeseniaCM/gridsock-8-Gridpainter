@@ -59,13 +59,17 @@ export function printchat(room) {
     fetch('http://localhost:3000/users/' + singleUser.userId)
     .then(res => res.json())
     .then(data => {
-  console.log(data)
+    console.log(data)
       
-      //colors[user.userName] = userNameColor
       sendBtn.addEventListener("click", () => {
         data.map(user => {
           console.log("send chat", sendMsg.value);
-          socket.emit("chat", {userName: user.userName, room: room, message: sendMsg.value});
+          socket.emit("chat", {
+            userName: user.userName,
+            room: room,
+            message: sendMsg.value,
+            setNameColor: user.setNameColor
+          });
           sendMsg.value = "";
 
         })
@@ -100,9 +104,9 @@ export function updateChatList(chat) {
 
 
   usernameSpan.innerText = chat.userName;
-  messageSpan.innerText = ": " + chat.message;
-
   usernameSpan.classList.add(setNameColor);
+
+  messageSpan.innerText = ": " + chat.message;
   
   li.appendChild(usernameSpan)
   li.appendChild(messageSpan);
