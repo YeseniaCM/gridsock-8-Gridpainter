@@ -351,7 +351,7 @@ io.on('connection', function(socket) {
 
     //dissconnect
 
-    socket.on('disconnecting', () => {
+    socket.on('disconnect', () => {
         console.log("Användare frånkopplad");
 
         const rooms = Object.keys(socket.rooms);

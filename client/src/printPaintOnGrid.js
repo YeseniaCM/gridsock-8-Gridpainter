@@ -69,7 +69,7 @@ export function createGridDrawing(unColouredGrid, gridDiv, socket){
         
             pixel.addEventListener('click', () => {
                 if (!gridFinished) {
-                    const storedColor = localStorage.getItem('userAssignedColor');
+                    const storedColor = sessionStorage.getItem('userAssignedColor');
                     socket.emit('gridCellClicked', { x, y, unColouredGrid, color: storedColor});
                     coloredPixel(x, y, unColouredGrid, storedColor, pixel);
                 }

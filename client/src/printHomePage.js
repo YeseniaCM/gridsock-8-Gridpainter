@@ -10,7 +10,7 @@ homepageDiv.classList.add('homePage');
 export function printHomePage() {
     loginForm.innerHTML = '';
     app.innerHTML = '';
-    localStorage.removeItem('userAssignedColor');
+    sessionStorage.removeItem('userAssignedColor');
 
     let instructionArray = [
         'When 4 players has joined the game will start.',

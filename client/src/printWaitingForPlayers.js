@@ -81,7 +81,7 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
       socket.emit('room', roomInput)
 
       socket.on('joinedroom',(roomArg) => {
-        console.log(roomArg);
+       // console.log(roomArg);
       })
 
         
@@ -92,6 +92,32 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
 
           //assign color to user
           usersWithName.forEach((user, index) => {
+
+            console.log('user', user)
+            instructionsRight.textContent += user.userName;
+            console.log('index', index)
+            let userAssignedColor;
+
+            if(index === 0){
+              sessionStorage.setItem(`userAssignedColor`, 1);
+              userAssignedColor = 1
+            } else if(index === 1){
+              sessionStorage.setItem(`userAssignedColor`, 2);
+              userAssignedColor = 2
+            } else if(index === 2){
+              sessionStorage.setItem(`userAssignedColor`, 3);
+              userAssignedColor = 3
+            } else if(index === 3){
+              sessionStorage.setItem(`userAssignedColor`, 4);
+              userAssignedColor = 4
+            }
+
+                       
+              
+            socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor})
+            socket.emit('userColor', {userName: user.userName});
+            /*
+
             if (colorPool.length > 0) {
               const randomIndex = Math.floor(Math.random() * colorPool.length);
               const randomColor = colorPool[randomIndex];
@@ -119,18 +145,20 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
               colorAssignedColor.classList.add(setUserColor);
               waitingUserFrom.appendChild(colorAssignedColor);
 
-              localStorage.setItem(`userAssignedColor`, randomColor);
+              
               
               socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor})
               socket.emit('userColor', {userName: user.userName});
               
-            }
+            }*/
+            
           })
+         // localStorage.setItem(`userAssignedColor`, randomColor);
 
           
 
-          console.log(colorAssigned);
-          console.log(colorPool);
+          //console.log(colorAssigned);
+          //console.log(colorPool);
        
 
           socket.on('randomImage', (image) => {

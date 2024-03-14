@@ -1,4 +1,5 @@
 import { printHomePage } from "./printHomePage";
+import io from 'socket.io-client';
 
 export function exitGameBtn(){
     let exitBtn = document.createElement('button');
@@ -7,7 +8,7 @@ export function exitGameBtn(){
     exitBtn.addEventListener('click', ()=> {
     const socket = io('https://gridpainter-ltfli.ondigitalocean.app');
         printHomePage()
-        socket.emit('disconnecting')
+        socket.on('disconnect')
         
     })
     app.appendChild(exitBtn)
