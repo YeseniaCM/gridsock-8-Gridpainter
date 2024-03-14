@@ -98,16 +98,16 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
             console.log('index', index)
             let userAssignedColor;
 
-            if(index === 0){
+            if(user.userName === 'ala'){
               sessionStorage.setItem(`userAssignedColor`, 1);
               userAssignedColor = 1
-            } else if(index === 1){
+            } else if(user.userName === 'anton'){
               sessionStorage.setItem(`userAssignedColor`, 2);
               userAssignedColor = 2
-            } else if(index === 2){
+            } else if(user.userName === 'cissi'){
               sessionStorage.setItem(`userAssignedColor`, 3);
               userAssignedColor = 3
-            } else if(index === 3){
+            } else if(user.userName === 'yese'){
               sessionStorage.setItem(`userAssignedColor`, 4);
               userAssignedColor = 4
             }
