@@ -92,7 +92,6 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
 
           //assign color to user
           usersWithName.forEach((user, index) => {
-            localStorage.setItem(`userAssignedColor_${user.userId}`, userAssignedColor);
             if (colorPool.length > 0) {
               const randomIndex = Math.floor(Math.random() * colorPool.length);
               const randomColor = colorPool[randomIndex];
@@ -119,6 +118,8 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
               colorAssignedColor.innerText = setUserColor;
               colorAssignedColor.classList.add(setUserColor);
               waitingUserFrom.appendChild(colorAssignedColor);
+
+              localStorage.setItem(`userAssignedColor}`, randomColor);
               
               socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor})
               socket.emit('userColor', {userName: user.userName});
