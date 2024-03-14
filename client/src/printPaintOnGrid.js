@@ -1,10 +1,10 @@
 import { finishBtn } from './finishBtn.js';
 import io from 'socket.io-client';
-import { userAssignedColor } from './printWaitingForPlayers.js';
 
 export let gridDiv = document.createElement('div');
 gridDiv.setAttribute('class', 'grid-div');
 
+let gridFinished = false;
 
 export function printPaintOnGrid(roomInput, usersWithName, image){
     gridDiv.innerHTML = '';
@@ -49,15 +49,11 @@ export function printPaintOnGrid(roomInput, usersWithName, image){
  console.log(gridDiv)
 }
  
-function createGridDrawing(unColouredGrid, gridDiv, socket, color){
+export function createGridDrawing(unColouredGrid, gridDiv, socket){
 
     let rows = 15;
     let columns = 15;
 
-    
-
-
-    
     for(let x = 0; x < rows; x++) {
 
         for(let y = 0; y < columns; y++) {
@@ -68,18 +64,12 @@ function createGridDrawing(unColouredGrid, gridDiv, socket, color){
 
         
             pixel.addEventListener('click', () => {
+                if (!gridFinished) {
+                    const storedColor = localStorage.getItem('userAssignedColor');
+                    socket.emit('gridCellClicked', { x, y, unColouredGrid, color: storedColor});
+                    coloredPixel(x, y, unColouredGrid, storedColor, pixel);
+                }
                 
-                
-                const storedColor = localStorage.getItem('userAssignedColor');
-                
-
-                //const userColorClass = colors[currentColorIndex % colors.length]
-               
-                socket.emit('gridCellClicked', { x, y, unColouredGrid, color: storedColor});
-
-             
-
-                coloredPixel(x, y, unColouredGrid, storedColor,pixel);
             })    
         }
     }
@@ -93,19 +83,19 @@ function coloredPixel(x, y,unColouredGrid, storedColor, pixel){
     console.log('stored colour', storedColor)
     if(storedColor == 1){
         console.log('kommer vi hit ?')
-        pixel.classList.add('colorOne')
+        pixel.classList.add('Dark-purple')
        } else if(storedColor == 2){
-        pixel.classList.add('colorTwo')
+        pixel.classList.add('Light-purple')
        } else if(storedColor == 3){
-        pixel.classList.add('colorThree')
+        pixel.classList.add('Baby-blue')
        } else if(storedColor == 4){
-        pixel.classList.add('colorFour')
+        pixel.classList.add('Pink')
        }
-
 
     console.log('x', x);
     console.log('y', y);
-    
-
 }
 
+export function gridDisabled() {
+    gridFinished = true;
+}

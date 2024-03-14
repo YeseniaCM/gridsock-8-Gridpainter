@@ -63,18 +63,13 @@ export function printWaitingForPlayers(roomInput) {
   playersWaiting(instructionRight, roomInput)
 }
 
+let availableColors = [1, 2, 3, 4];
 
 function playersWaiting(instructionsRight, roomInput){
   const socket = io('http://localhost:3000');
   const user = JSON.parse(localStorage.getItem('user'))
   let singleUser = user.find(user => user.userId)
-
-  const colorClasses = [
-    1,
-    2,
-    3,
-    4
-  ]
+  
 
   fetch('http://localhost:3000/users/' + singleUser.userId)
   .then(res => res.json())
@@ -84,42 +79,68 @@ function playersWaiting(instructionsRight, roomInput){
 
       socket.emit('userName', username)
       socket.emit('room', roomInput)
-        socket.on('joinedroom',(roomArg) => {
-          console.log(roomArg);
-        })
 
-      
-        let userAssignedColor = localStorage.getItem('userAssignedColor');
-        if (!userAssignedColor) {
-          userAssignedColor = colorClasses[Math.floor(Math.random() * colorClasses.length)]
-          localStorage.setItem('userAssignedColor', userAssignedColor);
-        }
+      socket.on('joinedroom',(roomArg) => {
+        console.log(roomArg);
+      })
+
         
         socket.on('playerConnected', (usersWithName) => {
           instructionsRight.textContent = `Room: ${roomInput}, Connected users:`
          
-          
+          let colorPool = [...availableColors];
+          let userColors = [];
+
           //assign color to user
           usersWithName.forEach((user, index) => {
-            const userColorClass = colorClasses[index % colorClasses.length]
-            
-         
-            instructionsRight.innerHTML += `<span class="${userColorClass}">${user.userName}<span>`;
-            colorAssigned.innerHTML = `Your assigned color is <span class="${userAssignedColor}">${userAssignedColor}</span>`;
-            socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor, userColorClass})
+            if (colorPool.length > 0) {
+              const userAssignedColor = colorPool.splice(Math.floor(Math.random() * colorPool.length), 1)[0];
+              userColors[user.userName] = userAssignedColor;
 
-  
-            socket.emit('userColor', {userName: user.userName, userColorClass });
+              localStorage.setItem('userAssignedColor', userAssignedColor);
+              console.log(userAssignedColor);
+              console.log(userColors);
 
-           
-
+              availableColors = colorPool;
+              
+              if (usersWithName.length === 5) {
+                availableColors = [];
+              }
+            }
           })
+
+          usersWithName.forEach((user, index) => {
+            const userAssignedColor = userColors[user.userName]
+
+            if (userAssignedColor !== undefined) {
+  
+              const colors = {
+                1: 'Dark-purple',
+                2: 'Light-purple',
+                3: 'Baby-blue',
+                4: 'Pink'
+              };
+  
+              instructionsRight.innerHTML += `<span class="${colors[userAssignedColor]}">${user.userName}, <span>`;
+              colorAssigned.innerHTML = `Your assigned color is <span class="${colors[userAssignedColor]}">${colors[userAssignedColor]}</span>`;
+              socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor})
+              socket.emit('userColor', {userName: user.userName});
+            }
+          })
+          
+          if (colorPool.length === 0) {
+            availableColors = [1, 2, 3, 4]
+          }
+          console.log(colorAssigned);
+          //availableColors = colorPool;
+          console.log(availableColors);
+          console.log(colorPool);
        
 
           socket.on('randomImage', (image) => {
             // check if 4 is connected and start game
 
-            if(usersWithName.length === 4){
+            if(usersWithName.length === 3){
               printPreviewPage(roomInput, usersWithName, image)
               paintAndPrintImage(image)
               console.log('start game');

@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 import { playersAddingImage } from './PlayerAddingImage';
 import { gridDiv } from './printPaintOnGrid';
+import { gridDisabled } from './printPaintOnGrid';
 
 
 let clickCount = 0;
@@ -25,6 +26,7 @@ export function finishBtn(roomInput, usersWithName, uncoloredGrid, image) {
         buttonDesc.textContent = "waiting for the other players to press finish";
         clickCount++; // Increment clickCount when the button is clicked
         socket.emit('finishBtnClicked');
+        gridDisabled(); //disable user to click on grid
     })
 
 
