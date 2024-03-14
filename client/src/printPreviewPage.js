@@ -12,11 +12,10 @@ export let headingStartGameDiv = document.createElement('div');
 
 export function printPreviewPage(roomInput, usersWithName, image){
 
-
-
     app.innerHTML = '';
-     homepageDiv.innerHTML = '';
-     instructionsDivText.innerHTML= '';
+    homepageDiv.innerHTML = '';
+    instructionsDivText.innerHTML= '';
+    headingStartGameDiv.innerHTML = '';
     
 
     headingStartGameDiv.setAttribute('class', 'headingStartGameDiv')
