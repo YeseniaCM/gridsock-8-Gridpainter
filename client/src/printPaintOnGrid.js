@@ -46,14 +46,14 @@ export function printPaintOnGrid(roomInput, usersWithName, image){
         [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     ]
 
- createGridDrawing(unColouredGrid, gridDiv, socket)
+ createGridDrawing(unColouredGrid, gridDiv, socket, usersWithName)
  gridDivContainer.appendChild(gridDiv);
  app.appendChild(gridDivContainer);
  finishBtn(roomInput, usersWithName, unColouredGrid, image);
  console.log(gridDiv)
 }
  
-export function createGridDrawing(unColouredGrid, gridDiv, socket){
+export function createGridDrawing(unColouredGrid, gridDiv, socket, usersWithName){
 
     let rows = 15;
     let columns = 15;
@@ -69,9 +69,22 @@ export function createGridDrawing(unColouredGrid, gridDiv, socket){
         
             pixel.addEventListener('click', () => {
                 if (!gridFinished) {
-                    const storedColor = sessionStorage.getItem('userAssignedColor');
-                    socket.emit('gridCellClicked', { x, y, unColouredGrid, color: storedColor});
-                    coloredPixel(x, y, unColouredGrid, storedColor, pixel);
+                    const storedUser = JSON.parse(localStorage.getItem('user'));
+
+                    
+                    console.log(('userswith', usersWithName));
+
+                    let storedUserName = storedUser.map(user => user.userName)
+
+                    console.log('to string', storedUserName[0]);
+
+
+                    let storedColor  = usersWithName.find((user) => user.userName === storedUserName[0])
+
+console.log('stooooooored', storedColor)
+
+                    socket.emit('gridCellClicked', { x, y, unColouredGrid, color: Number(storedColor.color)});
+                    coloredPixel(x, y, unColouredGrid, Number(storedColor.color), pixel);
                 }
                 
             })    

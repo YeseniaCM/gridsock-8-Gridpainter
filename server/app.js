@@ -22,6 +22,7 @@ const io = require('socket.io')(server, {
 
 const usersRouter = require('./routes/users.js');
 
+
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
@@ -34,6 +35,8 @@ app.get('/', (req, res) => {
 
 let connectedUsers = {} // array för connected user
 let userNames = {};
+let asignColours= {}
+let colourCount = 0;
 let userClickCount = 0;
 let intervalId;
 const usersInRoom = new Map();
@@ -198,9 +201,13 @@ io.on('connection', function(socket) {
 
 
     socket.on('userName', (username) =>{ 
+        console.log('username', username)
+        colourCount++
         userNames[socket.id] = username;
+        asignColours[socket.id] = colourCount;
     });
 
+    
 
     const updateConnectedUser = (room) => {
 
@@ -218,7 +225,7 @@ io.on('connection', function(socket) {
         }
 
         const usersWithName = connectedUsers[room].map(socketId => {
-            return { socketId, userName: userNames[socketId]}
+            return { socketId, userName: userNames[socketId], color: asignColours[socketId]}
         })
        
         
