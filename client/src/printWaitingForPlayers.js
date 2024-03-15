@@ -86,34 +86,18 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
 
         
         socket.on('playerConnected', (usersWithName) => {
+          console.log('userswith', usersWithName)
           instructionsRight.textContent = `Room: ${roomInput}, Connected users: `
           waitingUserFrom.textContent = "Your assigned color is: "
           
 
           //assign color to user
-          usersWithName.forEach((user, index) => {
+          usersWithName.forEach((user) => {
 
             console.log('user', user)
             instructionsRight.textContent += user.userName;
-            console.log('index', index)
-            let userAssignedColor;
-
-            if(user.userName === 'ala'){
-              sessionStorage.setItem(`userAssignedColor`, 1);
-              userAssignedColor = 1
-            } else if(user.userName === 'anton'){
-              sessionStorage.setItem(`userAssignedColor`, 2);
-              userAssignedColor = 2
-            } else if(user.userName === 'cissi'){
-              sessionStorage.setItem(`userAssignedColor`, 3);
-              userAssignedColor = 3
-            } else if(user.userName === 'yese'){
-              sessionStorage.setItem(`userAssignedColor`, 4);
-              userAssignedColor = 4
-            }
-
-                       
-              
+           
+          
             socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor})
             socket.emit('userColor', {userName: user.userName});
             /*
