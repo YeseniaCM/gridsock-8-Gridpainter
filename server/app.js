@@ -359,11 +359,15 @@ io.on('connection', function(socket) {
     //dissconnect
 
     socket.on('disconnect', () => {
+        colourCount = 0;
         console.log("Användare frånkopplad");
 
+       
         const rooms = Object.keys(socket.rooms);
+       
 
         rooms.forEach((room) => {
+            socket.leave(rooms)
             updateConnectedUser(room)
         })
     })
