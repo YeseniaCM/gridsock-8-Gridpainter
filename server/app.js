@@ -37,8 +37,9 @@ let connectedUsers = {} // array för connected user
 let userNames = {};
 let asignColours= {}
 let colourCount = 0;
-let userClickCount = 0;
 let intervalId;
+let userClickCount = 0;
+
 const usersInRoom = new Map();
 
 /* GET all images*/
@@ -202,7 +203,7 @@ io.on('connection', function(socket) {
 
     socket.on('userName', (username) =>{ 
         console.log('username', username)
-        colourCount++
+        colourCount = (colourCount % 4) + 1;
         userNames[socket.id] = username;
         asignColours[socket.id] = colourCount;
     });
@@ -281,6 +282,7 @@ io.on('connection', function(socket) {
 
     function startTimerForRoom(room) {
         console.log("Starting timer for room:", room);
+        intervalId;
         let distance = 10 * 60 * 1000;
     
             intervalId = setInterval(() => {

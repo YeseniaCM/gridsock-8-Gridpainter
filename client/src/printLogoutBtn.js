@@ -15,7 +15,7 @@ export function logOutBtn() {
        
 
         
-        sessionStorage.removeItem('user');
+        localStorage.removeItem('user');
         sessionStorage.removeItem('userAssignedColor');
         app.innerHTML = "";
         printLogInForm();

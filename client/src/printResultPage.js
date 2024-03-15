@@ -6,7 +6,7 @@ import { printchat } from "./startGameBtn";
 export let resultDivText = document.createElement('div');
 resultDivText.setAttribute('class', 'instructions-div-text');
 
-let resultPageContainer = document.createElement('div');
+export let resultPageContainer = document.createElement('div');
 resultPageContainer.setAttribute('class', 'resultPageContainer');
 
 export function printResultPage(data, roomInput, image, uncoloredGrid){
@@ -76,5 +76,5 @@ app.append(resultPageContainer);
  
 paintAndPrintImage(image)
 exitGameBtn()
-logOutBtn()
+
 }

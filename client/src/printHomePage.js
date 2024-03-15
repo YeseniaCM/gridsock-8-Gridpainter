@@ -2,6 +2,7 @@ import io from 'socket.io-client';
 import { loginForm } from './printLogin.js'
 import { logOutBtn } from './printLogoutBtn.js';
 import { startGameBtn } from './startGameBtn.js';
+import { resultPageContainer } from './printResultPage.js'
 
 export let homepageDiv = document.createElement('div');
 homepageDiv.classList.add('homePage');
@@ -10,6 +11,7 @@ homepageDiv.classList.add('homePage');
 export function printHomePage() {
     loginForm.innerHTML = '';
     app.innerHTML = '';
+    resultPageContainer.innerHTML= '';
     sessionStorage.removeItem('userAssignedColor');
 
     let instructionArray = [
