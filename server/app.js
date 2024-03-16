@@ -291,6 +291,8 @@ io.on('connection', function(socket) {
     
             if (distance <= 0) {
                 clearInterval(intervalId);
+                io.in(room).emit('timerExpired', { room: room });
+            console.log("Room:", room, "Timer expired");
             } else {
                 distance -= 1000;
             }
