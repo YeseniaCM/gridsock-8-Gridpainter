@@ -69,7 +69,7 @@ export function printHomePage() {
     roomInput.addEventListener('input', () => {
         console.log(roomInput.value)
         
-        const socket = io('https://gridpainter-ltfli.ondigitalocean.app');
+        const socket = io('http://localhost:3000');
         socket.emit('chosenRoom', roomInput.value)
 
         socket.on('check', (arg) => {

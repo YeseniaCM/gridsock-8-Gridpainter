@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 // { startGameTimer } from "./startGameTimer.js";
 import { exitGameBtn }  from "./printexitGameBtn.js";
 import { homepageDiv } from './printHomePage.js'
-import { printWaitingForPlayers, userAssignedColor }  from './printWaitingForPlayers.js'
+import { printWaitingForPlayers }  from './printWaitingForPlayers.js'
 
 
 
@@ -36,9 +36,9 @@ let chatContainer = document.createElement('div');
 let chatList = document.createElement('ul');
 
 
-export function printchat(room) {
+export function printchat(room, usersWithName) {
   chatContainer.innerHTML = '';
-    const socket = io('https://gridpainter-ltfli.ondigitalocean.app');
+    const socket = io('http://localhost:3000');
 
 
     chatContainer.classList.add('chatContainer');
@@ -55,24 +55,28 @@ export function printchat(room) {
     const user = JSON.parse(localStorage.getItem('user'))
     let singleUser = user.find(user => user.userId)
   
-  
-    fetch('https://gridpainter-ltfli.ondigitalocean.app/users/' + singleUser.userId)
+    fetch('http://localhost:3000/users/' + singleUser.userId)
     .then(res => res.json())
     .then(data => {
     console.log(data)
-      
+
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    let storedUserName = storedUser.map(user => user.userName)
+    console.log(usersWithName);
+
+    
+    //let storedColor = usersWithName.find(user => user.userName === storedUserName[0]);
       sendBtn.addEventListener("click", () => {
-        data.map(user => {
+        usersWithName.forEach(username => {
           console.log("send chat", sendMsg.value);
           socket.emit("chat", {
-            userName: user.userName,
+            userName: username,
             room: room,
             message: sendMsg.value,
-            setNameColor: user.setNameColor
+            userColor: usersWithName.find(user => user.userName === storedUserName[0])
           });
-          sendMsg.value = "";
-
         })
+        sendMsg.value = "";
     })
   })
   chatContainer.append(heading, chatList, sendMsg, sendBtn);
@@ -81,34 +85,37 @@ export function printchat(room) {
 
 
 
-export function updateChatList(chat) {
-  const userAssignedColor = localStorage.getItem('userAssignedColor');
+export function updateChatList(chat, usersWithName) {
+ 
+  
+  console.log(storedUserName);
+  console.log(storedUser);
+  console.log(usersWithName);
+  
+
+  //console.log('user', user)
+  //console.log('storedcolor', storedColor);
 
   const colors = {
     1: 'Dark-purple',
     2: 'Light-purple',
     3: 'Baby-blue',
     4: 'Pink'
-  };
-
-  const setNameColor = colors[userAssignedColor];
+  }
   
-  console.log('chat', chat)
-  let li = document.createElement("li")
-  let usernameSpan = document.createElement('span');
-  let messageSpan = document.createElement('span');
-
-  //add color to both user and message
-  //li.innerText = `${chat.userName}: ${chat.message}`;
-  //li.classList.add(setNameColor);
+  usersWithName.forEach(user => {
+    console.log('chat', chat)
+    let li = document.createElement("li")
+    let usernameSpan = document.createElement('span');
+    usernameSpan.innerText = user.userName;
+    usernameSpan.classList.add(colors[storedColor.color]);
 
 
-  usernameSpan.innerText = chat.userName;
-  usernameSpan.classList.add(setNameColor);
-
-  messageSpan.innerText = ": " + chat.message;
+    let messageSpan = document.createElement('span');
+    messageSpan.innerText = ": " + chat.message;
+    
+    li.append(usernameSpan, messageSpan)
+    chatList.appendChild(li);
+  })
   
-  li.appendChild(usernameSpan)
-  li.appendChild(messageSpan);
-  chatList.appendChild(li);
 }

@@ -46,9 +46,9 @@ timer.classList.add('timer');
 
 
 function countdownFrom(headingStartGameTime, roomInput, usersWithName, image) {
-    const socket = io('https://gridpainter-ltfli.ondigitalocean.app');
+    const socket = io('http://localhost:3000');
 
-let count = 10;
+let count = 0.2;
 
     
    
