@@ -203,7 +203,7 @@ io.on('connection', function(socket) {
 
     socket.on('userName', (username) =>{ 
         console.log('username', username)
-        colourCount = (colourCount % 1) + 1;
+        colourCount = (colourCount % 4) + 1;
         userNames[socket.id] = username;
         asignColours[socket.id] = colourCount;
     });
@@ -214,7 +214,7 @@ io.on('connection', function(socket) {
 
         let usersInRoom =  io.sockets.adapter.rooms.get(room)
         
-        if ( usersInRoom.size > 1 ) {
+        if ( usersInRoom.size > 4 ) {
            io.emit('check', 'Room is full')
            socket.disconnect(true)
         }
@@ -253,7 +253,7 @@ io.on('connection', function(socket) {
         usersInRoom.set(room, count + 1);
 
         // If there are 4 users in the room, start the timer
-        if (usersInRoom.get(room) === 1) {
+        if (usersInRoom.get(room) === 4) {
             startTimerForRoom(room);
         }
                     
@@ -267,9 +267,10 @@ io.on('connection', function(socket) {
     socket.on('chosenRoom', (chosenRoom) => {
 
         let usersInRoom =  io.sockets.adapter.rooms.get(chosenRoom)
+        
         if(!usersInRoom){
             return;
-        } else if ( usersInRoom.size > 1 ) {
+        } else if ( usersInRoom.size > 4 ) {
             console.log('full')
            socket.emit('check', 'Room is full')
            socket.disconnect(true)
@@ -283,7 +284,7 @@ io.on('connection', function(socket) {
     function startTimerForRoom(room) {
         console.log("Starting timer for room:", room);
         intervalId;
-        let distance = 1 * 11 * 1000;  
+        let distance = 10 * 60 * 1000;  
     
             intervalId = setInterval(() => {
             let minutes = Math.floor(distance / (1000 * 60));
@@ -314,11 +315,18 @@ io.on('connection', function(socket) {
 
         socket.on("chat", (arg) =>{
 
-        console.log("kommande chat", arg);
-        console.log('rooms', Object.keys(socket.rooms))
-        
-        let room = arg.room
-        io.in(room).emit("chat", arg)
+            console.log("kommande chat", arg);
+            console.log('rooms', Object.keys(socket.rooms))
+            
+            let room = arg.room
+            io.in(room).emit("chat", arg)
+
+            socket.on('userName', (username) =>{ 
+                console.log('username', username)
+                colourCount = (colourCount % 4) + 1;
+                userNames[socket.id] = username;
+                asignColours[socket.id] = colourCount;
+            });
         })
     
     //grid
@@ -340,11 +348,8 @@ io.on('connection', function(socket) {
         userClickCount = (userClickCount % 1) + 1 ;
         console.log("this is the total clickCount", userClickCount)
 
-   
 
-        
-
-        if (userClickCount === 1) {
+        if (userClickCount === 4) {
             console.log('Clearing interval with ID:', intervalId);
 
             io.emit('changeBackgroundColor');

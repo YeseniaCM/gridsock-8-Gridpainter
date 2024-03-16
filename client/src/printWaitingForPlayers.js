@@ -87,7 +87,8 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
         
           const storedUser = JSON.parse(localStorage.getItem('user'));
           let storedUserName = storedUser.map(user => user.userName)
-          let storedColor  = usersWithName.find((user) => user.userName === storedUserName[0])
+          let storedColor = usersWithName.find((user) => user.userName === storedUserName[0])
+          console.log(storedColor);
 
           const colors = {
             1: 'Dark-purple',
@@ -95,6 +96,7 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
             3: 'Baby-blue',
             4: 'Pink'
           }
+          
 
           instructionsRight.textContent = `Room: ${roomInput}, Connected users: `
 
@@ -103,14 +105,13 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
             instructionsRightColor.textContent = user.userName;
             instructionsRightColor.classList.add(colors[user.color] + '-text');
             instructionsRight.appendChild(instructionsRightColor);
-          })
 
-          waitingUserFrom.textContent = `Your assigned color is: `
-          let assignedColor = document.createElement('span');
-          assignedColor.textContent = colors[storedColor.color];
-          assignedColor.classList.add(colors[storedColor.color] +  '-text');
-          waitingUserFrom.appendChild(assignedColor);
-          
+            waitingUserFrom.textContent = `Your assigned color is: `
+            let assignedColor = document.createElement('span');
+            assignedColor.textContent = colors[storedColor.color];
+            assignedColor.classList.add(colors[storedColor.color] +  '-text');
+            waitingUserFrom.appendChild(assignedColor);
+          })
         
           socket.emit('assignedColor', {userName: user.userName, id: user.socketId, storedColor})
           socket.emit('userColor', {userName: user.userName});
@@ -119,7 +120,7 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
           socket.on('randomImage', (image) => {
             // check if 4 is connected and start game
 
-            if(usersWithName.length === 3){
+            if(usersWithName.length === 2){
               printPreviewPage(roomInput, usersWithName, image)
               paintAndPrintImage(image)
               socket.on('timerExpired', (time) =>{
