@@ -4,6 +4,7 @@ import { homepageDiv } from './printHomePage';
 import { printPreviewPage, updateTimer } from './printPreviewPage';
 import { paintAndPrintImage } from './originalImages';
 import { updateChatList } from './startGameBtn'
+import { printNoTimeLeftPage } from './printNoTimeLeftPage';
 
 
 export let instructionsDivText = document.createElement('div');
@@ -121,7 +122,11 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
             if(usersWithName.length === 3){
               printPreviewPage(roomInput, usersWithName, image)
               paintAndPrintImage(image)
+              socket.on('timerExpired', (time) =>{
+                printNoTimeLeftPage(time)
+            })
               console.log('start game');
+
             }
           })
         })
@@ -163,3 +168,48 @@ function animateLoading(loadingAnimation, loadingAnimation2, loadingAnimation3){
     yoyo: true,
   });
 }
+
+
+// function countdownFrom(headingStartGameTime, roomInput, usersWithName, image) {
+//   const socket = io('http://localhost:3000');
+
+// let count = 10;
+
+  
+ 
+//   function updateCount() {
+//       if (count >= 0) {
+//           headingStartGameTime.textContent = `Game starts in ${count}`;
+//           count--;
+//           setTimeout(updateCount, 1000);
+          
+//       } else {
+
+//           headingStartGameDiv.innerHTML = '';
+//           app.innerHTML = '';
+//           gridDiv.innerHTML ='';
+
+//           printPaintOnGrid(roomInput, usersWithName, image)
+//           printchat(roomInput)
+          
+//           if (usersWithName.length === 4) {
+//               socket.emit('timer', { room: roomInput, message: 'start timer' });
+//           }
+//           timerContainer.appendChild(timer);
+//           app.appendChild(timerContainer);
+
+//       }
+//   }
+//   updateCount();
+// }
+
+// export function updateTimer(time){
+//   const formattedMinutes = time.minutes < 10 ? `0${time.minutes}` : time.minutes;
+//   const formattedSeconds = time.seconds < 10 ? `0${time.seconds}` : time.seconds;
+
+//   if (!timerContainer) {
+//       timer.textContent = `${formattedMinutes}:${formattedSeconds}`;
+//   } else {
+//       timer.textContent = `${formattedMinutes}:${formattedSeconds}`;
+//   }
+// } 

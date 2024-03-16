@@ -37,7 +37,7 @@ let connectedUsers = {} // array för connected user
 let userNames = {};
 let asignColours= {}
 let colourCount = 0;
-let intervalId;
+let intervalId = {};
 let userClickCount = 0;
 
 const usersInRoom = new Map();
@@ -203,7 +203,7 @@ io.on('connection', function(socket) {
 
     socket.on('userName', (username) =>{ 
         console.log('username', username)
-        colourCount = (colourCount % 4) + 1;
+        colourCount = (colourCount % 1) + 1;
         userNames[socket.id] = username;
         asignColours[socket.id] = colourCount;
     });
@@ -214,7 +214,7 @@ io.on('connection', function(socket) {
 
         let usersInRoom =  io.sockets.adapter.rooms.get(room)
         
-        if ( usersInRoom.size > 4 ) {
+        if ( usersInRoom.size > 1 ) {
            io.emit('check', 'Room is full')
            socket.disconnect(true)
         }
@@ -253,7 +253,7 @@ io.on('connection', function(socket) {
         usersInRoom.set(room, count + 1);
 
         // If there are 4 users in the room, start the timer
-        if (usersInRoom.get(room) === 4) {
+        if (usersInRoom.get(room) === 1) {
             startTimerForRoom(room);
         }
                     
@@ -269,7 +269,7 @@ io.on('connection', function(socket) {
         let usersInRoom =  io.sockets.adapter.rooms.get(chosenRoom)
         if(!usersInRoom){
             return;
-        } else if ( usersInRoom.size > 4 ) {
+        } else if ( usersInRoom.size > 1 ) {
             console.log('full')
            socket.emit('check', 'Room is full')
            socket.disconnect(true)
@@ -283,7 +283,7 @@ io.on('connection', function(socket) {
     function startTimerForRoom(room) {
         console.log("Starting timer for room:", room);
         intervalId;
-        let distance = 10 * 60 * 1000;
+        let distance = 1 * 11 * 1000;  
     
             intervalId = setInterval(() => {
             let minutes = Math.floor(distance / (1000 * 60));
@@ -291,6 +291,8 @@ io.on('connection', function(socket) {
     
             if (distance <= 0) {
                 clearInterval(intervalId);
+                io.in(room).emit('timerExpired', { room: room });
+            console.log("Room:", room, "Timer expired");
             } else {
                 distance -= 1000;
             }
@@ -335,14 +337,14 @@ io.on('connection', function(socket) {
     })
     //finish button
     socket.on('finishBtnClicked', () => {
-        userClickCount = (userClickCount % 4) + 1 ;
+        userClickCount = (userClickCount % 1) + 1 ;
         console.log("this is the total clickCount", userClickCount)
 
    
 
         
 
-        if (userClickCount === 4) {
+        if (userClickCount === 1) {
             console.log('Clearing interval with ID:', intervalId);
 
             io.emit('changeBackgroundColor');
