@@ -3,6 +3,7 @@ import { loginForm } from './printLogin.js'
 import { logOutBtn } from './printLogoutBtn.js';
 import { startGameBtn } from './startGameBtn.js';
 import { resultPageContainer } from './printResultPage.js'
+import { startTheGameBtn } from './startGameBtn.js';
 
 export let homepageDiv = document.createElement('div');
 homepageDiv.classList.add('homePage');
@@ -67,7 +68,12 @@ export function printHomePage() {
     
     //checks inputfield and check socket if room is full
     roomInput.addEventListener('input', () => {
-        console.log(roomInput.value)
+   
+        if(roomInput.value){
+            startTheGameBtn.disabled = false;
+        }
+
+
         
         const socket = io('https://gridpainter-ltfli.ondigitalocean.app');
         socket.emit('chosenRoom', roomInput.value)
@@ -90,5 +96,4 @@ export function printHomePage() {
     homepageDiv.append( homeHeading, circleDiv, instructionsDiv, roomInput, allRooms)
     app.appendChild(homepageDiv)
     startGameBtn(roomInput)
-
 }
