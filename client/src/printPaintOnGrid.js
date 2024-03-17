@@ -84,7 +84,6 @@ function coloredPixel(x, y,unColouredGrid, storedColor, pixel){
    unColouredGrid[x][y] = storedColor;
   
     if(storedColor == 1){
-        console.log('kommer vi hit ?')
         pixel.classList.add('Dark-purple')
        } else if(storedColor == 2){
         pixel.classList.add('Light-purple')
