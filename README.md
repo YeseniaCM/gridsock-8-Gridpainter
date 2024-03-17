@@ -6,6 +6,9 @@ https://github.com/YeseniaCM/gridsock-8-Gridpainter
 
 # Application requirements
 
+Our first collaborative fullstack game-application which explores the world of socket.io and realtime communication and a first time attempt at deploying using DigitalOcean!
+These are the technical requirements for our assignment:
+
 - The application should have a login feature.
 - It should allow the creation of users, with a minimum requirement of having at least 4 users logged in simultaneously.
 - Users should be able to collaborate in real-time to paint a picture together.
@@ -38,19 +41,28 @@ https://github.com/YeseniaCM/gridsock-8-Gridpainter
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![SASS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white)
+![DigitalOcean](https://img.shields.io/badge/DigitalOcean-%230167ff.svg?style=for-the-badge&logo=digitalOcean&logoColor=white)
 
 ## Initial Wireframes
 
-draft
+![alt text](client/src/styles/wireframes/loginpage-wireframe.png)
+![alt text](client/src/styles/wireframes/create-new-user-wireframe.png)
+![alt text](client/src/styles/wireframes/homepage-wireframe.png)
+![alt text](client/src/styles/wireframes/lobbyroom-wireframe.png)
+![alt text](client/src/styles/wireframes/image-preview-wireframe.png)
+![alt text](client/src/styles/wireframes/gamepage-wireframe.png)
+![alt text](client/src/styles/wireframes/final-result-wireframe.png)
 
 ## Final result
 
-draft
+![alt text](client/src/styles/wireframes/final-result/login-page.png)
+![alt text](client/src/styles/wireframes/final-result/create-new-user.png)
 
 ## Project directory
 
 ```
-cd server
+server
+client
 ```
 
 ## Start project
@@ -80,4 +92,4 @@ mysql2
 
 ## Lessons learned
 
-## Dependencies
+The challenges of this project for us had mainly to do with navigating the communication between socket.io and socket.io-client. Understanding the dynamic of socket.io and its events as well as understanding the ways in which connections are established proved to be challenging for us as a group. The general takeaways ahead of future socket.io applications would be to understand the fundamentals of socket.io and its concepts to allow for more effective debugging, testing as well as creative solutions to achieve a desired outcome.
