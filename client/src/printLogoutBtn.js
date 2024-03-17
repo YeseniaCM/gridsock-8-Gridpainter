@@ -13,8 +13,6 @@ export function logOutBtn() {
 
     logOutButton.addEventListener('click', () => {
        
-
-        
         localStorage.removeItem('user');
         sessionStorage.removeItem('userAssignedColor');
         app.innerHTML = "";

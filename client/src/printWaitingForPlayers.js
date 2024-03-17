@@ -34,7 +34,7 @@ export function printWaitingForPlayers(roomInput) {
 
   let instructionRight = document.createElement('p');
   instructionRight.setAttribute('class', 'instruction-text instructionRight');
-  instructionRight.textContent = 'Players joined: '; // ${user} ska in och hur många spelare som man väntar på
+  instructionRight.textContent = 'Players joined: ';
 
   let waitingTime = document.createElement('p');
   waitingTime.textContent = `you have waited in 00:00`;
@@ -51,13 +51,11 @@ export function printWaitingForPlayers(roomInput) {
 
   let waitingUserFrom = document.createElement('div');
   waitingUserFrom.setAttribute('class', 'waiting-user-form');
-  //waitingUserFrom.textContent = "players waiting";
 
 
   let circleDiv = document.createElement('div');
   circleDiv.setAttribute('class', 'circle-div instructionsCircle');
 
-    
   instructionsDivText.append( instructionHeading, instructionLeft,instructionRight, waitingUserFrom, circleDiv)
   app.append(instructionsDivText, loadingAnimation, loadingAnimation2, loadingAnimation3)
   playersWaiting(instructionRight, roomInput, waitingUserFrom)
@@ -79,24 +77,21 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom) {
       socket.emit('room', roomInput)
 
       socket.on('joinedroom',(roomArg) => {
-       // console.log(roomArg);
+       
       })
 
-        //assign color to user
         socket.on('playerConnected', (usersWithName) => {
         
           const storedUser = JSON.parse(localStorage.getItem('user'));
           let storedUserName = storedUser.map(user => user.userName)
           let storedColor = usersWithName.find((user) => user.userName === storedUserName[0])
-          console.log(storedColor);
-
+    
           const colors = {
             1: 'Dark-purple',
             2: 'Light-purple',
             3: 'Baby-blue',
             4: 'Pink'
           }
-          
 
           instructionsRight.textContent = `Room: ${roomInput}, Connected users: `
 
@@ -116,28 +111,18 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom) {
           socket.emit('assignedColor', {userName: user.userName, id: user.socketId, storedColor})
           socket.emit('userColor', {userName: user.userName});
 
-            
-            
-         
-
-       
-
           socket.on('randomImage', (image) => {
-            // check if 4 is connected and start game
 
             if(usersWithName.length === 4){
               printPreviewPage(roomInput, usersWithName, image)
               paintAndPrintImage(image)
               socket.on('timerExpired', (time) =>{
-
                 printNoTimeLeftPage(time)
             })
-
-              console.log('start game');
-
             }
           })
         })
+
         socket.on("chat", (arg) => {
           console.log('chatchat', arg)
           updateChatList(arg);
@@ -152,11 +137,11 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom) {
 
 function animateLoading(loadingAnimation, loadingAnimation2, loadingAnimation3){
   gsap.to(loadingAnimation, {
-    x: 200, // Move to the righ
+    x: 200, 
     duration: 3,
     ease: "power1.inOut",
-    repeat: -1, // Repeat the animation infinitely
-    yoyo: true, // Apply yoyo effect
+    repeat: -1,
+    yoyo: true,
   });
 
   gsap.to(loadingAnimation2, {

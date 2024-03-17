@@ -1,23 +1,17 @@
-import { paintAndPrintImage } from "./originalImages.js";
 import { homepageDiv } from "./printHomePage.js";
 import { instructionsDivText } from "./printWaitingForPlayers";
 import { gridDiv, printPaintOnGrid } from './printPaintOnGrid.js'
 import { printchat } from './startGameBtn.js'
 import io from 'socket.io-client';
 
-
 export let headingStartGameDiv = document.createElement('div');
 
-
-
 export function printPreviewPage(roomInput, usersWithName, image){
-
     app.innerHTML = '';
     homepageDiv.innerHTML = '';
     instructionsDivText.innerHTML= '';
     headingStartGameDiv.innerHTML = '';
     
-
     headingStartGameDiv.setAttribute('class', 'headingStartGameDiv')
 
     let heading = document.createElement('h1')
@@ -28,12 +22,7 @@ export function printPreviewPage(roomInput, usersWithName, image){
     headingStartGameDiv.append(heading, headingStartGameTime)
     app.appendChild(headingStartGameDiv);
     
-    // hämta 
-
-
     countdownFrom(headingStartGameTime, roomInput, usersWithName, image)
-    
-
 }
 
 
@@ -42,24 +31,19 @@ timerContainer.classList.add('timerContainer');
 
 let timer = document.createElement('p');
 timer.classList.add('timer');
-;
 
 
 function countdownFrom(headingStartGameTime, roomInput, usersWithName, image) {
     const socket = io('http://localhost:3000');
 
-let count = 10;
+    let count = 10;
 
-    
-   
     function updateCount() {
         if (count >= 0) {
             headingStartGameTime.textContent = `Game starts in ${count}`;
             count--;
             setTimeout(updateCount, 1000);
-            
         } else {
-
             headingStartGameDiv.innerHTML = '';
             app.innerHTML = '';
             gridDiv.innerHTML ='';
@@ -72,7 +56,6 @@ let count = 10;
             }
             timerContainer.appendChild(timer);
             app.appendChild(timerContainer);
-
         }
     }
     updateCount();

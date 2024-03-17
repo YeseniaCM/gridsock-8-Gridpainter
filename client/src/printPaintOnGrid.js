@@ -7,16 +7,12 @@ gridDivContainer.setAttribute('class', 'grid-div-container');
 export let gridDiv = document.createElement('div');
 gridDiv.setAttribute('class', 'grid-div');
 
-//export let usersContainer = document.createElement('div');
-//usersContainer.setAttribute('class', 'usersContainer');
-
 let gridFinished = false;
 
 export function printPaintOnGrid(roomInput, usersWithName, image){
     gridDiv.innerHTML = '';
     app.innerHTML = '';
     const socket = io('http://localhost:3000');
-    console.log('socket connected', socket.connected);
 
     socket.on("updatePaintGrid", (arg) => {
         updateGridCell(arg);
@@ -24,9 +20,7 @@ export function printPaintOnGrid(roomInput, usersWithName, image){
     })
 
     function updateGridCell(gridCell) {
-        console.log('gridcell', gridCell)
-     
-        const { x, y, color} = gridCell;
+       const { x, y, color} = gridCell;
 
         coloredPixel(x, y, unColouredGrid, Number(color));
     }
@@ -52,11 +46,8 @@ export function printPaintOnGrid(roomInput, usersWithName, image){
     createGridDrawing(unColouredGrid, gridDiv, socket, usersWithName)
     gridDivContainer.appendChild(gridDiv);
     printUsers(usersWithName);
-    //app.appendChild(usersContainer);
     app.appendChild(gridDivContainer);
     finishBtn(roomInput, usersWithName, unColouredGrid, image);
-    console.log(gridDiv)
-    //console.log(usersContainer);
 }
  
 export function createGridDrawing(unColouredGrid, gridDiv, socket, usersWithName){
@@ -72,27 +63,16 @@ export function createGridDrawing(unColouredGrid, gridDiv, socket, usersWithName
 
             gridDiv.append(pixel);
 
-        
             pixel.addEventListener('click', () => {
                 if (!gridFinished) {
                     const storedUser = JSON.parse(localStorage.getItem('user'));
-
-                    
-                    console.log(('userswith', usersWithName));
-
                     let storedUserName = storedUser.map(user => user.userName)
 
-                    console.log('to string', storedUserName[0]);
-
-
                     let storedColor  = usersWithName.find((user) => user.userName === storedUserName[0])
-
-                    console.log('stooooooored', storedColor)
 
                     socket.emit('gridCellClicked', { x, y, unColouredGrid, color: Number(storedColor.color)});
                     coloredPixel(x, y, unColouredGrid, Number(storedColor.color), pixel);
                 }
-                
             })    
         }
     }
@@ -103,7 +83,6 @@ function coloredPixel(x, y,unColouredGrid, storedColor, pixel){
    pixel = gridDiv.querySelector(`.pixel:nth-child(${x * 15 + y + 1})`);
    unColouredGrid[x][y] = storedColor;
   
-    console.log('stored colour', storedColor)
     if(storedColor == 1){
         console.log('kommer vi hit ?')
         pixel.classList.add('Dark-purple')
@@ -114,16 +93,12 @@ function coloredPixel(x, y,unColouredGrid, storedColor, pixel){
        } else if(storedColor == 4){
         pixel.classList.add('Pink')
        }
-
-    console.log('x', x);
-    console.log('y', y);
 }
-//disabled grid when finish button clicked
+
 export function gridDisabled() {
     gridFinished = true;
 }
 
-// display all users and their color
 export function printUsers(usersWithName) {
 
     const storedUser = JSON.parse(localStorage.getItem('user'));    
@@ -132,7 +107,7 @@ export function printUsers(usersWithName) {
     
     let usersContainer = document.createElement('div');
     usersContainer.setAttribute('class', 'usersContainer');
-    console.log('storedUser', storedUser);
+
     app.appendChild(usersContainer);
 
     const colors = {
@@ -143,11 +118,9 @@ export function printUsers(usersWithName) {
     }
 
     usersWithName.forEach(user => {
-
         let userColorBox = document.createElement('div');
         userColorBox.setAttribute('class', 'userColorBox')
         userColorBox.classList.add(colors[user.color]);
-        console.log(colors[storedColor.color]);
 
         let userNames = document.createElement('p');
         userNames.textContent = user.userName;
@@ -157,7 +130,5 @@ export function printUsers(usersWithName) {
         users.append(userColorBox, userNames)
 
         usersContainer.appendChild(users);
-        
     })
-  
 }

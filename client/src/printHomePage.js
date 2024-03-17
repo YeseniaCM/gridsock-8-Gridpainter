@@ -8,7 +8,6 @@ import { startTheGameBtn } from './startGameBtn.js';
 export let homepageDiv = document.createElement('div');
 homepageDiv.classList.add('homePage');
 
-
 export function printHomePage() {
     loginForm.innerHTML = '';
     app.innerHTML = '';
@@ -73,13 +72,10 @@ export function printHomePage() {
             startTheGameBtn.disabled = false;
         }
 
-
-        
         const socket = io('http://localhost:3000');
         socket.emit('chosenRoom', roomInput.value)
 
         socket.on('check', (arg) => {
-            console.log(arg)
           if (arg === 'Room is full') {
             homepageDiv.innerHTML = '';
 
@@ -90,7 +86,7 @@ export function printHomePage() {
         } 
          })
     })
-  
+
     logOutBtn()
     instructionsDiv.append(instructionsUL, instructionQuote)
     homepageDiv.append( homeHeading, circleDiv, instructionsDiv, roomInput, allRooms)

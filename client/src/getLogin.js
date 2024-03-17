@@ -13,8 +13,7 @@ export function getLogIn (email, password, message) {
         })
         .then(res => res.json())
         .then(data => {
-            console.log("Användare:", data);
-            
+        
             if (data.message) {
                 message.textContent = data.message
                 setTimeout( ()=> {

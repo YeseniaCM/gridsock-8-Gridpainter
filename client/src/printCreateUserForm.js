@@ -1,7 +1,6 @@
 import { loginForm, printLogInForm } from "./printLogin";
 import { homepageDiv, printHomePage } from "./printHomePage.js";
 
-
 export function printCreateUserForm() {
     app.removeChild(loginForm)
 
@@ -56,16 +55,9 @@ export function printCreateUserForm() {
             localStorage.setItem("user", JSON.stringify(data));
             app.innerHTML = "";
             printHomePage()
-
-        
        })
-
     })
-
     createUserFormContainer.append(createName, createEmail, createPassword, createUserBtn, backToLoginBtn);
     createUserContainer.append(createUserPageTitle, createUserFormContainer);
     app.appendChild(createUserContainer);
-
-    
-
 }

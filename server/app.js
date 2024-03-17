@@ -40,7 +40,6 @@ let colourCount = 0;
 let intervalId;
 let userClickCount = 0;
 
-console.log('intervalllll', intervalId)
 
 const usersInRoom = new Map();
 
@@ -83,10 +82,6 @@ app.post('/images/add', function(req, res) {
     let roomId = req.body.roomId; 
     let playersName = req.body.playersName.toString(); 
     let gridImage = JSON.stringify(req.body.gridImage)
-    
-    //console.log('roomId', roomId)
-    //console.log('player', playersName)
-    //console.log('grid', gridImage)
     
     let sql = "INSERT INTO images (roomId, imageId, playersName, gridImage) VALUES (?, ?, ?, ?)";
     let values = [roomId, imageId, playersName, gridImage];
@@ -176,7 +171,6 @@ let image4 = [
     [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
 ];
 
-// image 5
 let image5 = [
     [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
     [4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4],
@@ -196,22 +190,18 @@ let image5 = [
 ];
 
 
-// mainarray containing 5 arrays
 let originalImages = [image1, image2, image3, image4, image5];
 
 io.on('connection', function(socket) {
-   // console.log("Användare kopplad");
-
 
     socket.on('userName', (username) =>{ 
-        //console.log('username', username)
         colourCount = (colourCount % 4) + 1;
         userNames[socket.id] = username;
         asignColours[socket.id] = colourCount;
     });
 
     
-
+// Upadate Connected user
     const updateConnectedUser = (room) => {
 
         let usersInRoom =  io.sockets.adapter.rooms.get(room)
@@ -231,42 +221,33 @@ io.on('connection', function(socket) {
             return { socketId, userName: userNames[socketId], color: asignColours[socketId]}
         })
        
-        
         io.in(room).emit('playerConnected', usersWithName)
     }
     
+    //Random image
     const randomizeImage = (room) => {
-        
         let image = originalImages[Math.floor(Math.random()*originalImages.length)];
 
         io.to(room).emit('randomImage', image)
-
     }
     
+    //Join room
     socket.on('room', (room) => {
-      
-
         socket.join(room)
         socket.emit('joinedroom', room)
         updateConnectedUser(room)
         randomizeImage(room)
         
-        // Increment the user count for the room
+        
         const count = usersInRoom.get(room) || 0;
         usersInRoom.set(room, count + 1);
 
-       
          if (usersInRoom.get(room) === 4) {
               startTimerForRoom(room);
-        
         }
-                        
-        
-
-        
     });
 
-  
+    //Check if room is full
     socket.on('chosenRoom', (chosenRoom) => {
 
         let usersInRoom =  io.sockets.adapter.rooms.get(chosenRoom)
@@ -274,7 +255,6 @@ io.on('connection', function(socket) {
         if(!usersInRoom){
             return;
         } else if ( usersInRoom.size > 4 ) {
-            //console.log('full')
            socket.emit('check', 'Room is full')
            socket.disconnect(true)
         } else {
@@ -282,16 +262,11 @@ io.on('connection', function(socket) {
         }
     })
 
-
-
+    //Timer
     function startTimerForRoom(room) {
-  
-        console.log("Starting timer for room:", room);
         intervalId;
 
-       
         let distance = 10 * 60 * 1000;
-
     
             intervalId = setInterval(() => {
             let minutes = Math.floor(distance / (1000 * 60));
@@ -300,81 +275,49 @@ io.on('connection', function(socket) {
             if (distance <= 0) {
                 clearInterval(intervalId);
                 io.in(room).emit('timerExpired', { room: room });
-            console.log("Room:", room, "Timer expired");
             } else {
                 distance -= 1000;
             }
-    
+
             io.in(room).emit('timerUpdate', { room: room, minutes: minutes, seconds: seconds });
-    
-            console.log("Room:", room, "Timer:", { minutes, seconds });
         }, 1000);
-        console.log("start timer intervalid", intervalId);
         }
-    
-       
-    
 
-
-
-
-
-    
     //chat
 
-        //socket.emit("chat", {userName: '  ', message: 'Start gridpainting'})
-
-        socket.on("chat", (arg) =>{
-
-
-
-            
+        socket.on("chat", (arg) =>{    
             let room = arg.room
             io.in(room).emit("chat", arg)
-
         })
     
     //grid
 
     socket.on("gridCellClicked", (arg) => {
-        
-        //console.log("färg uppdaterad", arg);
         io.emit("updatePaintGrid", arg);
     })
 
-    //coloring
     socket.on('assignedColor', (userAssignedColor) => {
-       // console.log('angiven färg', userAssignedColor);
         io.emit('assignedColor', (userAssignedColor));
-        
     })
+
     //finish button
     socket.on('finishBtnClicked', () => {
 
         userClickCount = (userClickCount % 4) + 1 ;
        
-
         clearInterval(intervalId);
         intervalId = undefined;
 
         if (userClickCount === 4) {
-           // console.log('Clearing interval with ID:', intervalId);
 
             io.emit('changeBackgroundColor');
-            
             clearInterval(intervalId);
-  
-        
-            socket.emit('intervalCleared');
-
-            
-           console.log("What is this", intervalId);
-            
+            socket.emit('intervalCleared');   
         }   
     })
 
-    //dissconnect
 
+    //dissconnect
     socket.on('disconnect', () => {
       
         colourCount = 0;
@@ -386,6 +329,5 @@ io.on('connection', function(socket) {
             updateConnectedUser(room)
         })
     })
-
 })
 server.listen(process.env.PORT || '3000');

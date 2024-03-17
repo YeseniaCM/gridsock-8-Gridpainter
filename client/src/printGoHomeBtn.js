@@ -1,6 +1,5 @@
 import {printHomePage} from './printHomePage'
 
-
 export function goHomeBtn() {
 
     let homeBtn = document.createElement('button')

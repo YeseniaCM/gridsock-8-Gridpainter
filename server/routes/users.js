@@ -14,9 +14,8 @@ router.get('/', function(req, res) {
                    FROM users`;
     connection.query(query , (err, result) => {
       if(err) console.log(err)
-      let newResult = Object.keys(result).length // Checks the lenght of the result
+      let newResult = Object.keys(result).length 
   
-      
       if(newResult == 0) {
         res.status(404).json({message: 'No users exist'})
       } else {
@@ -76,10 +75,8 @@ router.post("/login", (req,res) =>{
       }else {
         res.status(401).json({ message: "Wrong email or password." });
       }
-      
     })
   })
-
 })
 
 

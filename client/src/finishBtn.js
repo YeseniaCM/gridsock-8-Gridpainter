@@ -32,7 +32,7 @@ export function finishBtn(roomInput, usersWithName, uncoloredGrid, image) {
     })
 
     socket.on('intervalCleared', () => {
-       console.log("intervallet är rensat");
+
     });
    
     buttonContainer.append(finishBtn, buttonDesc)
