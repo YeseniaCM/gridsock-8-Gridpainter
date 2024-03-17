@@ -93,3 +93,8 @@ mysql2
 ## Lessons learned
 
 The challenges of this project for us had mainly to do with navigating the communication between socket.io and socket.io-client. Understanding the dynamic of socket.io and its events as well as understanding the ways in which connections are established proved to be challenging for us as a group. The general takeaways ahead of future socket.io applications would be to understand the fundamentals of socket.io and its concepts to allow for more effective debugging, testing as well as creative solutions to achieve a desired outcome.
+
+## Detected bugs
+
+At point of hand-in of assignment we have come across bugs related to the functionality of the timer and its ability to clear when all players have finished and pressed their 'finish'-button.
+Currently despite debugging and testing across several days the function to clear the interval doesn't seem to be applied correctly. And consequently, our 'no time left' - page is therefore reprinted each second, causing a large bug. Given more time and perhaps more experience regarding socket.io we would hopefully be able to detect and solve the issue at hand.
