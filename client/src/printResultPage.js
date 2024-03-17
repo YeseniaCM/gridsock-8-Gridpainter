@@ -44,21 +44,9 @@ export function printResultPage(data, roomInput, image, uncoloredGrid){
     
         
         let colorsArray = JSON.parse(data[0].gridImage);
-           
 
-        let imageDiv = document.createElement('div');
-        imageDiv.setAttribute('class', 'image-div');
-            
-        let arrayContainer = document.createElement('div');
-        arrayContainer.classList.add('array-container');
-
-        let originalImageContainer = document.createElement('div');
-        originalImageContainer.setAttribute('class', 'grid-div');
-        
-paintAndPrintImage(colorsArray)
-
-        let resultHeading = document.createElement('h1');
-resultHeading.textContent = 'Your result';
+        let resultText = document.createElement('h1');
+resultText.textContent = 'Your result';
 // resultHeading.setAttribute('class', '');
 
 let resultLeft = document.createElement('p');
@@ -66,15 +54,20 @@ let resultLeft = document.createElement('p');
 resultLeft.textContent = `Correct colors: ${procentage}`;
 
 
-resultDivText.append(resultLeft)
-imageDiv.append()
-resultPageContainer.append(resultHeading, imageDiv, resultDivText)
+resultDivText.append(resultText, resultLeft)
+resultPageContainer.append(resultDivText)
 app.append(resultPageContainer);
+let colorsArrayDiv = document.createElement('div');
+paintAndPrintImage(colorsArray);
+colorsArrayDiv.append(colorsArray); // Lägg till färgarray i en egen div
 
+let originalImageDiv = document.createElement('div');
+paintAndPrintImage(image);
+originalImageDiv.append(image); 
        
 })
  
-paintAndPrintImage(image)
+
 exitGameBtn()
 
 }

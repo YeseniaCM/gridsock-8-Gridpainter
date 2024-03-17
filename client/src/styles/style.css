@@ -1,3 +1,77 @@
+<<<<<<< HEAD
+/* GRID */
+.grid-div {
+  display: grid;
+  width: 380px;
+  height: 380px;
+  grid-template-rows: repeat(15, 1fr);
+  grid-template-columns: repeat(15, 1fr);
+  border: 2px solid #3a3a3a;
+  margin: 10px;
+  background-color: #ffffff;
+}
+
+.pixel {
+  width: 100%;
+  height: 100%;
+  outline: 1px solid #9b9a9a;
+}
+
+.pixel:hover {
+  background-color: #adadae;
+  cursor: pointer;
+}
+
+/* Original Images style */
+.White {
+  background-color: #ffffff;
+}
+
+.Dark-purple {
+  background-color: #565676;
+}
+
+.Light-purple {
+  background-color: #aeadf0;
+}
+
+.Baby-blue {
+  background-color: #63b0cd;
+}
+
+.Pink {
+  background-color: #e9d2f4;
+}
+
+/* text color*/
+.Dark-purple-text {
+  color: #565676;
+}
+
+.Light-purple-text {
+  color: #aeadf0;
+}
+
+.Baby-blue-text {
+  color: #63b0cd;
+}
+
+.Pink-text {
+  color: #e9d2f4;
+}
+
+/* 
+  .pixel {
+    width: 20px;
+    height: 20px;
+    outline: 1px solid black;
+  }
+  .pixel:hover {
+   background-color: #525151;;
+    cursor: pointer;
+  }
+*/
+=======
 * h3 {
   color: #CEE741;
   font-family: "Madimi One", sans-serif;
@@ -6,6 +80,7 @@
   font-size: 2rem;
 }
 
+>>>>>>> f13a7d535cc4521fcc1be794585cca03b7414019
 body {
   background-color: #538E91;
   margin: 0;
@@ -286,6 +361,8 @@ body .timerContainer {
 body .timerContainer p {
   display: inline;
 }
+<<<<<<< HEAD
+=======
 body .instructions-div-text {
   display: flex;
   width: 80%;
@@ -295,6 +372,7 @@ body .instructions-div-text {
   flex-direction: row;
   flex-wrap: wrap;
 }
+>>>>>>> f13a7d535cc4521fcc1be794585cca03b7414019
 body .instructions-div-text h1 {
   color: #CEE741;
   font-family: "Madimi One", sans-serif;
@@ -345,7 +423,10 @@ body #app {
   display: flex; /* Use flexbox for layout */
   align-items: center; /* Center content vertically */
   justify-content: center; /* Center content horizontally */
+<<<<<<< HEAD
+=======
   flex-direction: column;
+>>>>>>> f13a7d535cc4521fcc1be794585cca03b7414019
   /* Additional styles as needed */
 }
 body .headingStartGameDiv {
@@ -405,10 +486,17 @@ body .loading-div {
   box-shadow: rgba(255, 255, 255, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
 body .resultPage {
+<<<<<<< HEAD
+  display: flex;
+  max-width: 78%;
+  flex-direction: row;
+  flex-wrap: wrap;
+=======
   width: 70vw;
   display: flex;
   flex-direction: column-reverse;
   height: auto !important;
+>>>>>>> f13a7d535cc4521fcc1be794585cca03b7414019
 }
 body .resultPage .resultPageContainer {
   color: #CEE741;
@@ -416,6 +504,16 @@ body .resultPage .resultPageContainer {
   font-weight: 400;
   font-style: normal;
   font-size: 2rem;
+<<<<<<< HEAD
+  width: 100%;
+  text-align: center;
+}
+body .resultPage .resultPageContainer .grid-div {
+  margin: 10px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+=======
   margin: 0;
   padding: 0;
 }
@@ -444,4 +542,5 @@ body .home-btn {
   color: black;
   margin-top: 2%;
   margin-right: 20%;
+>>>>>>> f13a7d535cc4521fcc1be794585cca03b7414019
 }/*# sourceMappingURL=style.css.map */
