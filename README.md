@@ -57,6 +57,11 @@ These are the technical requirements for our assignment:
 
 ![alt text](client/src/styles/wireframes/final-result/login-page.png)
 ![alt text](client/src/styles/wireframes/final-result/create-new-user.png)
+![alt text](client/src/styles/wireframes/final-result/home-page.png)
+![alt text](client/src/styles/wireframes/final-result/waiting-for-players.png)
+![alt text](client/src/styles/wireframes/final-result/preview-image.png)
+![alt text](client/src/styles/wireframes/final-result/game-page.png)
+![alt text](client/src/styles/wireframes/final-result/final-result.png)
 
 ## Project directory
 
@@ -97,4 +102,4 @@ The challenges of this project for us had mainly to do with navigating the commu
 ## Detected bugs
 
 At point of hand-in of assignment we have come across bugs related to the functionality of the timer and its ability to clear when all players have finished and pressed their 'finish'-button.
-Currently despite debugging and testing across several days the function to clear the interval doesn't seem to be applied correctly. And consequently, our 'no time left' - page is therefore reprinted each second, causing a large bug. Given more time and perhaps more experience regarding socket.io we would hopefully be able to detect and solve the issue at hand.
+Currently despite debugging and testing across several days the function to clear the interval doesn't seem to be applied correctly. And consequently, our 'no time left' - page is therefore reprinted each second, causing a large bug. Given more time and perhaps more experience regarding socket.io we would hopefully be able to detect and solve the issue at hand. Let's just call it a feature!
