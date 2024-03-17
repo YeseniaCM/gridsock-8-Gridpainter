@@ -117,14 +117,13 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom) {
               printPreviewPage(roomInput, usersWithName, image)
               paintAndPrintImage(image)
               socket.on('timerExpired', (time) =>{
-                printNoTimeLeftPage(time)
+              printNoTimeLeftPage(time)
             })
             }
           })
         })
 
         socket.on("chat", (arg) => {
-          console.log('chatchat', arg)
           updateChatList(arg);
         })
 
