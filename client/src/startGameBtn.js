@@ -36,7 +36,7 @@ let chatContainer = document.createElement('div');
 let chatList = document.createElement('ul');
 
 
-export function printchat(room, usersWithName) {
+export function printchat(room) {
   chatContainer.innerHTML = '';
     const socket = io('http://localhost:3000');
 
@@ -60,37 +60,21 @@ export function printchat(room, usersWithName) {
     .then(data => {
     console.log(data)
       data.map(user => {
-        let username = user.userName
-
-        socket.emit('userName', username)
-
-        const storedUser = JSON.parse(localStorage.getItem('user'));
-        let storedUserName = storedUser.map(user => user.userName)
-        let storedColor = storedUser.find((user) => user.userName === storedUserName[0])
-        console.log(storedColor);
-
-        const colors = {
-          1: 'Dark-purple',
-          2: 'Light-purple',
-          3: 'Baby-blue',
-          4: 'Pink'
-        }
 
         
-        //let storedColor = usersWithName.find(user => user.userName === storedUserName[0]);
-          sendBtn.addEventListener("click", () => {
-            console.log("send chat", sendMsg.value);
-            socket.emit("chat", {
-              userName: user.userName,
-              room: room,
-              message: sendMsg.value,
-              storedColor
-            });
-            sendMsg.value = "";
+      sendBtn.addEventListener("click", () => {
+        if (sendMsg.value.trim() === "") {
+          return;
+        }
+        console.log("send chat", sendMsg.value);
+        socket.emit("chat", {
+          userName: user.userName,
+          room: room,
+          message: sendMsg.value
+        });
+        sendMsg.value = "";
       })
-
-      socket.emit('assignedColor', {userName: user.userName, id: user.socketId, storedColor})
-      console.log(storedColor);
+        
     })
 
     
@@ -104,16 +88,15 @@ export function printchat(room, usersWithName) {
 export function updateChatList(chat) {
 
   console.log('chat', chat)
+
   let li = document.createElement("li")
   let usernameSpan = document.createElement('span');
   usernameSpan.innerText = chat.userName;
-  //usernameSpan.classList.add(colors[storedColor.color]);
 
 
   let messageSpan = document.createElement('span');
   messageSpan.innerText = ": " + chat.message;
-  
+
   li.append(usernameSpan, messageSpan)
   chatList.appendChild(li);
-  
 }

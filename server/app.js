@@ -320,13 +320,6 @@ io.on('connection', function(socket) {
             
             let room = arg.room
             io.in(room).emit("chat", arg)
-
-            socket.on('userName', (username) =>{ 
-                console.log('username', username)
-                colourCount = (colourCount % 4) + 1;
-                userNames[socket.id] = username;
-                asignColours[socket.id] = colourCount;
-            });
         })
     
     //grid
