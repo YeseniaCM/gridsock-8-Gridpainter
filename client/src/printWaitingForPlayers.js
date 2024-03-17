@@ -1,5 +1,4 @@
 import io from 'socket.io-client';
-import { logOutBtn } from "./printLogoutBtn";
 import { gsap } from 'gsap'
 import { homepageDiv } from './printHomePage';
 import { printPreviewPage, updateTimer } from './printPreviewPage';
@@ -52,7 +51,7 @@ export function printWaitingForPlayers(roomInput) {
 
   let waitingUserFrom = document.createElement('div');
   waitingUserFrom.setAttribute('class', 'waiting-user-form');
-  waitingUserFrom.textContent = "players waiting";
+  //waitingUserFrom.textContent = "players waiting";
 
 
   let circleDiv = document.createElement('div');
@@ -64,15 +63,13 @@ export function printWaitingForPlayers(roomInput) {
   playersWaiting(instructionRight, roomInput, waitingUserFrom)
 }
 
-let colorPool = [1, 2, 3, 4];
-
 function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
-  const socket = io('https://gridpainter-ltfli.ondigitalocean.app');
+  const socket = io('http://localhost:3000');
   const user = JSON.parse(localStorage.getItem('user'))
   let singleUser = user.find(user => user.userId)
   
 
-  fetch('https://gridpainter-ltfli.ondigitalocean.app/users/' + singleUser.userId)
+  fetch('http://localhost:3000/users/' + singleUser.userId)
   .then(res => res.json())
   .then(data => {
     data.map(user => {
@@ -85,25 +82,44 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
        // console.log(roomArg);
       })
 
-        
+        //assign color to user
         socket.on('playerConnected', (usersWithName) => {
-          console.log('userswith', usersWithName)
+        
+          const storedUser = JSON.parse(localStorage.getItem('user'));
+          let storedUserName = storedUser.map(user => user.userName)
+          let storedColor = usersWithName.find((user) => user.userName === storedUserName[0])
+          console.log(storedColor);
+
+          const colors = {
+            1: 'Dark-purple',
+            2: 'Light-purple',
+            3: 'Baby-blue',
+            4: 'Pink'
+          }
+          
+
           instructionsRight.textContent = `Room: ${roomInput}, Connected users: `
-          waitingUserFrom.textContent = "Your assigned color is: "
-          
 
-          //assign color to user
-          usersWithName.forEach((user) => {
+          usersWithName.forEach(user => {
+            let instructionsRightColor = document.createElement('span');
+            instructionsRightColor.textContent = user.userName;
+            instructionsRightColor.classList.add(colors[user.color] + '-text');
+            instructionsRight.appendChild(instructionsRightColor);
 
-            console.log('user', user)
-            instructionsRight.textContent += user.userName;
-           
-          
-            socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor})
-            socket.emit('userColor', {userName: user.userName});
+            waitingUserFrom.textContent = `Your assigned color is: `
+            let assignedColor = document.createElement('span');
+            assignedColor.textContent = colors[storedColor.color];
+            assignedColor.classList.add(colors[storedColor.color] +  '-text');
+            waitingUserFrom.appendChild(assignedColor);
+          })
+        
+          socket.emit('assignedColor', {userName: user.userName, id: user.socketId, storedColor})
+          socket.emit('userColor', {userName: user.userName});
+
             
             
           })
+
        
 
           socket.on('randomImage', (image) => {
@@ -113,9 +129,12 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
               printPreviewPage(roomInput, usersWithName, image)
               paintAndPrintImage(image)
               socket.on('timerExpired', (time) =>{
-                printNoTimeLeftPage()
-              })
+
+                printNoTimeLeftPage(time)
+            })
+
               console.log('start game');
+
             }
           })
         })

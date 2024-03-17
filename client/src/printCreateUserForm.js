@@ -43,7 +43,7 @@ export function printCreateUserForm() {
 
     let newUser = { userName: createName.value, userEmail: createEmail.value, userPassword: createPassword.value};
 
-    fetch("https://gridpainter-ltfli.ondigitalocean.app/users/add", {
+    fetch("http://localhost:3000/users/add", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

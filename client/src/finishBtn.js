@@ -8,7 +8,7 @@ let clickCount = 0;
 
 export function finishBtn(roomInput, usersWithName, uncoloredGrid, image) {
 
-    const socket = io('https://gridpainter-ltfli.ondigitalocean.app');
+    const socket = io('http://localhost:3000');
 
     let buttonContainer = document.createElement('div');
     buttonContainer.classList.add('buttonContainer');

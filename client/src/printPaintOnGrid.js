@@ -7,12 +7,15 @@ gridDivContainer.setAttribute('class', 'grid-div-container');
 export let gridDiv = document.createElement('div');
 gridDiv.setAttribute('class', 'grid-div');
 
+//export let usersContainer = document.createElement('div');
+//usersContainer.setAttribute('class', 'usersContainer');
+
 let gridFinished = false;
 
 export function printPaintOnGrid(roomInput, usersWithName, image){
     gridDiv.innerHTML = '';
     app.innerHTML = '';
-    const socket = io('https://gridpainter-ltfli.ondigitalocean.app');
+    const socket = io('http://localhost:3000');
     console.log('socket connected', socket.connected);
 
     socket.on("updatePaintGrid", (arg) => {
@@ -46,11 +49,14 @@ export function printPaintOnGrid(roomInput, usersWithName, image){
         [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     ]
 
- createGridDrawing(unColouredGrid, gridDiv, socket, usersWithName)
- gridDivContainer.appendChild(gridDiv);
- app.appendChild(gridDivContainer);
- finishBtn(roomInput, usersWithName, unColouredGrid, image);
- console.log(gridDiv)
+    createGridDrawing(unColouredGrid, gridDiv, socket, usersWithName)
+    gridDivContainer.appendChild(gridDiv);
+    printUsers(usersWithName);
+    //app.appendChild(usersContainer);
+    app.appendChild(gridDivContainer);
+    finishBtn(roomInput, usersWithName, unColouredGrid, image);
+    console.log(gridDiv)
+    //console.log(usersContainer);
 }
  
 export function createGridDrawing(unColouredGrid, gridDiv, socket, usersWithName){
@@ -81,7 +87,7 @@ export function createGridDrawing(unColouredGrid, gridDiv, socket, usersWithName
 
                     let storedColor  = usersWithName.find((user) => user.userName === storedUserName[0])
 
-console.log('stooooooored', storedColor)
+                    console.log('stooooooored', storedColor)
 
                     socket.emit('gridCellClicked', { x, y, unColouredGrid, color: Number(storedColor.color)});
                     coloredPixel(x, y, unColouredGrid, Number(storedColor.color), pixel);
@@ -112,7 +118,46 @@ function coloredPixel(x, y,unColouredGrid, storedColor, pixel){
     console.log('x', x);
     console.log('y', y);
 }
-
+//disabled grid when finish button clicked
 export function gridDisabled() {
     gridFinished = true;
+}
+
+// display all users and their color
+export function printUsers(usersWithName) {
+
+    const storedUser = JSON.parse(localStorage.getItem('user'));    
+    let storedUserName = storedUser.map(user => user.userName)
+    let storedColor = usersWithName.find((user) => user.userName === storedUserName[0])
+    
+    let usersContainer = document.createElement('div');
+    usersContainer.setAttribute('class', 'usersContainer');
+    console.log('storedUser', storedUser);
+    app.appendChild(usersContainer);
+
+    const colors = {
+        1: 'Dark-purple',
+        2: 'Light-purple',
+        3: 'Baby-blue',
+        4: 'Pink'
+    }
+
+    usersWithName.forEach(user => {
+
+        let userColorBox = document.createElement('div');
+        userColorBox.setAttribute('class', 'userColorBox')
+        userColorBox.classList.add(colors[user.color]);
+        console.log(colors[storedColor.color]);
+
+        let userNames = document.createElement('p');
+        userNames.textContent = user.userName;
+        
+        let users = document.createElement('div');
+        users.setAttribute('class', 'userBox');
+        users.append(userColorBox, userNames)
+
+        usersContainer.appendChild(users);
+        
+    })
+  
 }
