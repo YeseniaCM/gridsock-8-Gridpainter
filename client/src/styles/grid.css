@@ -7,7 +7,6 @@
     grid-template-rows: repeat(15, 1fr);
     grid-template-columns: repeat(15, 1fr);
     border: 2px solid #3a3a3a;
-    
     background-color: #ffffff;
   
   }
@@ -58,6 +57,36 @@
 
 .Pink-text {
   color: #e9d2f4;
+}
+
+.usersContainer {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  height: auto;
+  margin-right: 50px;
+  padding: 0 20px 20px 0;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 1.4rem;
+  padding: 0;
+}
+
+.userColorBox {
+  width: 22px;
+  height: 22px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 0 10px 0 0;
+}
+
+.userBox {
+  display: flex;
+  flex-direction: row;
+  margin: 10px 0 0 10px;
 }
 
 /* 

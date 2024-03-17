@@ -37,7 +37,7 @@ let connectedUsers = {} // array för connected user
 let userNames = {};
 let asignColours= {}
 let colourCount = 0;
-let intervalId;
+let intervalId = {};
 let userClickCount = 0;
 
 console.log('intervalllll', intervalId)
@@ -270,6 +270,7 @@ io.on('connection', function(socket) {
     socket.on('chosenRoom', (chosenRoom) => {
 
         let usersInRoom =  io.sockets.adapter.rooms.get(chosenRoom)
+        
         if(!usersInRoom){
             return;
         } else if ( usersInRoom.size > 4 ) {
@@ -290,8 +291,10 @@ io.on('connection', function(socket) {
     function startTimerForRoom(room) {
   
         console.log("Starting timer for room:", room);
+
        
         let distance = 10 * 60 * 1000;
+
     
             intervalId = setInterval(() => {
             let minutes = Math.floor(distance / (1000 * 60));
@@ -299,6 +302,8 @@ io.on('connection', function(socket) {
     
             if (distance <= 0) {
                 clearInterval(intervalId);
+                io.in(room).emit('timerExpired', { room: room });
+            console.log("Room:", room, "Timer expired");
             } else {
                 distance -= 1000;
             }
@@ -324,11 +329,12 @@ io.on('connection', function(socket) {
 
         socket.on("chat", (arg) =>{
 
-       // console.log("kommande chat", arg);
-       // console.log('rooms', Object.keys(socket.rooms))
-        
-        let room = arg.room
-        io.in(room).emit("chat", arg)
+
+
+            
+            let room = arg.room
+            io.in(room).emit("chat", arg)
+
         })
     
     //grid
@@ -347,10 +353,10 @@ io.on('connection', function(socket) {
     })
     //finish button
     socket.on('finishBtnClicked', () => {
-        userClickCount = (userClickCount % 4) + 1 ;
-       // console.log("this is the total clickCount", userClickCount)
 
-   
+        userClickCount = (userClickCount % 4) + 1 ;
+       
+
 
 
         if (userClickCount === 4) {

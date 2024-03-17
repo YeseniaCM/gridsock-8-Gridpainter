@@ -14,7 +14,7 @@ let players = usersWithName.map(user => user.userName)
 
          if (usersWithName.length === 4) {
 
-            fetch("https://gridpainter-ltfli.ondigitalocean.app/images/add", {
+            fetch("http://localhost:3000/images/add", {
                 method: "POST",
                headers: {
                     "Content-Type": "application/json"

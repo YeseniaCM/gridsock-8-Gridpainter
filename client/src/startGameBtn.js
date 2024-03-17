@@ -2,19 +2,17 @@ import io from 'socket.io-client';
 // { startGameTimer } from "./startGameTimer.js";
 import { exitGameBtn }  from "./printexitGameBtn.js";
 import { homepageDiv } from './printHomePage.js'
-import { printWaitingForPlayers, userAssignedColor }  from './printWaitingForPlayers.js'
+import { printWaitingForPlayers }  from './printWaitingForPlayers.js'
 
+export let startTheGameBtn = document.createElement('button');
+startTheGameBtn.textContent = "Start game";
 
+startTheGameBtn.disabled = true;
 
 export function startGameBtn(roomInput) {
 
-  
-    let startGameBtn = document.createElement('button');
-    startGameBtn.textContent = "Start game";
-    startGameBtn.classList.add('startGameBtn');
+  startTheGameBtn.classList.add('startGameBtn');
 
-
-    
     app.append(startGameBtn);
 
     startGameBtn.addEventListener('click', () => {
@@ -38,7 +36,7 @@ let chatList = document.createElement('ul');
 
 export function printchat(room) {
   chatContainer.innerHTML = '';
-    const socket = io('https://gridpainter-ltfli.ondigitalocean.app');
+    const socket = io('http://localhost:3000');
 
 
     chatContainer.classList.add('chatContainer');
@@ -50,30 +48,34 @@ export function printchat(room) {
   
     let sendBtn = document.createElement('button')
     sendBtn.textContent ='Send'
-  
-   
+
     const user = JSON.parse(localStorage.getItem('user'))
     let singleUser = user.find(user => user.userId)
+    
   
-  
-    fetch('https://gridpainter-ltfli.ondigitalocean.app/users/' + singleUser.userId)
+    fetch('http://localhost:3000/users/' + singleUser.userId)
     .then(res => res.json())
     .then(data => {
     console.log(data)
-      
-      sendBtn.addEventListener("click", () => {
-        data.map(user => {
-          console.log("send chat", sendMsg.value);
-          socket.emit("chat", {
-            userName: user.userName,
-            room: room,
-            message: sendMsg.value,
-            setNameColor: user.setNameColor
-          });
-          sendMsg.value = "";
+      data.map(user => {
 
-        })
+        
+      sendBtn.addEventListener("click", () => {
+        if (sendMsg.value.trim() === "") {
+          return;
+        }
+        console.log("send chat", sendMsg.value);
+        socket.emit("chat", {
+          userName: user.userName,
+          room: room,
+          message: sendMsg.value
+        });
+        sendMsg.value = "";
+      })
+        
     })
+
+    
   })
   chatContainer.append(heading, chatList, sendMsg, sendBtn);
   app.append(chatContainer);
@@ -82,33 +84,17 @@ export function printchat(room) {
 
 
 export function updateChatList(chat) {
-  const userAssignedColor = localStorage.getItem('userAssignedColor');
 
-  const colors = {
-    1: 'Dark-purple',
-    2: 'Light-purple',
-    3: 'Baby-blue',
-    4: 'Pink'
-  };
-
-  const setNameColor = colors[userAssignedColor];
-  
   console.log('chat', chat)
+
   let li = document.createElement("li")
   let usernameSpan = document.createElement('span');
-  let messageSpan = document.createElement('span');
-
-  //add color to both user and message
-  //li.innerText = `${chat.userName}: ${chat.message}`;
-  //li.classList.add(setNameColor);
-
-
   usernameSpan.innerText = chat.userName;
-  usernameSpan.classList.add(setNameColor);
 
+
+  let messageSpan = document.createElement('span');
   messageSpan.innerText = ": " + chat.message;
-  
-  li.appendChild(usernameSpan)
-  li.appendChild(messageSpan);
+
+  li.append(usernameSpan, messageSpan)
   chatList.appendChild(li);
 }
