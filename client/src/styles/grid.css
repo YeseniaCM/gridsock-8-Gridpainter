@@ -2,47 +2,93 @@
 
 .grid-div {
     display: grid;
-    width: 320px;
-    height: 320px;
+    width: 380px;
+    height: 380px;
     grid-template-rows: repeat(15, 1fr);
     grid-template-columns: repeat(15, 1fr);
-    border: 2px solid #1a1a1a;
-    
+    border: 2px solid #3a3a3a;
     background-color: #ffffff;
   
   }
   
   .pixel {
-    width: 20px;
-    height: 20px;
-    outline: 1px solid black;
+    width: 100%;
+    height: 100%;
+    outline: 1px solid #9b9a9a;
   }
   .pixel:hover {
-   background-color: #525151;;
+   background-color: #adadae;;
     cursor: pointer;
   }
 
 /* Original Images style */
-.colorZero{
+.White {
   background-color: #ffffff;
 }
-  .colorOne
-  {
-    background-color: #565676;
-  }
 
-   .colorTwo
-  {
-    background-color: #aeadf0;
-  }
-   .colorThree
-  {
-    background-color: #63b0cd;
-  }
-   .colorFour 
-  {
-    background-color: #e9d2f4;
-  }
+.Dark-purple {
+  background-color: #565676;
+}
+
+.Light-purple {
+  background-color: #aeadf0;
+}
+
+.Baby-blue {
+  background-color: #63b0cd;
+}
+
+.Pink {
+  background-color: #e9d2f4;
+}
+
+/* text color*/
+.Dark-purple-text {
+  color: #565676;
+}
+
+.Light-purple-text {
+  color: #aeadf0;
+}
+
+.Baby-blue-text {
+  color: #63b0cd;
+}
+
+.Pink-text {
+  color: #e9d2f4;
+}
+
+.usersContainer {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  height: auto;
+  margin-right: 50px;
+  padding: 0 20px 20px 0;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 1.4rem;
+  padding: 0;
+}
+
+.userColorBox {
+  width: 22px;
+  height: 22px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 0 10px 0 0;
+}
+
+.userBox {
+  display: flex;
+  flex-direction: row;
+  margin: 10px 0 0 10px;
+}
+
 /* 
   .pixel {
     width: 20px;

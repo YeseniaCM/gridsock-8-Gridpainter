@@ -22,6 +22,7 @@ const io = require('socket.io')(server, {
 
 const usersRouter = require('./routes/users.js');
 
+
 app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
@@ -34,7 +35,15 @@ app.get('/', (req, res) => {
 
 let connectedUsers = {} // array för connected user
 let userNames = {};
+let asignColours= {}
+let colourCount = 0;
+let intervalId;
 let userClickCount = 0;
+
+console.log('intervalllll', intervalId)
+
+const usersInRoom = new Map();
+
 /* GET all images*/
 app.get('/images', function(req, res) {
     connection.connect((err)=> {
@@ -75,8 +84,8 @@ app.post('/images/add', function(req, res) {
     let playersName = req.body.playersName.toString(); 
     let gridImage = JSON.stringify(req.body.gridImage)
     
-    console.log('roomId', roomId)
-    console.log('player', playersName)
+    //console.log('roomId', roomId)
+    //console.log('player', playersName)
     //console.log('grid', gridImage)
     
     let sql = "INSERT INTO images (roomId, imageId, playersName, gridImage) VALUES (?, ?, ?, ?)";
@@ -190,21 +199,18 @@ let image5 = [
 // mainarray containing 5 arrays
 let originalImages = [image1, image2, image3, image4, image5];
 
-
-   
-
-
-
-
-
 io.on('connection', function(socket) {
    // console.log("Användare kopplad");
 
 
     socket.on('userName', (username) =>{ 
+        //console.log('username', username)
+        colourCount = (colourCount % 4) + 1;
         userNames[socket.id] = username;
-      });
+        asignColours[socket.id] = colourCount;
+    });
 
+    
 
     const updateConnectedUser = (room) => {
 
@@ -222,7 +228,7 @@ io.on('connection', function(socket) {
         }
 
         const usersWithName = connectedUsers[room].map(socketId => {
-            return { socketId, userName: userNames[socketId]}
+            return { socketId, userName: userNames[socketId], color: asignColours[socketId]}
         })
        
         
@@ -232,25 +238,31 @@ io.on('connection', function(socket) {
     const randomizeImage = (room) => {
         
         let image = originalImages[Math.floor(Math.random()*originalImages.length)];
-        // console.log("Här är vår image", image);
 
         io.to(room).emit('randomImage', image)
 
     }
     
     socket.on('room', (room) => {
+      
 
         socket.join(room)
         socket.emit('joinedroom', room)
-
         updateConnectedUser(room)
         randomizeImage(room)
         
+        // Increment the user count for the room
+        const count = usersInRoom.get(room) || 0;
+        usersInRoom.set(room, count + 1);
 
-            
+       
+           // if (usersInRoom.get(room) === 1) {
+             //   startTimerForRoom(room);
+        
+       //     }
+                        
         
 
-        console.log("how many are logged in", connectedUsers);
         
     });
 
@@ -258,10 +270,11 @@ io.on('connection', function(socket) {
     socket.on('chosenRoom', (chosenRoom) => {
 
         let usersInRoom =  io.sockets.adapter.rooms.get(chosenRoom)
+        
         if(!usersInRoom){
             return;
         } else if ( usersInRoom.size > 4 ) {
-            console.log('full')
+            //console.log('full')
            socket.emit('check', 'Room is full')
            socket.disconnect(true)
         } else {
@@ -269,43 +282,46 @@ io.on('connection', function(socket) {
         }
     })
 
+    socket.on('timer', (arg) => {
+        if(arg.message === 'start timer'){
+            startTimerForRoom(arg.room)
+        } 
+    })
 
+    function startTimerForRoom(room) {
+  
+        console.log("Starting timer for room:", room);
+        intervalId;
 
-socket.on('timer', (arg) => {
-    if (arg.message === 'start timer') {
-        console.log("hej hej hejhejejhej");
-        let distance = 10 * 60 * 1000; 
+       
+        let distance = 10 * 60 * 1000;
 
-        let intervalId = setInterval(() => {
-        let minutes = Math.floor(distance / (1000 * 60));
-        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
+    
+            intervalId = setInterval(() => {
+            let minutes = Math.floor(distance / (1000 * 60));
+            let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
             if (distance <= 0) {
                 clearInterval(intervalId);
+                io.in(room).emit('timerExpired', { room: room });
+            console.log("Room:", room, "Timer expired");
             } else {
                 distance -= 1000;
             }
-
-            io.emit('timerUpdate', { room: arg.room, minutes, seconds });
-
-            console.log("what room is this", arg.room, { minutes, seconds });
+    
+            io.in(room).emit('timerUpdate', { room: room, minutes: minutes, seconds: seconds });
+    
+            console.log("Room:", room, "Timer:", { minutes, seconds });
         }, 1000);
-    }
-});
+        console.log("start timer intervalid", intervalId);
+        }
+    
+       
+    
 
 
 
 
-//dissconnect
-
-    socket.on('disconnecting', () => {
-
-        const rooms = Object.keys(socket.rooms);
-
-        rooms.forEach((room) => {
-            updateConnectedUser(room)
-        })
-    })
 
     
     //chat
@@ -314,41 +330,66 @@ socket.on('timer', (arg) => {
 
         socket.on("chat", (arg) =>{
 
-        console.log("kommande chat", arg);
-        console.log('rooms', Object.keys(socket.rooms))
-        
-        let room = arg.room
-        io.in(room).emit("chat", arg)
+
+
+            
+            let room = arg.room
+            io.in(room).emit("chat", arg)
+
         })
     
     //grid
 
     socket.on("gridCellClicked", (arg) => {
         
-        console.log("färg uppdaterad", arg);
-        
+        //console.log("färg uppdaterad", arg);
         io.emit("updatePaintGrid", arg);
     })
 
-    //finish button
-    socket.on('finishBtnClicked', () => {
-        userClickCount = (userClickCount % 4) + 1 ;
-        console.log(userClickCount)
-
-        io.emit('updateClickCount', userClickCount);
-
-        io.emit('totalClickCount', userClickCount);
-
-        if (userClickCount === 4) {
-
-            socket.emit('changeBackgroundColor');
-
-        }
-    })
-
-    socket.on("disconnect", function () {
-        console.log("Användare frånkopplad");
+    //coloring
+    socket.on('assignedColor', (userAssignedColor) => {
+       // console.log('angiven färg', userAssignedColor);
+        io.emit('assignedColor', (userAssignedColor));
         
     })
+    //finish button
+    socket.on('finishBtnClicked', () => {
+
+        userClickCount = (userClickCount % 4) + 1 ;
+       
+
+        clearInterval(intervalId);
+        intervalId = undefined;
+
+        if (userClickCount === 4) {
+           // console.log('Clearing interval with ID:', intervalId);
+
+            io.emit('changeBackgroundColor');
+            
+            clearInterval(intervalId);
+  
+        
+            socket.emit('intervalCleared');
+
+            
+           console.log("What is this", intervalId);
+            
+        }   
+    })
+
+    //dissconnect
+
+    socket.on('disconnect', () => {
+      
+        colourCount = 0;
+        console.log("Användare frånkopplad");
+        const rooms = Object.keys(socket.rooms);
+    
+        rooms.forEach((room) => {
+            socket.leave(room)
+            updateConnectedUser(room)
+        })
+    })
+
 })
 server.listen(process.env.PORT || '3000');

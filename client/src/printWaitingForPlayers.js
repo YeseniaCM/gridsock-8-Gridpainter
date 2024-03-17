@@ -1,78 +1,73 @@
 import io from 'socket.io-client';
-import { logOutBtn } from "./printLogoutBtn";
 import { gsap } from 'gsap'
 import { homepageDiv } from './printHomePage';
-import { printPreviewPage } from './printPreviewPage';
+import { printPreviewPage, updateTimer } from './printPreviewPage';
 import { paintAndPrintImage } from './originalImages';
 import { updateChatList } from './startGameBtn'
+import { printNoTimeLeftPage } from './printNoTimeLeftPage';
+
 
 export let instructionsDivText = document.createElement('div');
 instructionsDivText.setAttribute('class', 'instructions-div-text');
 
+export let colorAssigned = document.createElement('span');
+export let userAssignedColor;
+
 export function printWaitingForPlayers(roomInput) {
   
-     app.innerHTML = '';
-     homepageDiv.innerHTML = '';
-     instructionsDivText.innerHTML= '';
- 
-     let instructionHeading = document.createElement('h1');
-     instructionHeading.textContent = 'Waiting for players to join';
-     instructionHeading.setAttribute('class', 'instruction-eading');
+  app.innerHTML = '';
+  homepageDiv.innerHTML = '';
+  instructionsDivText.innerHTML= '';
 
-     let instructionLeft = document.createElement('p');
-     instructionLeft.setAttribute('class', 'instruction-text instructionLeft');
-     instructionLeft.textContent = `
-     Once 4 players have joined, the game will start.
-      You will get a 5 second glimpse of a picture.
-      Each person will get assigned a paint, press the box you want to color!
-      You will have 10 minutes to complete the task
-     `;
+  let instructionHeading = document.createElement('h1');
+  instructionHeading.textContent = 'Waiting for players to join';
+  instructionHeading.setAttribute('class', 'instruction-eading');
 
-     let instructionRight = document.createElement('p');
-     instructionRight.setAttribute('class', 'instruction-text instructionRight');
-     instructionRight.textContent = 'Players joined: '; // ${user} ska in och hur många spelare som man väntar på
-     
-     let colorAssigned = document.createElement('p');
-     colorAssigned.textContent = `Your assigned colour is: "userColor"`;
- 
-     let waitingTime = document.createElement('p');
-     waitingTime.textContent = `you have waited in 00:00`;
+  let instructionLeft = document.createElement('p');
+  instructionLeft.setAttribute('class', 'instruction-text instructionLeft');
+  instructionLeft.textContent = `
+  Once 4 players have joined, the game will start.
+  You will get a 5 second glimpse of a picture.
+  Each person will get assigned a paint, press the box you want to color!
+  You will have 10 minutes to complete the task
+  `;
 
-     let loadingAnimation = document.createElement('div');
-     loadingAnimation.setAttribute('class', 'loading-div')
+  let instructionRight = document.createElement('p');
+  instructionRight.setAttribute('class', 'instruction-text instructionRight');
+  instructionRight.textContent = 'Players joined: '; // ${user} ska in och hur många spelare som man väntar på
 
-     let loadingAnimation2 = document.createElement('div');
-     loadingAnimation2.setAttribute('class', 'loading-div')
+  let waitingTime = document.createElement('p');
+  waitingTime.textContent = `you have waited in 00:00`;
 
-     let loadingAnimation3 = document.createElement('div');
-     loadingAnimation3.setAttribute('class', 'loading-div')
-    animateLoading(loadingAnimation, loadingAnimation2, loadingAnimation3)
- 
-     let waitingUserFrom = document.createElement('div');
-     waitingUserFrom.setAttribute('class', 'waiting-user-form');
-     waitingUserFrom.appendChild(colorAssigned); 
+  let loadingAnimation = document.createElement('div');
+  loadingAnimation.setAttribute('class', 'loading-div')
 
- 
-     let circleDiv = document.createElement('div');
-     circleDiv.setAttribute('class', 'circle-div instructionsCircle');
- 
-     /*
-       Funktionen för när alla 4 spelare har klickat på knappen
-       Star-Game så kommer man vidare till Preview Image-sidan
-     */
+  let loadingAnimation2 = document.createElement('div');
+  loadingAnimation2.setAttribute('class', 'loading-div')
+
+  let loadingAnimation3 = document.createElement('div');
+  loadingAnimation3.setAttribute('class', 'loading-div')
+  animateLoading(loadingAnimation, loadingAnimation2, loadingAnimation3)
+
+  let waitingUserFrom = document.createElement('div');
+  waitingUserFrom.setAttribute('class', 'waiting-user-form');
+  //waitingUserFrom.textContent = "players waiting";
+
+
+  let circleDiv = document.createElement('div');
+  circleDiv.setAttribute('class', 'circle-div instructionsCircle');
 
     
-     instructionsDivText.append( instructionHeading, instructionLeft,instructionRight, waitingUserFrom, circleDiv)
-     app.append(instructionsDivText, loadingAnimation, loadingAnimation2, loadingAnimation3)
-     playersWaiting(instructionRight, roomInput)
+  instructionsDivText.append( instructionHeading, instructionLeft,instructionRight, waitingUserFrom, circleDiv)
+  app.append(instructionsDivText, loadingAnimation, loadingAnimation2, loadingAnimation3)
+  playersWaiting(instructionRight, roomInput, waitingUserFrom)
 }
 
-
-function playersWaiting(instructionsRight, roomInput){
+function playersWaiting(instructionsRight, roomInput, waitingUserFrom) {
   const socket = io('http://localhost:3000');
   const user = JSON.parse(localStorage.getItem('user'))
   let singleUser = user.find(user => user.userId)
-
+  
 
   fetch('http://localhost:3000/users/' + singleUser.userId)
   .then(res => res.json())
@@ -81,34 +76,75 @@ function playersWaiting(instructionsRight, roomInput){
       let username = user.userName
 
       socket.emit('userName', username)
-        
       socket.emit('room', roomInput)
-        socket.on('joinedroom',(roomArg) => {
-          console.log(roomArg);
-        })
 
+      socket.on('joinedroom',(roomArg) => {
+       // console.log(roomArg);
+      })
+
+        //assign color to user
         socket.on('playerConnected', (usersWithName) => {
-          instructionsRight.textContent = `Room: ${roomInput}, Connected users:`
-          usersWithName.map(user => {
+        
+          const storedUser = JSON.parse(localStorage.getItem('user'));
+          let storedUserName = storedUser.map(user => user.userName)
+          let storedColor = usersWithName.find((user) => user.userName === storedUserName[0])
+          console.log(storedColor);
+
+          const colors = {
+            1: 'Dark-purple',
+            2: 'Light-purple',
+            3: 'Baby-blue',
+            4: 'Pink'
+          }
           
-            instructionsRight.textContent += `${user.userName}, `
-           
-         })
-         socket.on('randomImage', (image) => {
+
+          instructionsRight.textContent = `Room: ${roomInput}, Connected users: `
+
+          usersWithName.forEach(user => {
+            let instructionsRightColor = document.createElement('span');
+            instructionsRightColor.textContent = user.userName;
+            instructionsRightColor.classList.add(colors[user.color] + '-text');
+            instructionsRight.appendChild(instructionsRightColor);
+
+            waitingUserFrom.textContent = `Your assigned color is: `
+            let assignedColor = document.createElement('span');
+            assignedColor.textContent = colors[storedColor.color];
+            assignedColor.classList.add(colors[storedColor.color] +  '-text');
+            waitingUserFrom.appendChild(assignedColor);
+          })
+        
+          socket.emit('assignedColor', {userName: user.userName, id: user.socketId, storedColor})
+          socket.emit('userColor', {userName: user.userName});
+
+            
+            
+         
+
+       
+
+          socket.on('randomImage', (image) => {
             // check if 4 is connected and start game
 
             if(usersWithName.length === 4){
-
               printPreviewPage(roomInput, usersWithName, image)
-
               paintAndPrintImage(image)
+              socket.on('timerExpired', (time) =>{
+
+                printNoTimeLeftPage(time)
+            })
+
               console.log('start game');
+
             }
-         })
+          })
         })
         socket.on("chat", (arg) => {
           console.log('chatchat', arg)
           updateChatList(arg);
+        })
+
+        socket.on('timerUpdate', (time) =>{
+          updateTimer(time)
         })
     })
   })

@@ -12,11 +12,10 @@ export let headingStartGameDiv = document.createElement('div');
 
 export function printPreviewPage(roomInput, usersWithName, image){
 
-
-
     app.innerHTML = '';
-     homepageDiv.innerHTML = '';
-     instructionsDivText.innerHTML= '';
+    homepageDiv.innerHTML = '';
+    instructionsDivText.innerHTML= '';
+    headingStartGameDiv.innerHTML = '';
     
 
     headingStartGameDiv.setAttribute('class', 'headingStartGameDiv')
@@ -38,12 +37,18 @@ export function printPreviewPage(roomInput, usersWithName, image){
 }
 
 
+let timerContainer = document.createElement('div');
+timerContainer.classList.add('timerContainer');
+
+let timer = document.createElement('p');
+timer.classList.add('timer');
+;
 
 
 function countdownFrom(headingStartGameTime, roomInput, usersWithName, image) {
     const socket = io('http://localhost:3000');
 
-let count = 5;
+let count = 10;
 
     
    
@@ -54,55 +59,33 @@ let count = 5;
             setTimeout(updateCount, 1000);
             
         } else {
+
             headingStartGameDiv.innerHTML = '';
             app.innerHTML = '';
             gridDiv.innerHTML ='';
 
             printPaintOnGrid(roomInput, usersWithName, image)
             printchat(roomInput)
-
-            console.log("Countdown finished!"); 
-            
-            
-            let timerContainer;
-            let timer;
             
             if (usersWithName.length === 4) {
                 socket.emit('timer', { room: roomInput, message: 'start timer' });
             }
-            
-            console.log("is this connected", socket.connected);
-            console.log("users with name", usersWithName);
-            console.log("which room", roomInput);
+            timerContainer.appendChild(timer);
+            app.appendChild(timerContainer);
 
-            socket.on('timerUpdate', ({ room, minutes, seconds }) => {
-                console.log("connected to the server or not?");
-
-              
-                if (!timerContainer) {
-                    timerContainer = document.createElement('div');
-                    timerContainer.classList.add('timerContainer');
-            
-                    timer = document.createElement('p');
-                    timer.classList.add('timer');
-                    timer.textContent = `${room}: ${minutes}:${seconds}`;
-            
-                    timerContainer.appendChild(timer);
-                    app.appendChild(timerContainer);
-                } else {
-                 
-                    timer.textContent = `${room}: ${minutes}:${seconds}`;
-                }
-            });
         }
-       
     }
-
-    
-
- 
-    
     updateCount();
-   
 }
+
+export function updateTimer(time){
+    const formattedMinutes = time.minutes < 10 ? `0${time.minutes}` : time.minutes;
+    const formattedSeconds = time.seconds < 10 ? `0${time.seconds}` : time.seconds;
+
+    if (!timerContainer) {
+        timer.textContent = `${formattedMinutes}:${formattedSeconds}`;
+    } else {
+        timer.textContent = `${formattedMinutes}:${formattedSeconds}`;
+    }
+  } 
 

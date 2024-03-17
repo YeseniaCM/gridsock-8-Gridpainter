@@ -2,7 +2,8 @@ import io from 'socket.io-client';
 import { loginForm } from './printLogin.js'
 import { logOutBtn } from './printLogoutBtn.js';
 import { startGameBtn } from './startGameBtn.js';
-import { playersAddingImage } from './PlayerAddingImage.js';
+import { resultPageContainer } from './printResultPage.js'
+import { startTheGameBtn } from './startGameBtn.js';
 
 export let homepageDiv = document.createElement('div');
 homepageDiv.classList.add('homePage');
@@ -11,6 +12,8 @@ homepageDiv.classList.add('homePage');
 export function printHomePage() {
     loginForm.innerHTML = '';
     app.innerHTML = '';
+    resultPageContainer.innerHTML= '';
+    sessionStorage.removeItem('userAssignedColor');
 
     let instructionArray = [
         'When 4 players has joined the game will start.',
@@ -65,7 +68,12 @@ export function printHomePage() {
     
     //checks inputfield and check socket if room is full
     roomInput.addEventListener('input', () => {
-        console.log(roomInput.value)
+   
+        if(roomInput.value){
+            startTheGameBtn.disabled = false;
+        }
+
+
         
         const socket = io('http://localhost:3000');
         socket.emit('chosenRoom', roomInput.value)
@@ -85,8 +93,7 @@ export function printHomePage() {
   
     logOutBtn()
     instructionsDiv.append(instructionsUL, instructionQuote)
-    homepageDiv.append( homeHeading, circleDiv, instructionsDiv,roomInput, allRooms)
+    homepageDiv.append( homeHeading, circleDiv, instructionsDiv, roomInput, allRooms)
     app.appendChild(homepageDiv)
     startGameBtn(roomInput)
-    // playersAddingImage(roomInput.value);
 }
