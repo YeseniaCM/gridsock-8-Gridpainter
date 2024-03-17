@@ -256,10 +256,10 @@ io.on('connection', function(socket) {
         usersInRoom.set(room, count + 1);
 
        
-           // if (usersInRoom.get(room) === 1) {
-             //   startTimerForRoom(room);
+         if (usersInRoom.get(room) === 4) {
+              startTimerForRoom(room);
         
-       //     }
+        }
                         
         
 
@@ -282,11 +282,7 @@ io.on('connection', function(socket) {
         }
     })
 
-    socket.on('timer', (arg) => {
-        if(arg.message === 'start timer'){
-            startTimerForRoom(arg.room)
-        } 
-    })
+
 
     function startTimerForRoom(room) {
   
