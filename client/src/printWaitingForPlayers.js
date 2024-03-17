@@ -5,6 +5,7 @@ import { homepageDiv } from './printHomePage';
 import { printPreviewPage, updateTimer } from './printPreviewPage';
 import { paintAndPrintImage } from './originalImages';
 import { updateChatList } from './startGameBtn'
+import { printNoTimeLeftPage } from './printNoTimeLeftPage';
 
 
 export let instructionsDivText = document.createElement('div');
@@ -100,49 +101,9 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
           
             socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor})
             socket.emit('userColor', {userName: user.userName});
-            /*
-
-            if (colorPool.length > 0) {
-              const randomIndex = Math.floor(Math.random() * colorPool.length);
-              const randomColor = colorPool[randomIndex];
-              colorPool.splice(randomIndex, 1);
-              console.log(randomColor);
-              //console.log(setUserColor);
-
-              const colors = {
-                1: 'Dark-purple',
-                2: 'Light-purple',
-                3: 'Baby-blue',
-                4: 'Pink'
-              }
-
-              let setUserColor = colors[randomColor]
-              console.log(setUserColor);
-
-              let instructionsRightColor = document.createElement('span');
-              instructionsRightColor.innerText += user.userName + ', ';
-              instructionsRightColor.classList.add(setUserColor);
-              instructionsRight.appendChild(instructionsRightColor);
-
-              let colorAssignedColor = document.createElement('span');
-              colorAssignedColor.innerText = setUserColor;
-              colorAssignedColor.classList.add(setUserColor);
-              waitingUserFrom.appendChild(colorAssignedColor);
-
-              
-              
-              socket.emit('assignedColor', {userName: user.userName, id: user.socketId, userAssignedColor})
-              socket.emit('userColor', {userName: user.userName});
-              
-            }*/
+            
             
           })
-         // localStorage.setItem(`userAssignedColor`, randomColor);
-
-          
-
-          //console.log(colorAssigned);
-          //console.log(colorPool);
        
 
           socket.on('randomImage', (image) => {
@@ -151,6 +112,9 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
             if(usersWithName.length === 4){
               printPreviewPage(roomInput, usersWithName, image)
               paintAndPrintImage(image)
+              socket.on('timerExpired', (time) =>{
+                printNoTimeLeftPage()
+              })
               console.log('start game');
             }
           })

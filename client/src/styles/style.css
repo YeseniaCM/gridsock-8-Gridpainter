@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* GRID */
 .grid-div {
   display: grid;
@@ -70,6 +71,16 @@
     cursor: pointer;
   }
 */
+=======
+* h3 {
+  color: #CEE741;
+  font-family: "Madimi One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 2rem;
+}
+
+>>>>>>> f13a7d535cc4521fcc1be794585cca03b7414019
 body {
   background-color: #538E91;
   margin: 0;
@@ -350,6 +361,18 @@ body .timerContainer {
 body .timerContainer p {
   display: inline;
 }
+<<<<<<< HEAD
+=======
+body .instructions-div-text {
+  display: flex;
+  width: 80%;
+  margin: 200px;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+>>>>>>> f13a7d535cc4521fcc1be794585cca03b7414019
 body .instructions-div-text h1 {
   color: #CEE741;
   font-family: "Madimi One", sans-serif;
@@ -400,6 +423,10 @@ body #app {
   display: flex; /* Use flexbox for layout */
   align-items: center; /* Center content vertically */
   justify-content: center; /* Center content horizontally */
+<<<<<<< HEAD
+=======
+  flex-direction: column;
+>>>>>>> f13a7d535cc4521fcc1be794585cca03b7414019
   /* Additional styles as needed */
 }
 body .headingStartGameDiv {
@@ -459,10 +486,17 @@ body .loading-div {
   box-shadow: rgba(255, 255, 255, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
 body .resultPage {
+<<<<<<< HEAD
   display: flex;
   max-width: 78%;
   flex-direction: row;
   flex-wrap: wrap;
+=======
+  width: 70vw;
+  display: flex;
+  flex-direction: column-reverse;
+  height: auto !important;
+>>>>>>> f13a7d535cc4521fcc1be794585cca03b7414019
 }
 body .resultPage .resultPageContainer {
   color: #CEE741;
@@ -470,6 +504,7 @@ body .resultPage .resultPageContainer {
   font-weight: 400;
   font-style: normal;
   font-size: 2rem;
+<<<<<<< HEAD
   width: 100%;
   text-align: center;
 }
@@ -478,4 +513,34 @@ body .resultPage .resultPageContainer .grid-div {
   display: flex;
   flex-direction: row;
   width: 100%;
+=======
+  margin: 0;
+  padding: 0;
+}
+body .resultPage .resultPageContainer .image-div {
+  display: flex;
+  flex-direction: row;
+}
+body .no-time-left-div {
+  background-color: rgba(211, 211, 211, 0.2823529412);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20%;
+  width: 50%;
+  height: 50%;
+  border-radius: 2%;
+}
+body .home-btn {
+  background-color: #CEE741;
+  text-transform: uppercase;
+  padding: 5px 10px 5px 10px;
+  border: none;
+  margin: 5px;
+  border-radius: 15px;
+  font-size: 1.1rem;
+  color: black;
+  margin-top: 2%;
+  margin-right: 20%;
+>>>>>>> f13a7d535cc4521fcc1be794585cca03b7414019
 }/*# sourceMappingURL=style.css.map */
