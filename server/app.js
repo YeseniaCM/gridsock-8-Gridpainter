@@ -37,7 +37,7 @@ let connectedUsers = {} // array för connected user
 let userNames = {};
 let asignColours= {}
 let colourCount = 0;
-let intervalId = {};
+let intervalId;
 let userClickCount = 0;
 
 console.log('intervalllll', intervalId)
@@ -294,7 +294,7 @@ io.on('connection', function(socket) {
         intervalId;
 
        
-        let distance = 1 * 60 * 1000;
+        let distance = 10 * 60 * 1000;
 
     
             intervalId = setInterval(() => {
