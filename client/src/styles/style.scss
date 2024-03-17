@@ -1,11 +1,9 @@
 @import 'partials/mixins';
 @import 'grid'; 
 
-*{
-    h3{
-        @include smaller-titles;
-      }
-}
+
+    
+
 
 body {
     background-color: #538E91;
@@ -223,8 +221,9 @@ body {
         left: 10%;
         transform: translate(-50%, -50%);
         top: 10%;
-        @include titles;
+        
         p {
+            @include titles;
             display: inline;
         }
     }
@@ -382,6 +381,9 @@ body {
             }
 
         }
+        h3{
+            @include smaller-titles;
+          }
     }
 
 
