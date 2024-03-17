@@ -115,6 +115,11 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
         
           socket.emit('assignedColor', {userName: user.userName, id: user.socketId, storedColor})
           socket.emit('userColor', {userName: user.userName});
+
+            
+            
+          })
+
        
 
           socket.on('randomImage', (image) => {
@@ -124,8 +129,10 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
               printPreviewPage(roomInput, usersWithName, image)
               paintAndPrintImage(image)
               socket.on('timerExpired', (time) =>{
+
                 printNoTimeLeftPage(time)
             })
+
               console.log('start game');
 
             }
