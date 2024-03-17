@@ -291,9 +291,10 @@ io.on('connection', function(socket) {
     function startTimerForRoom(room) {
   
         console.log("Starting timer for room:", room);
+        intervalId;
 
        
-        let distance = 10 * 60 * 1000;
+        let distance = 1 * 60 * 1000;
 
     
             intervalId = setInterval(() => {
@@ -357,7 +358,8 @@ io.on('connection', function(socket) {
         userClickCount = (userClickCount % 4) + 1 ;
        
 
-
+        clearInterval(intervalId);
+        intervalId = undefined;
 
         if (userClickCount === 4) {
            // console.log('Clearing interval with ID:', intervalId);

@@ -5,17 +5,17 @@ import { homepageDiv } from './printHomePage.js'
 import { printWaitingForPlayers }  from './printWaitingForPlayers.js'
 
 export let startTheGameBtn = document.createElement('button');
-startTheGameBtn.textContent = "Start game";
 
 startTheGameBtn.disabled = true;
 
 export function startGameBtn(roomInput) {
 
+
+  startTheGameBtn.textContent = "Start game";
   startTheGameBtn.classList.add('startGameBtn');
+    app.append(startTheGameBtn);
 
-    app.append(startGameBtn);
-
-    startGameBtn.addEventListener('click', () => {
+    startTheGameBtn.addEventListener('click', () => {
         homepageDiv.innerHTML = '';
         app.innerHTML = '';
 

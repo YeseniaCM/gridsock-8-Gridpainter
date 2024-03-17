@@ -63,7 +63,7 @@ export function printWaitingForPlayers(roomInput) {
   playersWaiting(instructionRight, roomInput, waitingUserFrom)
 }
 
-function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
+function playersWaiting(instructionsRight, roomInput, waitingUserFrom) {
   const socket = io('http://localhost:3000');
   const user = JSON.parse(localStorage.getItem('user'))
   let singleUser = user.find(user => user.userId)
@@ -118,7 +118,7 @@ function playersWaiting(instructionsRight, roomInput, waitingUserFrom){
 
             
             
-          })
+         
 
        
 
